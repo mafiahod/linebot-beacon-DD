@@ -2,9 +2,9 @@
   "name": "line-bot-nodejs-starter",
   "version": "1.0.0",
   "description": "starter point to create new line bot project",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,9 +24,6 @@
   },
   "dependencies": {
     "@line/bot-sdk": "^6.7.1",
-    "body-parser": "^1.19.0",
-    "express": "^4.16.3",
-    "mysql": "^2.17.1",
-    "request": "^2.88.0"
+    "express": "^4.16.3"
   }
 }
