@@ -90,23 +90,8 @@ module.exports = {
     },
 
 
+
     
-    saveGroupId: function (event){
-        var groupId = event.source.groupId;
-        var groupIdObject = {
-            groupId : groupId
-        }
-        fs.writeFileSync(groupIdDir,JSON.stringify(groupIdObject, null, 4), (err) => {
-            if (err) {
-                console.error(err);
-                return;
-            };
-        });
-
-    },
-
-
-
 
     findInform: function (a) {
         if(a===undefined){
@@ -157,6 +142,31 @@ module.exports = {
                 console.log(allData);
 
             }else{console.log("There is no Activity file");}
+        }
+    },
+
+
+
+    saveGroupId: function (event){
+        var groupId = event.source.groupId;
+        var groupIdObject = {
+            groupId : groupId
+        }
+        fs.writeFileSync(groupIdDir,JSON.stringify(groupIdObject, null, 4), (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            };
+        });
+    },
+
+    getGroupId: function (){
+        if(fs.existsSync(groupIdDir)){
+            var groupId = fs.readFileSync(groupIdDir);
+            var groupIdObj = JSON.parse(groupId);
+            
+            console.log(groupIdObj['groupId']);
+            return groupIdObj['groupId'];
         }
     }
 
