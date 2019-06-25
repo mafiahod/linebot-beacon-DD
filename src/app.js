@@ -5,7 +5,7 @@ const express = require('express');
 const config = require('./core/config.js');
 const conv = require('./core/service/conversation_service');
 const beacon = require('./core/service/beacon_service');
-const save_groupId = require('./core/data_access_layer/local_file');
+const local = require('./core/data_access_layer/local_file');
 
 
 
@@ -66,8 +66,15 @@ function handleEvent(event) {
       return replyText(event.replyToken, `Got postback: ${data}`);
 
     case 'join':
-      save_groupId.saveGroupId(event);
-        
+      local.saveGroupId(event);
+   
+    case 'memberJoined':
+      client.getProfile(event.source.userId)
+        .then((profile) => {
+
+         local.saveUser(event,profile);
+    
+      }).catch((err) => {});
     case 'leave':
       return console.log(`Left: ${JSON.stringify(event)}`);  
 
