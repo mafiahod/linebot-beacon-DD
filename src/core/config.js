@@ -1,5 +1,5 @@
-const groupId = ('.src/app.js');
-const findGroupId = ('./data_access_layer/local_file');
+
+const findGroupId = require('./data_access_layer/local_file');
 
 module.exports = {
     

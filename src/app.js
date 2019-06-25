@@ -5,6 +5,7 @@ const express = require('express');
 const config = require('./core/config.js');
 const conv = require('./core/service/conversation_service');
 const beacon = require('./core/service/beacon_service');
+const save_groupId = require('./core/data_access_layer/local_file');
 
 
 
@@ -65,8 +66,7 @@ function handleEvent(event) {
       return replyText(event.replyToken, `Got postback: ${data}`);
 
     case 'join':
-      global.informGroupId = event.source.groupId;
-      return replyText(event.replyToken, `Joined ${event.source.type} ${global.informGroupId}`);
+      save_groupId.saveGroupId(event);
         
     case 'leave':
       return console.log(`Left: ${JSON.stringify(event)}`);  

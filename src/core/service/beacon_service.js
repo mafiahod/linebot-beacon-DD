@@ -9,13 +9,6 @@ module.exports = {
     handle_beacon_event :function(event){
 
         switch (event.type) {
-          
-            case 'join':
-              global.informGroupId = event.source.groupId;
-              return replyText(event.replyToken, `Joined ${event.source.type} ${global.informGroupId}`);
-              
-            case 'leave':
-              return console.log(`Left: ${JSON.stringify(event)}`);
             
             case 'beacon':
               return getFlexMessage.send_message(event);

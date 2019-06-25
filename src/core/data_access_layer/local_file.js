@@ -1,8 +1,8 @@
 const fs = require("fs");
 const current_datetime = new Date();
-const activityDir = './src/resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
-const userDir = './src/resource/user.json';
-const groupIdDir = './src/resource/groupId.json';
+const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
+const userDir = './resource/user.json';
+const groupIdDir = './resource/groupId.json';
 
 
 module.exports = {

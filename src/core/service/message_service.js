@@ -18,7 +18,7 @@ const client = new line.Client(config);
             .then((profile) => {
     
             //Bot push message to spacific Line Group
-            client.pushMessage(global.informGroupId, send_FlexMessage(profile))
+            client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
                 .then(() => {
                 
                 }).catch((err) => {});
