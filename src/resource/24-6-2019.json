@@ -1,0 +1,24 @@
+{
+    "activity": [
+        {
+            "userId": "U590fcf604f2cb1f089d959768086f45b",
+            "user": "jam",
+            "timestamp": 1561367250552,
+            "time": "16:7:34"
+        },
+        {
+            "userId": "U9f12e85f8a0d10571a4af43eacd9e127",
+            "user": "..BALL..",
+            "timestamp": 1561394536901,
+            "time": "23:42:15",
+            "location": "Dimension Data Office, Asok"
+        },
+        {
+            "userId": "U9f12e85f8a0d10571a4af43eacd9e127",
+            "user": "..BALL..",
+            "timestamp": 1561394560070,
+            "time": "23:42:39",
+            "location": "Dimension Data Office, Asok"
+        }
+    ]
+}
