@@ -72,7 +72,6 @@ function handleEvent(event) {
         local.saveUser(event,client);
 
 =======
-        local.saveUser(event,client);
 
 >>>>>>> 95730158b862ca21e8fd2b9bc5430a2f62022fa7
     case 'leave':
