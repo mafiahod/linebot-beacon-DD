@@ -48,21 +48,22 @@ module.exports = {
     },
 
 
-    saveUser: function(event,client){
+    saveUser: function(event,profile){
+        console.log('show : ' + event.joined.members[0].userId);
         //append data to exist file : User
         if (fs.existsSync(userDir)) {
             var count = 0;
             var data = fs.readFileSync(userDir);
             var dataObj = JSON.parse(data);
             for(i = 0 ; i < dataObj.user.length ;i++){
-                if(dataObj.user[i].userId == event.joined.members.userId){
+                if(dataObj.user[i].userId == event.joined.members[0].userId){
                     count++;
                 }
             }
             if(count == 0){
                 var appendUser = {
-                    userID: event.joined.members.userId,
-                    name: client.getProfile(userID)
+                    userID: event.joined.members[0].userId,
+                    name: profile.displayName
                 }
                 dataObj['user'].push(appendUser);
                 fs.writeFileSync(userDir,JSON.stringify(dataObj, null, 4), (err) => {
@@ -172,5 +173,3 @@ module.exports = {
 
 
 }
-
-

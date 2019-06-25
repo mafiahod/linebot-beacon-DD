@@ -69,7 +69,14 @@ function handleEvent(event) {
       local.saveGroupId(event);
 
     case 'memberJoined':
-        local.saveUser(event,client);
+   
+        client.getProfile(event.joined.members[0].userId)
+        .then((profile) => {
+
+          local.saveUser(event,profile);
+         
+        }).catch((err) => {});
+                
 
     case 'leave':
       return console.log(`Left: ${JSON.stringify(event)}`);
