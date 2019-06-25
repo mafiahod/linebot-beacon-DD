@@ -67,17 +67,16 @@ function handleEvent(event) {
 
     case 'join':
       local.saveGroupId(event);
-   
+
     case 'memberJoined':
-<<<<<<< HEAD
-      local.saveUser(event);
-     
+        local.saveUser(event,client);
+
 =======
         local.saveUser(event,client);
-  
+
 >>>>>>> 95730158b862ca21e8fd2b9bc5430a2f62022fa7
     case 'leave':
-      return console.log(`Left: ${JSON.stringify(event)}`);  
+      return console.log(`Left: ${JSON.stringify(event)}`);
 
     case 'beacon':
       return beacon.handle_beacon_event(event);
@@ -91,4 +90,3 @@ const port = config.port;
 app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
-
