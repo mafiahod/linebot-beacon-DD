@@ -1,6 +1,7 @@
-
+const fs = require("fs");
 const line = require('@line/bot-sdk');
 const config = require('../config.js');
+const user_exist = './resource/user.json';
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
     return client.replyMessage(
@@ -17,12 +18,26 @@ const client = new line.Client(config);
             client.getProfile(event.source.userId)
             .then((profile) => {
     
-            //Bot push message to spacific Line Group
-            client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
-                .then(() => {
                 
-                }).catch((err) => {});
-            
+                if (fs.existsSync(user_exist)) {
+       
+                    var data = fs.readFileSync(user_exist);
+                    var dataObj = JSON.parse(data);
+                    console.log(dataObj.user.length);
+                    
+                    for(i = 0 ; i < dataObj.user.length ;i++){
+                    if(dataObj.user[i].userID == event.source.userId){
+                            
+                             //Bot push message to spacific Line Group
+                        client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
+                       .then(() => {
+                        
+                        }).catch((err) => {});
+                        }
+                    }
+              
+           
+            }
 
             return replyText(event.replyToken, 'Hello'+profile.displayName);  
             }).catch((err) => {});
