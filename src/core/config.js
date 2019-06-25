@@ -1,9 +1,10 @@
 const groupId = ('.src/app.js');
+const findGroupId = ('./data_access_layer/local_file');
 
 module.exports = {
     
     port: "3000",
     channelAccessToken: process.env.channelAccessToken,
     channelSecret: process.env.channelSecret,
-  //  ReportGroupId: groupId.informGroupId
+    ReportGroupId: findGroupId.getGroupId()
 }
