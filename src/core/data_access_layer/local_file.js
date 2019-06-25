@@ -1,4 +1,6 @@
 const fs = require("fs");
+const activityModel = require('../model/activity');
+const userModel = require('../model/user');
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
 const userDir = './resource/user.json';
@@ -9,16 +11,11 @@ module.exports = {
     saveActivity: function (event,profile) {
         //append data to exist file : Activity
         if (fs.existsSync(activityDir)) {
-            var appendActivity = {
-                userId: event.source.userId,
-                user: profile.displayName,
-                timestamp: event.timestamp,
-                time: current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(),
-                location: "Dimension Data Office, Asok"
-            }
+            var inform = new activityModel(event.source.userId,profile.displayName,current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(),
+            event.timestamp,"Dimension Data Office, Asok");
             var data = fs.readFileSync(activityDir);
             var dataObj = JSON.parse(data);
-            dataObj['activity'].push(appendActivity);
+            dataObj['activity'].push(inform);
             fs.writeFileSync(activityDir,JSON.stringify(dataObj, null, 4), (err) => {
                 if (err) {
                     console.error(err);
@@ -26,30 +23,24 @@ module.exports = {
                 };
             });
         }else{
-            //create new file : Activity
-            var activityObject = {
-                activity : [{
-                    userId: event.source.userId,
-                    user: profile.displayName,
-                    timestamp: event.timestamp,
-                    time: current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(),
-                    location: "Dimension Data Office, Asok"
-                }]
-            }
-            fs.writeFileSync(activityDir,JSON.stringify(activityObject, null, 4), (err) => {
+            var inform = new activityModel(event.source.userId,profile.displayName,current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(),
+            event.timestamp,"Dimension Data Office, Asok");
+            var dataObj = {"activity" : []}
+            dataObj['activity'].push(inform);
+           
+
+            fs.writeFileSync(activityDir,JSON.stringify(dataObj, null, 4), (err) => {
                 if (err) {
                     console.error(err);
                     return;
                 };
             });
-        }
-
-        
+        } 
     },
 
 
+
     saveUser: function(event,profile){
-        console.log('show : ' + event.joined.members[0].userId);
         //append data to exist file : User
         if (fs.existsSync(userDir)) {
             var count = 0;
@@ -61,11 +52,8 @@ module.exports = {
                 }
             }
             if(count == 0){
-                var appendUser = {
-                    userID: event.joined.members[0].userId,
-                    name: profile.displayName
-                }
-                dataObj['user'].push(appendUser);
+                var inform = new userModel(event.source.userId,profile.displayName);
+                dataObj['user'].push(inform);
                 fs.writeFileSync(userDir,JSON.stringify(dataObj, null, 4), (err) => {
                     if (err) {
                         console.error(err);
@@ -75,13 +63,11 @@ module.exports = {
             }
         }else{
             //create new file : User
-            var userObject = {
-                user : [{
-                    userId: event.source.userId,
-                    name: profile.displayName
-                }]
-            }
-            fs.writeFileSync(userDir,JSON.stringify(userObject, null, 4), (err) => {
+            var inform = new userModel(event.source.userId,profile.displayName);
+            var dataObj = {"user" : []}
+            dataObj['user'].push(inform);
+            console.log(dataObj);
+            fs.writeFileSync(userDir,JSON.stringify(dataObj, null, 4), (err) => {
                 if (err) {
                     console.error(err);
                     return;

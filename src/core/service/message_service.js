@@ -1,6 +1,7 @@
 const fs = require("fs");
 const line = require('@line/bot-sdk');
 const config = require('../config.js');
+const local = require('../data_access_layer/local_file');
 const user_exist = './resource/user.json';
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
@@ -20,7 +21,7 @@ const client = new line.Client(config);
     
                 
                 if (fs.existsSync(user_exist)) {
-       
+
                     var data = fs.readFileSync(user_exist);
                     var dataObj = JSON.parse(data);
                     console.log(dataObj.user.length);
@@ -31,13 +32,15 @@ const client = new line.Client(config);
                              //Bot push message to spacific Line Group
                         client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
                        .then(() => {
+
+                            local.saveActivity(event,profile);
                         
                         }).catch((err) => {});
                         }
                     }
               
            
-            }
+                }
 
             return replyText(event.replyToken, 'Hello'+profile.displayName);  
             }).catch((err) => {});
