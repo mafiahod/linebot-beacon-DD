@@ -2,6 +2,7 @@ const fs = require("fs");
 const current_datetime = new Date();
 const activityDir = './src/resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
 const userDir = './src/resource/user.json';
+const groupIdDir = './src/resource/groupId.json';
 
 
 module.exports = {
@@ -86,6 +87,22 @@ module.exports = {
                 };
             });
         }
+    },
+
+
+    
+    saveGroupId: function (event){
+        var groupId = event.source.groupId;
+        var groupIdObject = {
+            groupId : groupId
+        }
+        fs.writeFileSync(groupIdDir,JSON.stringify(groupIdObject, null, 4), (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            };
+        });
+
     },
 
 
