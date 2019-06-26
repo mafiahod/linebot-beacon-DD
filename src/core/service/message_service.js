@@ -3,6 +3,9 @@ const line = require('@line/bot-sdk');
 const config = require('../config.js');
 const local = require('../data_access_layer/local_file');
 const user_exist = './resource/user.json';
+const current_datetime = new Date();
+const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
+
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
     return client.replyMessage(
@@ -10,6 +13,7 @@ const replyText = (token, texts) => {
       texts.map((text) => ({ type: 'text', text }))
     );
   };
+  
 // create LINE SDK client
 const client = new line.Client(config);
     module.exports = {
@@ -20,29 +24,61 @@ const client = new line.Client(config);
             .then((profile) => {
     
                 
-                if (fs.existsSync(user_exist)) {
-
+                if (fs.existsSync(user_exist) && fs.existsSync(activityDir)) {
+                    var count = 0;
                     var data = fs.readFileSync(user_exist);
                     var dataObj = JSON.parse(data);
                     console.log(dataObj.user.length);
-                    
-                    for(i = 0 ; i < dataObj.user.length ;i++){
-                    if(dataObj.user[i].userID == event.source.userId){
-                            
-                             //Bot push message to spacific Line Group
-                        client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
-                       .then(() => {
 
-                            local.saveActivity(event,profile);
+                    var useractivity = fs.readFileSync(activityDir);
+                    var useractivityObj = JSON.parse(useractivity);
+                    
+                    for(i = 0 ; i < dataObj.user.length ;i++ ){
+                     
                         
-                        }).catch((err) => {});
+                            if(dataObj.user[i].userID == event.source.userId ){
+                               
+                                for(j = 0 ; j < useractivityObj.activity.length ;j++ ){
+                                  
+                                        if (useractivityObj.activity[j].userId == event.source.userId ) {
+                                          
+                                            count++;
+
+                                            console.log(count);
+                                        } 
+                                      
+                                }
+                                
+                                if (count == 0) {
+                                  
+                                        //Bot push message to spacific Line Group
+                                    client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
+                                    .then(() => {
+            
+                                        local.saveActivity(event,profile);
+                                    
+                                    }).catch((err) => {});
+                                    
+                                    return replyText(event.replyToken, profile.displayName + 'What\'s your plan to do today?');      
+                                    
+                                } else {
+                                    const message = {
+                                        type: 'text',
+                                        text: 're-enter'
+                                      };
+                                    client.pushMessage(config.ReportGroupId, message)
+                                    .then(() => {
+            
+                                        local.saveActivity(event,profile);
+                                    
+                                    }).catch((err) => {});
+                                    return;
+                                    
+                                }
+                            }
                         }
                     }
-              
-           
-                }
-
-            return replyText(event.replyToken, 'Hello'+profile.displayName);  
+            
             }).catch((err) => {});
           
         }
