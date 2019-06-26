@@ -37,12 +37,10 @@ const client = new line.Client(config);
                         
                         }).catch((err) => {});
                         }
+                        return replyText(event.replyToken, 'Hello'+profile.displayName+"?");  
                     }
-              
-           
-                }
 
-            return replyText(event.replyToken, 'Hello'+profile.displayName);  
+                }            
             }).catch((err) => {});
           
         }
