@@ -1,6 +1,7 @@
 const fs = require("fs");
 const activityModel = require('../model/activity');
 const userModel = require('../model/user');
+const moment = require('moment');
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
 const userDir = './resource/user.json';
@@ -11,7 +12,7 @@ module.exports = {
     saveActivity: function (event,profile) {
         //append data to exist file : Activity
         if (fs.existsSync(activityDir)) {
-            var inform = new activityModel(event.source.userId,profile.displayName,current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(),
+            var inform = new activityModel(event.source.userId,profile.displayName,moment(event.timestamp).format('HH:mm:ss'),
             event.timestamp,"Dimension Data Office, Asok");
             var data = fs.readFileSync(activityDir);
             var dataObj = JSON.parse(data);
@@ -23,7 +24,7 @@ module.exports = {
                 };
             });
         }else{
-            var inform = new activityModel(event.source.userId,profile.displayName,current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(),
+            var inform = new activityModel(event.source.userId,profile.displayName,moment(event.timestamp).format('HH:mm:ss'),
             event.timestamp,"Dimension Data Office, Asok");
             var dataObj = {"activity" : []}
             dataObj['activity'].push(inform);
