@@ -24,17 +24,19 @@ const client = new line.Client(config);
             .then((profile) => {
     
                 
-                if (fs.existsSync(user_exist) && fs.existsSync(activityDir)) {
+                if (fs.existsSync(user_exist)  ) {
                     var count = 0;
                     var data = fs.readFileSync(user_exist);
                     var dataObj = JSON.parse(data);
                     console.log(dataObj.user.length);
 
-                    var useractivity = fs.readFileSync(activityDir);
-                    var useractivityObj = JSON.parse(useractivity);
-                    
+                
+                        
                     for(i = 0 ; i < dataObj.user.length ;i++ ){
-                     
+
+                        if(fs.existsSync(activityDir)){
+                            var useractivity = fs.readFileSync(activityDir);
+                            var useractivityObj = JSON.parse(useractivity);
                         
                             if(dataObj.user[i].userID == event.source.userId ){
                                
@@ -76,8 +78,18 @@ const client = new line.Client(config);
                                     
                                 }
                             }
+                        }else{
+                           
+                            client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
+                                    .then(() => {
+            
+                                        local.saveActivity(event,profile);
+                                    
+                                    }).catch((err) => {});
+                                    
+                                    return replyText(event.replyToken, profile.displayName + 'What\'s your plan to do today');      
                         }
-                    }
+                    }}
             
             }).catch((err) => {});
           
