@@ -77,6 +77,9 @@ function handleEvent(event) {
          
         }).catch((err) => {});
         return;
+
+    case 'memberLeft':
+      return;
                 
     case 'leave':
       return console.log(`Left: ${JSON.stringify(event)}`);

@@ -52,7 +52,7 @@ module.exports = {
                 }
             }
             if(count == 0){
-                var inform = new userModel(event.source.userId,profile.displayName);
+                var inform = new userModel(event.joined.members[0].userId,profile.displayName);
                 dataObj['user'].push(inform);
                 fs.writeFileSync(userDir,JSON.stringify(dataObj, null, 4), (err) => {
                     if (err) {
@@ -63,7 +63,7 @@ module.exports = {
             }
         }else{
             //create new file : User
-            var inform = new userModel(event.source.userId,profile.displayName);
+            var inform = new userModel(event.joined.members[0].userId,profile.displayName);
             var dataObj = {"user" : []}
             dataObj['user'].push(inform);
             console.log(dataObj);
