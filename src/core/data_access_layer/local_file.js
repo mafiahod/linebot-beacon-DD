@@ -1,6 +1,7 @@
 const fs = require("fs");
 const activityModel = require('../model/activity');
 const userModel = require('../model/user');
+const answerModel = require('../model/answer');
 const moment = require('moment');
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
@@ -77,6 +78,18 @@ module.exports = {
             });
         }
     },
+
+
+    saveAnswer: function(){
+        var answerInfo = new answerModel(event.source.userId,);
+
+
+
+
+
+
+    },
+
 
 
 
