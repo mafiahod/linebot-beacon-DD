@@ -28,7 +28,7 @@ module.exports = {
             event.timestamp,"Dimension Data Office, Asok");
             var dataObj = {"activity" : []}
             dataObj['activity'].push(inform);
-           
+        
 
             fs.writeFileSync(activityDir,JSON.stringify(dataObj, null, 4), (err) => {
                 if (err) {
@@ -37,6 +37,7 @@ module.exports = {
                 };
             });
         } 
+    
     },
 
 
