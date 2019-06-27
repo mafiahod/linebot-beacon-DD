@@ -1,11 +1,10 @@
-module.exports = class activityInfo{
-    constructor(id, user, coming_in, timestamp, location) {
+module.exports = class Activity{
+    constructor(id, user, coming, timestamp, location,activityInfo) {
     this.userId = id;
     this.user = user;
-    this.coming_in = coming_in;
-    //this.coming_out = coming_out;
+    this.type = coming;
     this.timestamp = timestamp;
-    this.location = location
-
+    this.location = location;
+    this.plan = activityInfo;   
     }
 }
