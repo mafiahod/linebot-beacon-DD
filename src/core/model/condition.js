@@ -8,7 +8,7 @@ module.exports = class Condition{
         this.count = number;
         this.order = {
             'by' : value2 ,
-            'desc' : type,
+            'desc' : type
            
         };
         
