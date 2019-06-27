@@ -1,6 +1,6 @@
 module.exports=class userInfo{
 constructor(lineId, displayName) {
-        this.userID = lineId;
+        this.userId = lineId;
         this.name = displayName;
 
         

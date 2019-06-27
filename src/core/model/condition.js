@@ -1,15 +1,15 @@
 module.exports = class Condition{
-    constructor(objtype,value_where,number,value_by,type)
+    constructor(objtype,value_where,loc,actI,number,type)
     {
         this.select = objtype;
         this.where = {
-            'userid': value1
+            'userId': value_where,
+            'location' : loc,
+            'plan' : actI
         };
         this.count = number;
         this.order = {
-            'by' : value2 ,
             'desc' : type
-           
         };
         
     }
