@@ -1,176 +1,123 @@
 const fs = require("fs");
-const activityModel = require('../model/activity');
-const userModel = require('../model/user');
-const answerModel = require('../model/answer');
-const moment = require('moment');
+const ActivityModel = require('../model/activity');
+const UserModel = require('../model/user');
+const ConditionModel = require('../model/');
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
 const userDir = './resource/user.json';
-const groupIdDir = './resource/groupId.json';
 
 
 module.exports = {
-    saveActivity: function (event,profile) {
-        //append data to exist file : Activity
-        if (fs.existsSync(activityDir)) {
-            var inform = new activityModel(event.source.userId,profile.displayName,moment(event.timestamp).format('HH:mm:ss'),
-            event.timestamp,"Dimension Data Office, Asok");
-            var data = fs.readFileSync(activityDir);
-            var dataObj = JSON.parse(data);
-            dataObj['activity'].push(inform);
-            fs.writeFileSync(activityDir,JSON.stringify(dataObj, null, 4), (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                };
-            });
-        }else{
-            var inform = new activityModel(event.source.userId,profile.displayName,moment(event.timestamp).format('HH:mm:ss'),
-            event.timestamp,"Dimension Data Office, Asok");
-            var dataObj = {"activity" : []}
-            dataObj['activity'].push(inform);
-        
-
-            fs.writeFileSync(activityDir,JSON.stringify(dataObj, null, 4), (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                };
-            });
-        } 
     
+    saveInform: function(obj){
+        var locationDir;
+        if(obj instanceof ActivityModel){
+            locationDir = activityDir;
+        }else if(obj instanceof UserModel){
+            locationDir = userDir;
+        }else{
+            console.log("Unknow location to save");
+        }
+        if(fs.existsSync(locationDir)) {                //handle when file is existed
+            var data = fs.readFileSync(locationDir);
+            var dataArray = JSON.parse(data);
+            if(obj.plan != null){                       //update property 'plan' in exist activity
+                for(i=0 ; i<dataArray.length ; i++){
+                    if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
+                        dataArray[i].plan = obj.plan;
+                    }
+                }
+            }else if(obj.plan == null || obj.plan == undefined){        //append activity or user in exist file
+                dataArray.push(obj);
+            }
+            fs.writeFileSync(locationDir,JSON.stringify(dataArray, null, 4), (err) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                };
+            });
+        }else{                      //Create new activity.json or user.json
+            var dataArray = [];
+            dataArray.push(obj);
+            fs.writeFileSync(locationDir,JSON.stringify(dataArray, null, 4), (err) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                };
+            });
+        }
     },
 
-
-
-    saveUser: function(event,profile){
-        //append data to exist file : User
-        if (fs.existsSync(userDir)) {
-            var count = 0;
-            var data = fs.readFileSync(userDir);
-            var dataObj = JSON.parse(data);
-            for(i = 0 ; i < dataObj.user.length ;i++){
-                if(dataObj.user[i].userId == event.joined.members[0].userId){
-                    count++;
+    
+    findInform: function(obj){
+        var locationDir = eval(obj.select+'Dir');
+        if(fs.existsSync(locationDir)){
+            var data = fs.readFileSync(locationDir);
+            var dataArray = JSON.parse(data);
+            var resultArray = [];
+            for(i=0 ; i<dataArray.length ; i++){
+                if(obj.where.userId !== null){
+                    if(dataArray[i].userId == obj.where.userId){
+                        resultArray.push(dataArray[i]);
+                    }
+                }else if(obj.where.userId !== null && obj.where.location !== null){
+                    if(dataArray[i].userId == obj.where.userid && dataArray[i].location == obj.where.location){
+                        resultArray.push(dataArray[i]);
+                    }
+                }else if(obj.where.userId !== null && obj.where.location !== null && obj.where.plan !== null){
+                    if(dataArray[i].userId == obj.where.userid && dataArray[i].location == obj.where.location 
+                    && dataArray[i].plan != null){
+                        resultArray.push(dataArray[i]);
+                    }
                 }
             }
-            if(count == 0){
-                var inform = new userModel(event.joined.members[0].userId,profile.displayName);
-                dataObj['user'].push(inform);
-                fs.writeFileSync(userDir,JSON.stringify(dataObj, null, 4), (err) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    };
-                });
+            if(obj.order.desc == true){
+                resultArray.reverse();
+            }
+
+
+        }else{
+            console.log("There is no file");
+        }
+
+
+
+
+
+        if(fs.existsSync(locationDir)){
+            var data = fs.readFileSync(locationDir);
+            var dataArray = JSON.parse(data);
+            var resultArray = [];
+            var loopCount = 0;
+            var wantCount = obj.count;
+            if(obj.count == null){
+                wantCount = dataArray.length;
+            }
+            if(obj.order.desc == false){
+                for(i=0 ; i<dataArray.length ; i++){
+                    if(dataArray[i].userId == obj.where.userid){
+                        resultArray.push(dataArray[i]);
+                        loopCount++;
+                    }
+                    if(loopCount >= wantCount){
+                        return resultArray;
+                    }
+                }
+            }
+            else if(obj.order.desc == true){
+                for(i=dataArray.length ; i>0 ; i--){
+                    if(dataArray[i-1].userId == obj.where.userid){
+                        resultArray.push(dataArray[i-1]);
+                        loopCount++;
+                    }
+                    if(loopCount >= wantCount){
+                        return resultArray;
+                    }
+                }
+                return resultArray;
             }
         }else{
-            //create new file : User
-            var inform = new userModel(event.joined.members[0].userId,profile.displayName);
-            var dataObj = {"user" : []}
-            dataObj['user'].push(inform);
-            console.log(dataObj);
-            fs.writeFileSync(userDir,JSON.stringify(dataObj, null, 4), (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                };
-            });
-        }
-    },
-
-
-    saveAnswer: function(){
-        var answerInfo = new answerModel(event.source.userId,);
-
-
-
-
-
-
-    },
-
-
-
-
-    
-
-    findInform: function (a) {
-        if(a===undefined){
-            var allData = {
-                'user' :[],
-                'activity': []
-            };
-    
-            if (fs.existsSync(userDir)) {
-                var userData = fs.readFileSync(userDir);
-                var userDataObj = JSON.parse(userData);
-                allData['user'] = userDataObj['user'];
-
-            }else{console.log("There is no User file");}
-
-
-            if (fs.existsSync(activityDir)) {
-                var activityData = fs.readFileSync(activityDir);
-                var activityDataObj = JSON.parse(activityData);
-                allData['activity'] = activityDataObj['activity'];
-
-            }else{console.log("There is no Acitivity file");}
-
-            console.log(allData);
-        }
-
-
-        
-        else if(a === 'user'){
-            var allData = [];
-            if (fs.existsSync(userDir)) {
-                var userData = fs.readFileSync(userDir);
-                var userDataObj = JSON.parse(userData);
-                allData = userDataObj['user'];
-                console.log(allData);
-
-            }else{console.log("There is no User file");}
-        }
-
-
-
-        else if(a === 'activity'){
-            var allData = [];
-            if (fs.existsSync(activityDir)) {
-                var activityData = fs.readFileSync(activityDir);
-                var activityDataObj = JSON.parse(activityData);
-                allData = activityDataObj['activity'];
-                console.log(allData);
-
-            }else{console.log("There is no Activity file");}
-        }
-    },
-
-
-
-    saveGroupId: function (event){
-        var groupId = event.source.groupId;
-        var groupIdObject = {
-            groupId : groupId
-        }
-        fs.writeFileSync(groupIdDir,JSON.stringify(groupIdObject, null, 4), (err) => {
-            if (err) {
-                console.error(err);
-                return;
-            };
-        });
-    },
-
-    getGroupId: function (){
-        if(fs.existsSync(groupIdDir)){
-            var groupId = fs.readFileSync(groupIdDir);
-            var groupIdObj = JSON.parse(groupId);
-            
-            console.log(groupIdObj['groupId']);
-            return groupIdObj['groupId'];
+            console.log("There is no file");
         }
     }
-
-
 }
