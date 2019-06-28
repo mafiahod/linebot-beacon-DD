@@ -19,13 +19,13 @@ module.exports = {
         if(fs.existsSync(locationDir)) {                //handle when file is existed
             var data = fs.readFileSync(locationDir);
             var dataArray = JSON.parse(data);
-            if(obj.plan != null){                       //update property 'plan' in exist activity
+            if(obj.plan != 'none'){                       //update property 'plan' in exist activity
                 for(i=0 ; i<dataArray.length ; i++){
                     if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
                         dataArray[i].plan = obj.plan;
                     }
                 }
-            }else if(obj.plan == null || obj.plan == undefined){        //append activity or user in exist file
+            }else if(obj.plan == 'none' || obj.plan == undefined){        //append activity or user in exist file
                 dataArray.push(obj);
             }
             fs.writeFileSync(locationDir,JSON.stringify(dataArray, null, 4), (err) => {
