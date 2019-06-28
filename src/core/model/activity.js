@@ -1,5 +1,5 @@
-module.exports = class Activity{
-    constructor(id, user, coming, timestamp, location,activityInfo) {
+module.exports =  class Activity{
+    constructor(id,user,coming,timestamp,location,activityInfo) {
     this.userId = id;
     this.name = user;
     this.type = coming;
