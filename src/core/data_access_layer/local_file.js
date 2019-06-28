@@ -55,6 +55,11 @@ module.exports = {
             var data = fs.readFileSync(locationDir);
             var dataArray = JSON.parse(data);
             var resultArray = [];
+            var returnArray = [];
+            var count = obj.count;
+            if(obj.count == null){
+                count = dataArray.length;
+            }
             for(i=0 ; i<dataArray.length ; i++){
                 if(obj.where.userId !== null){
                     if(dataArray[i].userId == obj.where.userId){
@@ -74,8 +79,43 @@ module.exports = {
             if(obj.order.desc == true){
                 resultArray.reverse();
             }
+            for(i = 0 ; i < count ; i++){
+                returnArray.push(resultArray[i]);
+            }
+            return returnArray;
+
+            /*var data = fs.readFileSync(locationDir);
+            var dataArray = JSON.parse(data);
+            var resultArray = [];
+
+            for(i=0 ; i<dataArray.length ; i++){
+                for (var property in obj) {
+                    if (obj.hasOwnProperty(property)) {
+                        //console.log(typeof obj[property]);
+                      
+                        if(typeof obj[property] == "object"){
+                            //console.log(obj[property]);
+                            
+                            for(var property1 in obj[property]){
+                                if(obj[property].hasOwnProperty(property1)){
+                                    console.log(obj[property][property1]);
+                                }
+                                
+                            }
+                        }
 
 
+                        if(dataArray[i][property] == obj[property]){
+                        
+
+
+
+                        }
+        
+                    }
+            
+                }
+            }*/
         }else{
             console.log("There is no file");
         }
@@ -83,8 +123,7 @@ module.exports = {
 
 
 
-
-        if(fs.existsSync(locationDir)){
+        /*if(fs.existsSync(locationDir)){
             var data = fs.readFileSync(locationDir);
             var dataArray = JSON.parse(data);
             var resultArray = [];
@@ -118,6 +157,6 @@ module.exports = {
             }
         }else{
             console.log("There is no file");
-        }
+        }*/
     }
 }
