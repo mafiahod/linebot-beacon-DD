@@ -1,4 +1,4 @@
-module.exports = class State{
+exports.state = class State{
     constructor(userid,displayname,time,askstate) {
     this.userId = userid;
     this.name = displayname;

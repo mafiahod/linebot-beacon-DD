@@ -1,8 +1,6 @@
-module.exports=class userInfo{
+exports.userInfo =class Userinfo{
 constructor(lineId, displayName) {
         this.userId = lineId;
-        this.name = displayName;
-
-        
+        this.name = displayName;        
         }
 }
