@@ -1,6 +1,7 @@
+import { State } from '../model/state'
+
 const reqiure_sendmessage = require('./message_service');
 const local = require('../data_access_layer/local_file');
-const states = require('../model/state');
 const call_activityInfo = require('../model/activity');
 const save_activity = require('../model/activity');
 const line = require('@line/bot-sdk');
@@ -50,7 +51,7 @@ module.exports = {
 
     },
 
-    ask_today_plan: function (userId,timestamp,hwid,plan) {
+    ask_today_plan: function (userId,displayName,timestamp,location) {
         
         console.log('beacon test');
 
@@ -59,14 +60,16 @@ module.exports = {
         
         const question = {
             type: 'text',
-            text: 'what\'s your plan to do today at ' /*+ local.operate.getLocation(hwid)*/ +' ?'
+            text: 'what\'s your plan to do today at ' + location +' ?'
         };
 
         client.pushMessage(userId, question)
             .then(() => {
                 
-                var Save_state = new states.state(userId,null,timestamp, true);//userid,displayname,time,askstate
-                local.operate.saveInform(Save_state);
+                var Save_state = new State(userId,displayName,timestamp, true);//userid,displayname,time,askstate
+                console.log("before save state");
+                local.saveInform(Save_state);
+                console.log("after save state");
                 
 
                 if (finduser_activityInfo[i].plan == null) {
