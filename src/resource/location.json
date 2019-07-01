@@ -1,8 +1,6 @@
-{
-    "location": [
+[
         {
             "hardwareID": "012c75d8a3",
-            "name": "Dimension Data Office, Asok"
+            "LocationName": "Dimension Data Office, Asok"
         }
-    ]
-}
+]
