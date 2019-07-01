@@ -1,3 +1,4 @@
+"use strict";
 export class State{
     constructor(userid,displayname,time,askstate) {
     this.userId = userid;

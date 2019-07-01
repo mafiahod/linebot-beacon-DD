@@ -1,3 +1,4 @@
+"use strict";
 export class Activity{
     constructor(id,user,coming,timestamp,location,activityInfo) {
     this.userId = id;

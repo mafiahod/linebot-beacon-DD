@@ -1,9 +1,10 @@
-const activitymodel = require('./activity');
-const statemodel = require('./state');
-const usermodel = require('./user');
+"use strict";
+import {Userinfo} from './user'
+import {State} from './state'
+import {Activity} from './activity'
 
-exports.activity  =activitymodel.Activity();
-exports.state  =statemodel.State();
-exports.user  =usermodel.Userinfo();
+export {
+    Userinfo,State,Activity
+}
 
 
