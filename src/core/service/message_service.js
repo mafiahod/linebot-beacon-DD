@@ -1,186 +1,147 @@
-const fs = require("fs");
+
 const line = require('@line/bot-sdk');
 const config = require('../config.js');
 const local = require('../data_access_layer/local_file');
-const user_exist = './resource/user.json';
-const current_datetime = new Date();
-const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
-
+const find_activity = require('../model/activity');
+const moment = require('moment');
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
     return client.replyMessage(
-      token,
-      texts.map((text) => ({ type: 'text', text }))
+        token,
+        texts.map((text) => ({ type: 'text', text }))
     );
-  };
-  
+};
+
 // create LINE SDK client
 const client = new line.Client(config);
-    module.exports = {
-        
-        send_message : function( event){
-            
-            client.getProfile(event.source.userId)
+module.exports = {
+
+    send_message: function (userId) {
+
+        client.getProfile(userId)
             .then((profile) => {
-    
-                
-                if (fs.existsSync(user_exist)  ) {
-                    var count = 0;
-                    var data = fs.readFileSync(user_exist);
-                    var dataObj = JSON.parse(data);
-                    console.log(dataObj.user.length);
+                //Bot push message to spacific Line Group
+                client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
+                    .then(() => {
 
-                
-                        
-                    for(i = 0 ; i < dataObj.user.length ;i++ ){
+                    }).catch((err) => { });
 
-                        if(fs.existsSync(activityDir)){
-                            var useractivity = fs.readFileSync(activityDir);
-                            var useractivityObj = JSON.parse(useractivity);
-                        
-                            if(dataObj.user[i].userID == event.source.userId ){
-                               
-                                for(j = 0 ; j < useractivityObj.activity.length ;j++ ){
-                                  
-                                        if (useractivityObj.activity[j].userId == event.source.userId ) {
-                                          
-                                            count++;
+            }).catch((err) => { });
 
-                                            console.log(count);
-                                        } 
-                                      
-                                }
-                                
-                                if (count == 0) {
-                                  
-                                        //Bot push message to spacific Line Group
-                                    client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
-                                    .then(() => {
-            
-                                        local.saveActivity(event,profile);
-                                    
-                                    }).catch((err) => {});
-                                    
-                                    return replyText(event.replyToken, profile.displayName + 'What\'s your plan to do today');      
-                                    
-                                } else {
-                                    const message = {
-                                        type: 'text',
-                                        text: 're-enter'
-                                      };
-                                    client.pushMessage(config.ReportGroupId, message)
-                                    .then(() => {
-            
-                                        local.saveActivity(event,profile);
-                                    
-                                    }).catch((err) => {});
-                                    return;
-                                    
-                                }
-                            }
-                        }else{
-                           
-                            client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
-                                    .then(() => {
-            
-                                        local.saveActivity(event,profile);
-                                    
-                                    }).catch((err) => {});
-                                    
-                                    return replyText(event.replyToken, profile.displayName + 'What\'s your plan to do today');      
-                        }
-                    }}
-            
-            }).catch((err) => {});
-          
-        }
     }
-    
-        
-    function send_FlexMessage(profile){
-        
-        let current_datetime = new Date()
-        const flexMessage = {
+}
+
+
+function send_FlexMessage(profile) {
+    //เรียกactivity.jsonมาใช้ในการส่ง
+    var Find_activityObj = new find_activity.activityInfo(event.source.userId, profile.displayName, 'in', event.timestamp, local.operate.getLocation(event.beacon.hwid), true);
+    var user_activity = local.operate.findInform(Find_activityObj,null,true);
+
+    const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
         "contents": {
             "type": "bubble",
             "hero": {
-            "type": "image",
-            "url": profile.pictureUrl,
-            "size": "full",
-            "aspectRatio": "20:13",
-            "aspectMode": "cover"
+                "type": "image",
+                "url": profile.pictureUrl,
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover"
             },
             "body": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "md",
-            "contents": [
-                {
-                "type": "text",
-                "text": profile.displayName,
-                "wrap": true,
-                "weight": "bold",
-                "gravity": "center",
-                "size": "xl"
-                },
-                {
                 "type": "box",
                 "layout": "vertical",
-                "margin": "lg",
-                "spacing": "sm",
+                "spacing": "md",
                 "contents": [
                     {
-                    "type": "box",
-                    "layout": "baseline",
-                    "spacing": "sm",
-                    "contents": [
-                        {
                         "type": "text",
-                        "text": "Date",
-                        "color": "#aaaaaa",
-                        "size": "sm",
-                        "flex": 1
-                        },
-                        {
-                        "type": "text",
-                        "text": current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes(),
+                        "text": profile.displayName,
                         "wrap": true,
-                        "size": "sm",
-                        "color": "#666666",
-                        "flex": 4
-                        }
-                    ]
+                        "weight": "bold",
+                        "gravity": "center",
+                        "size": "xl"
                     },
                     {
-                    "type": "box",
-                    "layout": "baseline",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                        "type": "text",
-                        "text": "Place",
-                        "color": "#aaaaaa",
-                        "size": "sm",
-                        "flex": 1
-                        },
-                        {
-                        "type": "text",
-                        "text": "Dimension Data Office, Asok",
-                        "wrap": true,
-                        "color": "#666666",
-                        "size": "sm",
-                        "flex": 4
-                        }
-                    ]
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "lg",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Date/Time",
+                                        "color": "#aaaaaa",
+                                        "size": "sm",
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": moment(user_activity.timestamp).format('DD/MM/YYYY HH:mm:ss' ),
+                                        "wrap": true,
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "flex": 4
+                                    }
+                                ]
+                            },
+
+
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Place",
+                                        "color": "#aaaaaa",
+                                        "size": "sm",
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": local.operate.getLocation(event.beacon.hwid),
+                                        "wrap": true,
+                                        "color": "#666666",
+                                        "size": "sm",
+                                        "flex": 4
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Place",
+                                        "color": "#aaaaaa",
+                                        "size": "sm",
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": user_activity.plan,
+                                        "wrap": true,
+                                        "color": "#666666",
+                                        "size": "sm",
+                                        "flex": 4
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
-                }
-            ]
             }
         }
-        };
+    };
 
-        return flexMessage;
-    }
+    return flexMessage;
+}
