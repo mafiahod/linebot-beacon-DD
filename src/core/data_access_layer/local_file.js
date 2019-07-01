@@ -1,10 +1,12 @@
 const fs = require("fs");
 const ActivityModel = require('../model/activity');
 const UserModel = require('../model/user');
+const StateModel = require('../model/state');
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
 const userDir = './resource/user.json';
 const locationDir = './resource/location.json';
+const stateDir = './resource/state ' + current_datetime.getDate() + "-" +(current_datetime.getMonth() + 1) +  "-" + current_datetime.getFullYear()+'.json';
 
 
 module.exports = {
@@ -14,6 +16,8 @@ module.exports = {
             var presentDir = activityDir;
         }else if(obj instanceof UserModel){
             var presentDir = userDir;
+        }else if(obj instanceof StateModel){
+            var presentDir = stateDir;
         }else{
             console.log("Unknow location to save");
         }
@@ -53,6 +57,8 @@ module.exports = {
             var presentDir = activityDir;
         }else if(obj instanceof UserModel){
             var presentDir = userDir;
+        }else if(obj instanceof StateModel){
+            var presentDir = stateDir;
         }else{
             console.log("Unknow location to find");
         }
