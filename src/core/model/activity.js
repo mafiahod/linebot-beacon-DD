@@ -1,4 +1,4 @@
-exports.activityInfo =  class Activity{
+export class Activity{
     constructor(id,user,coming,timestamp,location,activityInfo) {
     this.userId = id;
     this.name = user;

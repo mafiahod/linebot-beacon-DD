@@ -1,4 +1,4 @@
-exports.state = class State{
+export class State{
     constructor(userid,displayname,time,askstate) {
     this.userId = userid;
     this.name = displayname;
