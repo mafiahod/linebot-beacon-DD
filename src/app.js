@@ -1,11 +1,14 @@
 'use strict';
 
+import { Userinfo } from './core/model/user'
+
 const line = require('@line/bot-sdk');
 const express = require('express');
 const config = require('./core/config.js');
 const conv = require('./core/service/conversation_service');
 const beacon = require('./core/service/beacon_service');
 const local = require('./core/data_access_layer/local_file');
+
 
 
 
@@ -70,22 +73,31 @@ function handleEvent(event) {
       return;
 
     case 'memberJoined':
-        client.getProfile(event.joined.members[0].userId)
+      client.getProfile(event.joined.members[0].userId)
         .then((profile) => {
 
-          local.saveUser(event,profile);
-         
-        }).catch((err) => {});
-        return;
+          var saveUser = new Userinfo(event.joined.members[0].userId, profile.displayName);
+          console.log(saveUser);
+          local.saveInform(saveUser);
+
+        }).catch((err) => { });
+      return;
 
     case 'memberLeft':
       return;
-                
+
     case 'leave':
       return console.log(`Left: ${JSON.stringify(event)}`);
 
     case 'beacon':
-      return beacon.handle_beacon_event(event);
+      client.getProfile(event.source.userId)
+        .then((profile) => {
+
+          beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
+
+        }).catch((err) => { });
+      return;
+
 
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);
