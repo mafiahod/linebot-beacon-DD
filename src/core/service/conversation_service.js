@@ -34,7 +34,7 @@ module.exports = {
                 };
 
                 //reply  i don't know what you meant
-                client.pushMessage(config.ReportGroupId, reenter)
+                client.pushMessage(userId, reenter)
                     .then(() => {
 
                     }).catch((err) => { });

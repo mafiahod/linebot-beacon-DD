@@ -31,6 +31,7 @@ module.exports = {
             console.log('obj.plan');
             console.log(obj.plan);
 
+            console.log("สวัสดี");
 
             console.log((obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none'));
 
