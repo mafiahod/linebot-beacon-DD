@@ -45,8 +45,6 @@ module.exports = {
                 console.log("just push");
             }
             else if(obj.askstate != 'none' && obj.askstate != undefined){        //append activity or user in exist file
-                dataArray.push(obj);
-                console.log("just push");
                 for(var i=0 ; i<dataArray.length ; i++){
                     if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
                         dataArray[i].askstate = obj.askstate;
