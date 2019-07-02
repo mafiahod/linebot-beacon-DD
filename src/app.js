@@ -2,7 +2,7 @@
 
 import { Userinfo } from './core/model/user'
 import { Activity } from './core/model/activity'
-import { state } from './core/model/state'
+import { State } from './core/model/state'
 
 const line = require('@line/bot-sdk');
 const express = require('express');
