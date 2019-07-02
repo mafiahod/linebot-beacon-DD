@@ -1,8 +1,8 @@
+import { Activity } from '../model/activity'
 
 const line = require('@line/bot-sdk');
 const config = require('../config.js');
 const local = require('../data_access_layer/local_file');
-const find_activity = require('../model/activity');
 const moment = require('moment');
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
@@ -16,12 +16,12 @@ const replyText = (token, texts) => {
 const client = new line.Client(config);
 module.exports = {
 
-    send_message: function (userId) {
+    send_message: function (message,userId) {
 
         client.getProfile(userId)
             .then((profile) => {
                 //Bot push message to spacific Line Group
-                client.pushMessage(config.ReportGroupId, send_FlexMessage(profile))
+                client.pushMessage(config.ReportGroupId,send_FlexMessage(message,userId,profile))
                     .then(() => {
 
                     }).catch((err) => { });
@@ -32,10 +32,11 @@ module.exports = {
 }
 
 
-function send_FlexMessage(profile) {
+function send_FlexMessage(message,userId,profile) {
     //เรียกactivity.jsonมาใช้ในการส่ง
-    var Find_activityObj = new find_activity.activityInfo(event.source.userId, profile.displayName, 'in', event.timestamp, local.operate.getLocation(event.beacon.hwid), true);
-    var user_activity = local.operate.findInform(Find_activityObj,null,true);
+    var query_useractivity = new Activity(userId, null, null, null,null,null);
+    console.log(query_useractivity);
+    var query_activity = local.findInform(query_useractivity, 1 , true);
 
     const flexMessage = {
         "type": "flex",
@@ -82,16 +83,14 @@ function send_FlexMessage(profile) {
                                     },
                                     {
                                         "type": "text",
-                                        "text": moment(user_activity.timestamp).format('DD/MM/YYYY HH:mm:ss' ),
+                                        "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm:ss' ),
                                         "wrap": true,
                                         "size": "sm",
                                         "color": "#666666",
                                         "flex": 4
                                     }
                                 ]
-                            },
-
-
+                            },/*
                             {
                                 "type": "box",
                                 "layout": "baseline",
@@ -106,14 +105,14 @@ function send_FlexMessage(profile) {
                                     },
                                     {
                                         "type": "text",
-                                        "text": local.operate.getLocation(event.beacon.hwid),
+                                        "text": query_activity.local.get
                                         "wrap": true,
                                         "color": "#666666",
                                         "size": "sm",
                                         "flex": 4
                                     }
                                 ]
-                            },
+                            },*/
                             {
                                 "type": "box",
                                 "layout": "baseline",
@@ -128,7 +127,7 @@ function send_FlexMessage(profile) {
                                     },
                                     {
                                         "type": "text",
-                                        "text": user_activity.plan,
+                                        "text": query_activity[0].plan,
                                         "wrap": true,
                                         "color": "#666666",
                                         "size": "sm",
@@ -143,5 +142,5 @@ function send_FlexMessage(profile) {
         }
     };
 
-    return flexMessage;
+    return ;
 }

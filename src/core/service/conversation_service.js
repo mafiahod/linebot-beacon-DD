@@ -24,7 +24,7 @@ module.exports = {
                 local.saveInform(Save_plan);
                 console.log(Save_plan);
 
-                reqiure_sendmessage.send_message(message, userId);
+                reqiure_sendmessage.send_message(message,userId);
 
             } else {
 
