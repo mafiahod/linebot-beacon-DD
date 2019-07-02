@@ -13,8 +13,6 @@ const stateDir = './resource/state-' + current_datetime.getDate() + "-" +(curren
 module.exports = {
     
     saveInform: function(obj){
-        console.log(obj);
-        console.log("start Dir");
         if(obj instanceof Activity){
             var presentDir = activityDir;
         }else if(obj instanceof Userinfo){
@@ -25,30 +23,22 @@ module.exports = {
             console.log("Unknow location to save");
         }
         console.log(presentDir);
-        if(fs.existsSync(presentDir)) {
-            console.log("start exist file");                //handle when file is existed
+        if(fs.existsSync(presentDir)) {                //handle when file is existed
             var data = fs.readFileSync(presentDir);
             var dataArray = JSON.parse(data);
-            console.log(dataArray);
-            if(obj.plan != 'none' && obj.plan != undefined){                       //update property 'plan' in exist activity
-                console.log("none Loop");
-                console.log(dataArray.length);
-                console.log(obj.plan);
+            if(obj.plan != 'none' && obj.plan != undefined){
                 for(var i=0 ; i<dataArray.length ; i++){
                     if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
                         dataArray[i].plan = obj.plan;
-                        console.log("update plan");
                     }
                 }
             }else if(obj.plan == 'none' || obj.plan == undefined){        //append activity or user in exist file
                 dataArray.push(obj);
-                console.log("just push");
             }
             else if(obj.askstate != 'none' && obj.askstate != undefined){        //append activity or user in exist file
                 for(var i=0 ; i<dataArray.length ; i++){
                     if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
                         dataArray[i].askstate = obj.askstate;
-                        console.log("update state");
                     }
                 }
             }
@@ -57,10 +47,8 @@ module.exports = {
                     console.error(err);
                     return;
                 };
-                console.log("already write");
             });
         }else{                      //Create new activity.json or user.json
-            console.log("start create file");
             var dataArray = [];
             dataArray.push(obj);
             fs.writeFileSync(presentDir,JSON.stringify(dataArray, null, 4), (err) => {
@@ -97,19 +85,13 @@ module.exports = {
                 for(var property in obj){
                     if(obj[property] != null){
                         propCount++;
-                        console.log("propcount +");
                         if(obj[property] == dataArray[i][property]){
                             equalProp++;
-                            console.log("equal +");
                         }
                     }
-                console.log(propCount);
-                console.log(equalProp);
                 }
                 if(equalProp == propCount){
                     resultArray.push(dataArray[i]);
-                    
-                    console.log("Enter comparison");
                 }
                 propCount = 0;
                 equalProp = 0;
@@ -127,14 +109,10 @@ module.exports = {
 
 
     getLocation: function(hwid){
-        console.log(hwid);
         if(fs.existsSync(locationDir)) {
-            console.log("Enter exist");
             var data = fs.readFileSync(locationDir);
             var dataArray = JSON.parse(data);
-            console.log(dataArray);
             for(var i in dataArray){
-                console.log("enter for loop");
                 if(dataArray[i].hardwareID == hwid){
                     return dataArray[i].LocationName;
                 }

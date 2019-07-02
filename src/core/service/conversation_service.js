@@ -45,7 +45,7 @@ module.exports = {
 
     },
 
-    ask_today_plan: function (userId,displayName,timestamp,location) {
+    ask_today_plan: function (userId,displayName,timestamp,location,callback) {
         
         console.log('beacon test');
    
@@ -61,21 +61,29 @@ module.exports = {
                 console.log("before update state");
                 local.saveInform(Update_state);
                 console.log("after update state");
+
+                var Check_ans = new Activity(userId, null, null, null, local.getLocation(hwid), null);
+                console.log(Check_ans);
+                var Check_answer = local.findInform(Check_ans, null, true);
                 
-                if (finduser_activityInfo[i].plan == 'none') {
-
-                    callback(message);
-
+            
+                for ( var i=0;i < Check_answer.length ; i++) {
+        
+                    if (Check_answer[i].askstate == 'none') {  
+                
+                        callback(userId,displayName,timestamp,location,callback);
+                   
+                    } 
                 }
             }).catch((err) => { });
 
     },
-    callback: function (message) {
+    callback: function () {
 
 
         setTimeOut(() => {
 
-            ask_today_plan(message);
+            ask_today_plan(userId,displayName,timestamp,location,callback);
 
         }, 3000)
 
