@@ -13,7 +13,7 @@ module.exports = {
         
         console.log('find state');
 
-        var Find_state = new State(userId, null, null, null);//userid,displayname,time,askstate
+        var Find_state = new State(userId, null, null, null,null);//userid,displayname,time,askstate
         console.log(Find_state);
         var ask_state = local.findInform(Find_state, null, true);
 
@@ -57,7 +57,7 @@ module.exports = {
         client.pushMessage(userId, question)
             .then(() => {
                 
-                var Update_state = new State(userId,displayName,timestamp, true);//userid,displayname,time,askstate
+                var Update_state = new State(userId,displayName,timestamp,location, true);//userid,displayname,time,askstate
                 console.log("before update state");
                 local.saveInform(Update_state);
                 console.log("after update state");

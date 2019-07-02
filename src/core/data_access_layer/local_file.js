@@ -44,6 +44,16 @@ module.exports = {
                 dataArray.push(obj);
                 console.log("just push");
             }
+            else if(obj.askstate != 'none' && obj.askstate != undefined){        //append activity or user in exist file
+                dataArray.push(obj);
+                console.log("just push");
+                for(var i=0 ; i<dataArray.length ; i++){
+                    if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
+                        dataArray[i].askstate = obj.askstate;
+                        console.log("update state");
+                    }
+                }
+            }
             fs.writeFileSync(presentDir,JSON.stringify(dataArray, null, 4), (err) => {
                 if (err) {
                     console.error(err);

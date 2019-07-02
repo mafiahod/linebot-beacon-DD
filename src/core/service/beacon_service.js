@@ -31,7 +31,7 @@ module.exports = {
       console.log(user_activity);
 
 
-      var Find_state = new State(userId, null, null, null);//userid,displayname,time,askstate
+      var Find_state = new State(userId, null, null, null,null);//userid,displayname,time,askstate
       console.log(Find_state);
       var ask_state = local.findInform(Find_state, null, true);
 

@@ -105,7 +105,7 @@ function handleEvent(event) {
           local.saveInform(Saveactivity);
 
 
-          var Savestate = new State(event.source.userId, profile.displayName, event.timestamp, 'none');//userid,displayname,time,askstate
+          var Savestate = new State(event.source.userId, profile.displayName, event.timestamp,local.getLocation(event.beacon.hwid), 'none');//userid,displayname,time,askstate
           local.saveInform(Savestate);
 
           beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
