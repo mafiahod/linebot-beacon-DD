@@ -62,18 +62,19 @@ module.exports = {
                 local.saveInform(Update_state);
                 console.log("after update state");
 
-                var Check_ans = new Activity(userId, null, null, null, local.getLocation(hwid), null);
+                var Check_ans = new Activity(userId, null, null, null, local.getLocation(hwid), 'none');
                 console.log(Check_ans);
                 var Check_answer = local.findInform(Check_ans, null, true);
                 
             
                 for ( var i=0;i < Check_answer.length ; i++) {
         
-                    if (Check_answer[i].askstate == 'none') {  
+                    if (Check_answer[i].plan == 'none') {  
                 
                         callback(userId,displayName,timestamp,location);
                    
                     } 
+                    
                 }
             }).catch((err) => { });
 
