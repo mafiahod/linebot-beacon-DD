@@ -35,7 +35,7 @@ module.exports = {
             }else if(obj.plan == 'none' || obj.plan == undefined){        //append activity or user in exist file
                 dataArray.push(obj);
             }
-            else if(obj.askstate != 'none' && obj.askstate != undefined){        //append activity or user in exist file
+            else if(obj.askstate == true){        //append activity or user in exist file
                 for(var i=0 ; i<dataArray.length ; i++){
                     if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
                         dataArray[i].askstate = obj.askstate;
