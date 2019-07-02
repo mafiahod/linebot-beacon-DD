@@ -2,6 +2,7 @@
 
 import { Userinfo } from './core/model/user'
 import { Activity } from './core/model/activity'
+import { state } from './core/model/state'
 
 const line = require('@line/bot-sdk');
 const express = require('express');
@@ -97,6 +98,10 @@ function handleEvent(event) {
           var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in',event.timestamp, 
           local.getLocation(event.beacon.hwid), 'none');
           local.saveInform(Saveactivity);
+
+
+          var Savestate = new State(event.source.userId, profile.displayName,event.timestamp,'none');//userid,displayname,time,askstate
+          local.saveInform(Savestate);
           
           beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
           
