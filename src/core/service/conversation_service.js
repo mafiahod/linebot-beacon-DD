@@ -71,7 +71,7 @@ module.exports = {
         
                     if (Check_answer[i].askstate == 'none') {  
                 
-                        callback(userId,displayName,timestamp,location,callback);
+                        callback(userId,displayName,timestamp,location);
                    
                     } 
                 }
