@@ -25,7 +25,7 @@ module.exports = {
     if (result.length != 0) {
       var Find_activityObj = new Activity(userId, null, null, null, local.getLocation(hwid), null);
       console.log(Find_activityObj);
-      var user_activity = local.findInform(Find_activityObj, null, true);
+      var user_activity = local.findInform(Find_activityObj, 1, true);
 
       console.log('hello');
       console.log(user_activity);
@@ -33,7 +33,7 @@ module.exports = {
 
       var Find_state = new State(userId, null, null, null,null);//userid,displayname,time,askstate
       console.log(Find_state);
-      var ask_state = local.findInform(Find_state, null, true);
+      var ask_state = local.findInform(Find_state, 1, true);
 
       for (var i in user_activity) {
         for (var j in ask_state) {
