@@ -76,7 +76,6 @@ function handleEvent(event) {
       return replyText(event.replyToken, `Got postback: ${data}`);
 
     case 'join':
-      local.saveGroupId(event);
       return;
 
     case 'memberJoined':
@@ -99,14 +98,14 @@ function handleEvent(event) {
     case 'beacon':
       client.getProfile(event.source.userId)
         .then((profile) => {
-
-          var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in', event.timestamp,
+          
+          /*var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in', event.timestamp,
             local.getLocation(event.beacon.hwid), 'none');
           local.saveInform(Saveactivity);
 
 
           var Savestate = new State(event.source.userId, profile.displayName, event.timestamp,local.getLocation(event.beacon.hwid), 'none');//userid,displayname,time,askstate
-          local.saveInform(Savestate);
+          local.saveInform(Savestate);*/
 
           beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
 

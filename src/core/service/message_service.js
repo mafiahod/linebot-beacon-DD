@@ -18,11 +18,16 @@ module.exports = {
 
     send_message: function (message,userId) {
 
+        console.log('hello user');
+
         client.getProfile(userId)
             .then((profile) => {
+                console.log('hello user1');
+                console.log(userId);
                 //Bot push message to spacific Line Group
                 client.pushMessage(config.ReportGroupId,send_FlexMessage(message,userId,profile))
-                    .then(() => {
+                    .then(() => {  
+                        console.log('hello user2');
 
                     }).catch((err) => { });
 
@@ -34,6 +39,7 @@ module.exports = {
 
 function send_FlexMessage(message,userId,profile) {
     //เรียกactivity.jsonมาใช้ในการส่ง
+    console.log('hello user3');
     var query_useractivity = new Activity(userId, null, null, null,null,null);
     console.log(query_useractivity);
     var query_activity = local.findInform(query_useractivity, 1 , true);
@@ -76,7 +82,7 @@ function send_FlexMessage(message,userId,profile) {
                                 "contents": [
                                     {
                                         "type": "text",
-                                        "text": "Date/Time",
+                                        "text": "Date",
                                         "color": "#aaaaaa",
                                         "size": "sm",
                                         "flex": 1
@@ -90,7 +96,7 @@ function send_FlexMessage(message,userId,profile) {
                                         "flex": 4
                                     }
                                 ]
-                            },/*
+                            },
                             {
                                 "type": "box",
                                 "layout": "baseline",
@@ -105,14 +111,14 @@ function send_FlexMessage(message,userId,profile) {
                                     },
                                     {
                                         "type": "text",
-                                        "text": query_activity.local.get
+                                        "text": query_activity[0].location,
                                         "wrap": true,
                                         "color": "#666666",
                                         "size": "sm",
                                         "flex": 4
                                     }
                                 ]
-                            },*/
+                            },
                             {
                                 "type": "box",
                                 "layout": "baseline",
@@ -120,7 +126,7 @@ function send_FlexMessage(message,userId,profile) {
                                 "contents": [
                                     {
                                         "type": "text",
-                                        "text": "Place",
+                                        "text": "Ans",
                                         "color": "#aaaaaa",
                                         "size": "sm",
                                         "flex": 1
@@ -142,5 +148,5 @@ function send_FlexMessage(message,userId,profile) {
         }
     };
 
-    return ;
+    return flexMessage ;
 }

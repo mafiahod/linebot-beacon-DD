@@ -26,6 +26,14 @@ module.exports = {
         if (fs.existsSync(presentDir)) {                //handle when file is existed
             var data = fs.readFileSync(presentDir);
             var dataArray = JSON.parse(data);
+            console.log('obj.askstate');
+            console.log(obj.askstate);
+            console.log('obj.plan');
+            console.log(obj.plan);
+
+
+            console.log((obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none'));
+
             if (obj.plan != 'none' && obj.plan != undefined) {
                 console.log('enter if');
                 for (var i = 0; i < dataArray.length; i++) {
@@ -35,10 +43,10 @@ module.exports = {
                     console.log(obj.location);
                     if (dataArray[i].userId == obj.userId) {
                         console.log('enter second if');
-                        dataArray[i].plan = obj.plan;
+                        dataArray[i].plan = obj.plan;///
                     }
                 }
-            } else if (obj.plan == 'none' || obj.plan == undefined && obj.askstate == undefined) {        //append activity or user in exist file
+            } else if ((obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none')) {        //append activity or user in exist file
                 dataArray.push(obj);
             }
             else if (obj.askstate == true) {        //append activity or user in exist file

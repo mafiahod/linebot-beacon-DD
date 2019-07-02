@@ -24,50 +24,66 @@ module.exports = {
 
     if (result.length != 0) {
       var Find_activityObj = new Activity(userId, null, null, null, local.getLocation(hwid), null);
-      console.log(Find_activityObj);
-      var user_activity = local.findInform(Find_activityObj, 1, true);
+      var user_activity = local.findInform(Find_activityObj, null, true);
 
-      console.log('hello');
+      console.log('user_activity');
       console.log(user_activity);
 
+      var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
+      var ask_state = local.findInform(Find_state, null, true);
 
-      var Find_state = new State(userId, null, null, null,null);//userid,displayname,time,askstate
-      console.log(Find_state);
-      var ask_state = local.findInform(Find_state, 1, true);
+      console.log('ask state');
+      console.log(ask_state);
 
-      for (var i in user_activity) {
-        for (var j in ask_state) {
+      console.log(user_activity.length);
+      console.log(ask_state.length);
 
-          if (user_activity[i].plan == 'none' && ask_state[j].askstate == 'none') {
-            console.log('first time');
-            return require_ask.ask_today_plan(userId, displayName, timestamp, local.getLocation(hwid));
+      if (user_activity.length == 0 && ask_state.length == 0) {
+        
+        var Saveactivity = new Activity(userId, displayName, 'in', timestamp, local.getLocation(hwid), 'none');
+        console.log("before Saveactivity");
+        local.saveInform(Saveactivity);
+        console.log("Saveactivity");
+        console.log(Saveactivity);
 
-          } else if (user_activity[i].plan == 'none' && ask_state[j].askstate != 'none') {
-            console.log('waiting for ans');
-            return require_ask.callback();
+        var Savestate = new State(userId, displayName, timestamp, local.getLocation(hwid),'none');
+        console.log("before Savestate");
+        local.saveInform(Savestate);
+        console.log("Savestate");
+        console.log(Savestate);
 
-          } else if (user_activity[i].plan != 'none' && user_activity[i].location == local.getLocation(hwid) && ask_state[j].askstate != 'none') {
+        console.log('first time');
+        return require_ask.ask_today_plan(userId, displayName, timestamp, local.getLocation(hwid));
 
-            console.log('reenter11');
-            for (i = 0; i < user_activity.length; i++) {
-              if (user_activity[i].location == local.getLocation && user_activity[i].plan != null) {
-                const message = {
-                  type: 'text',
-                  text: displayName + 're-enter'
-                };
-                client.pushMessage(config.ReportGroupId, message)
-                  .then(() => {
-                  }).catch((err) => { });
-              }
-              else if (user_activity[i].plan != 'none' && user_activity[i].location != local.getLocation(hwid) && ask_state[j].askstate != 'none') {
-                console.log(' different location');
-                return require_ask.ask_today_plan(message, callback);
+      } else {
 
-              }
+        for (var i in user_activity) {
+          for (var j in ask_state) {
+
+            if (user_activity[i].plan == 'none' && ask_state[j].askstate != 'none') {
+              console.log('waiting for ans' + i);
+              return require_ask.callback();
+
+            } else if (user_activity[i].plan != 'none' && user_activity[i].location == local.getLocation(hwid) && ask_state[j].askstate == true) {
+
+              console.log('reenter11');
+
+              const message = {
+                type: 'text',
+                text: displayName + 're-enter'
+              };
+              client.pushMessage(config.ReportGroupId, message)
+                .then(() => {
+                }).catch((err) => { });
+            }
+            else if (user_activity[i].plan != 'none' && user_activity[i].location != local.getLocation(hwid) && ask_state[j].askstate != 'none') {
+              console.log(' different location');
+              return require_ask.ask_today_plan(message, callback);
+
             }
           }
-
         }
+        return;
       }
     }
   }
