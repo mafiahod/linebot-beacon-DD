@@ -1,6 +1,7 @@
 'use strict';
 
 import { Userinfo } from './core/model/user'
+import { Activity } from './core/model/activity'
 
 const line = require('@line/bot-sdk');
 const express = require('express');
@@ -93,7 +94,14 @@ function handleEvent(event) {
       client.getProfile(event.source.userId)
         .then((profile) => {
 
+          var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in',event.timestamp, 
+          local.getLocation(event.beacon.hwid), 'none');
+          local.saveInform(Saveactivity);
+          
           beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
+          
+
+
 
         }).catch((err) => { });
       return;

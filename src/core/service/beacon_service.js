@@ -29,6 +29,10 @@ module.exports = {
       console.log('hello');
       console.log(user_activity);
 
+
+
+
+      
       if (user_activity.length == 0) {
         console.log('beacon');
         return require_ask.ask_today_plan(userId, displayName,timestamp, local.getLocation(hwid));
