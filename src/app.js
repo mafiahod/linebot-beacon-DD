@@ -59,7 +59,12 @@ const replyText = (token, texts) => {
 function handleEvent(event) {
   switch (event.type) {
     case 'message':
-      return conv.handle_in_Message(event);
+      client.getProfile(event.source.userId)
+        .then((profile) => {
+          conv.handle_in_Message(event.message, event.source.userId, profile.displayName, event.timestamp);
+        }).catch((err) => { });
+      return;
+
     case 'follow':
       return replyText(event.replyToken, 'Got followed event');
 
@@ -95,16 +100,16 @@ function handleEvent(event) {
       client.getProfile(event.source.userId)
         .then((profile) => {
 
-          var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in',event.timestamp, 
-          local.getLocation(event.beacon.hwid), 'none');
+          var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in', event.timestamp,
+            local.getLocation(event.beacon.hwid), 'none');
           local.saveInform(Saveactivity);
 
 
-          var Savestate = new State(event.source.userId, profile.displayName,event.timestamp,'none');//userid,displayname,time,askstate
+          var Savestate = new State(event.source.userId, profile.displayName, event.timestamp, 'none');//userid,displayname,time,askstate
           local.saveInform(Savestate);
-          
+
           beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
-          
+
 
 
 

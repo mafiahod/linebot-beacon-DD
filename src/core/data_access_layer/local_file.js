@@ -34,7 +34,7 @@ module.exports = {
                 console.log("none Loop");
                 console.log(dataArray.length);
                 console.log(obj.plan);
-                for(i=0 ; i<dataArray.length ; i++){
+                for(var i=0 ; i<dataArray.length ; i++){
                     if(dataArray[i].userId == obj.userId && dataArray[i].location == obj.location){
                         dataArray[i].plan = obj.plan;
                         console.log("update plan");

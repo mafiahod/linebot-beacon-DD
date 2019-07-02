@@ -1,36 +1,30 @@
 import { State } from '../model/state'
+import { Activity } from '../model/activity'
 
 const reqiure_sendmessage = require('./message_service');
 const local = require('../data_access_layer/local_file');
-const call_activityInfo = require('../model/activity');
-const save_activity = require('../model/activity');
 const line = require('@line/bot-sdk');
 const config = require('../config');
 const client = new line.Client(config);
 
 
 module.exports = {
-
     handle_in_Message: function (message,userId,displayName,timestamp) {
-
-
         
-        console.log('statesssssssssssss');
-        //เรียกใช้ state เพื่อพิจารณาบอทยังไม่ได้ส่งคำถามไปแต่มีข้อความจากuserเข้ามา
-        var Find_state = new states.state(userId,null,null,true);//userid,displayname,time,askstate
-        var ask_state = local.operate.findInform(Find_state, null,'none');
+        console.log('find state');
 
-        console.log('looooooo');
-        console.log(ask_state.length);
+        var Find_state = new State(userId, null, null, null);//userid,displayname,time,askstate
+        console.log(Find_state);
+        var ask_state = local.findInform(Find_state, null, true);
 
-        for (i=0;i < ask_state.length ; i++) {
-            console.log('state');
-            if (ask_state[i].askstate == true) {
-                //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
+        for ( var i=0;i < ask_state.length ; i++) {
+
+            if (ask_state[i].askstate != 'none') {  //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
         
-                var Save_plan = new save_activity.activityInfo(userId,null,null,null,"012c7cbf02",message.text);
-                local.operate.saveInform(Save_plan);
+                var Save_plan = new Activity(userId,null,null,null,null,message.text);
+                local.saveInform(Save_plan);
                 console.log(Save_plan);
+               
                 reqiure_sendmessage.send_message(message,userId);
 
             } else {
@@ -54,10 +48,7 @@ module.exports = {
     ask_today_plan: function (userId,displayName,timestamp,location) {
         
         console.log('beacon test');
-
-       // var Find_activityInfo = new call_activityInfo.activityInfo(event.source.userId, null, null,local.operate.getLocation(hwid), true);
-      //  var finduser_activityInfo = local.operate.findInform(Find_activityInfo, null, true);
-        
+   
         const question = {
             type: 'text',
             text: 'what\'s your plan to do today at ' + location +' ?'
@@ -66,12 +57,11 @@ module.exports = {
         client.pushMessage(userId, question)
             .then(() => {
                 
-                var Save_state = new State(userId,displayName,timestamp, true);//userid,displayname,time,askstate
-                console.log("before save state");
-                local.saveInform(Save_state);
-                console.log("after save state");
+                var Update_state = new State(userId,displayName,timestamp, true);//userid,displayname,time,askstate
+                console.log("before update state");
+                local.saveInform(Update_state);
+                console.log("after update state");
                 
-
                 if (finduser_activityInfo[i].plan == null) {
 
                     callback(message);

@@ -46,7 +46,7 @@ module.exports = {
             console.log('waiting for ans');
             return require_ask.callback();
 
-          } else if (user_activity[i].plan != 'none' && user_activity[i].location == local.operate.getLocation(hwid) && ask_state[j].askstate != 'none') {
+          } else if (user_activity[i].plan != 'none' && user_activity[i].location == local.getLocation(hwid) && ask_state[j].askstate != 'none') {
 
             console.log('reenter11');
             for (i = 0; i < user_activity.length; i++) {
@@ -59,7 +59,7 @@ module.exports = {
                   .then(() => {
                   }).catch((err) => { });
               }
-              else if (user_activity[i].plan != 'none' && user_activity[i].location != local.operate.getLocation(hwid) && ask_state[j].askstate != 'none') {
+              else if (user_activity[i].plan != 'none' && user_activity[i].location != local.getLocation(hwid) && ask_state[j].askstate != 'none') {
                 console.log(' different location');
                 return require_ask.ask_today_plan(message, callback);
 
