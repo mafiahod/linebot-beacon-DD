@@ -63,13 +63,14 @@ module.exports = {
 
                 console.log("after update state");
 
-                var Check_ans = new Activity(userId, null, null, null, local.getLocation(hwid), 'none');
+                var Check_ans = new Activity(userId, null, null, null, local.getLocation(hwid), 'none');//id,user,coming,timestamp,location,activityInfo
+                console.log("Check_ans");
                 console.log(Check_ans);
                 var Check_answer = local.findInform(Check_ans, null, true);
-
+                console.log(Check_answer);
 
                 for (var i = 0; i < Check_answer.length; i++) {
-
+                    console.log("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333331lll")
                     if (Check_answer[i].plan == 'none') {
 
                         callback(userId, displayName, timestamp, location);
@@ -82,9 +83,9 @@ module.exports = {
     },
     callback: function () {
 
-
+console.log("ll111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111lll")
         setTimeOut(() => {
-
+            console.log("2222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
             ask_today_plan(userId, displayName, timestamp, location, callback);
 
         }, 3000)

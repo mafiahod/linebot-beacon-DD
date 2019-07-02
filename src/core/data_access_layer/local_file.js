@@ -32,8 +32,8 @@ module.exports = {
             console.log(obj.plan);
 
             console.log("สวัสดี");
-
-            console.log((obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none'));
+            console.log(JSON.stringify(obj));
+            console.log("11"+(obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none'));
 
             if (obj.plan != 'none' && obj.plan != undefined) {
                 console.log('enter if');
@@ -48,6 +48,7 @@ module.exports = {
                     }
                 }
             } else if ((obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none')) {        //append activity or user in exist file
+                console.log(JSON.stringify(obj));
                 dataArray.push(obj);
             }
             else if (obj.askstate == true) {        //append activity or user in exist file
