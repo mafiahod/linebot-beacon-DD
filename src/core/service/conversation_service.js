@@ -62,7 +62,7 @@ module.exports = {
                 local.saveInform(Update_state);
                 console.log("after update state");
                 
-                if (finduser_activityInfo[i].plan == null) {
+                if (finduser_activityInfo[i].plan == 'none') {
 
                     callback(message);
 
