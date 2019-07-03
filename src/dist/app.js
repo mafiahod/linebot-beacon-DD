@@ -1,13 +1,14 @@
 'use strict';
 
-var _user = require('./core/model/user');
+var _index = require('./core/model/index');
+
+var _index2 = require('./core/data_access_layer/index');
+
+var _index3 = require('./core/service/index');
 
 var line = require('@line/bot-sdk');
 var express = require('express');
 var config = require('./core/config.js');
-var conv = require('./core/service/conversation_service');
-var beacon = require('./core/service/beacon_service');
-var local = require('./core/data_access_layer/local_file');
 
 // create LINE SDK client
 var client = new line.Client(config);
@@ -50,7 +51,11 @@ var replyText = function replyText(token, texts) {
 function handleEvent(event) {
   switch (event.type) {
     case 'message':
-      return conv.handle_in_Message(event);
+      client.getProfile(event.source.userId).then(function (profile) {
+        (0, _index3.handle_in_Message)(event.message, event.source.userId, profile.displayName, event.timestamp);
+      }).catch(function (err) {});
+      return;
+
     case 'follow':
       return replyText(event.replyToken, 'Got followed event');
 
@@ -62,15 +67,14 @@ function handleEvent(event) {
       return replyText(event.replyToken, 'Got postback: ' + data);
 
     case 'join':
-      local.saveGroupId(event);
       return;
 
     case 'memberJoined':
       client.getProfile(event.joined.members[0].userId).then(function (profile) {
 
-        var saveUser = new _user.Userinfo(event.joined.members[0].userId, profile.displayName);
+        var saveUser = new _index.Userinfo(event.joined.members[0].userId, profile.displayName);
         console.log(saveUser);
-        local.saveInform(saveUser);
+        (0, _index2.saveInform)(saveUser);
       }).catch(function (err) {});
       return;
 
@@ -83,7 +87,13 @@ function handleEvent(event) {
     case 'beacon':
       client.getProfile(event.source.userId).then(function (profile) {
 
-        beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
+        /*var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in', event.timestamp,
+          getLocation(event.beacon.hwid), 'none');
+        saveInform(Saveactivity);
+            var Savestate = new State(event.source.userId, profile.displayName, event.timestamp,getLocation(event.beacon.hwid), 'none');//userid,displayname,time,askstate
+        saveInform(Savestate);*/
+
+        (0, _index3.handle_beacon_event)(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
       }).catch(function (err) {});
       return;
 

@@ -1,10 +1,6 @@
-'use strict';
+"use strict";
 
-var _activity = require('../model/activity');
-
-var _state = require('../model/state');
-
-var _user = require('../model/user');
+var _index = require("../model/index");
 
 var fs = require("fs");
 var current_datetime = new Date();
@@ -16,49 +12,60 @@ var stateDir = './resource/state-' + current_datetime.getDate() + "-" + (current
 module.exports = {
 
     saveInform: function saveInform(obj) {
-        console.log(obj);
-        console.log("start Dir");
-        if (obj instanceof _activity.Activity) {
+        if (obj instanceof _index.Activity) {
             var presentDir = activityDir;
-        } else if (obj instanceof _user.Userinfo) {
+        } else if (obj instanceof _index.Userinfo) {
             var presentDir = userDir;
-        } else if (obj instanceof _state.State) {
+        } else if (obj instanceof _index.State) {
             var presentDir = stateDir;
         } else {
             console.log("Unknow location to save");
         }
         console.log(presentDir);
         if (fs.existsSync(presentDir)) {
-            console.log("start exist file"); //handle when file is existed
+            //handle when file is existed
             var data = fs.readFileSync(presentDir);
             var dataArray = JSON.parse(data);
-            console.log(dataArray);
+            console.log('obj.askstate from local');
+            console.log(obj.askstate);
+            console.log('obj.plan from local');
+            console.log(obj.plan);
+
+            console.log(JSON.stringify(obj));
+
             if (obj.plan != 'none' && obj.plan != undefined) {
-                //update property 'plan' in exist activity
-                console.log("none Loop");
-                console.log(dataArray.length);
-                console.log(obj.plan);
-                for (i = 0; i < dataArray.length; i++) {
-                    if (dataArray[i].userId == obj.userId && dataArray[i].location == obj.location) {
-                        dataArray[i].plan = obj.plan;
-                        console.log("update plan");
+                console.log('enter if  from local');
+                for (var i = 0; i < dataArray.length; i++) {
+                    console.log('enter for from local');
+                    console.log(dataArray[i].userId);
+                    console.log(dataArray[i].location);
+                    console.log(obj.location);
+                    if (dataArray[i].userId == obj.userId) {
+                        console.log('enter second if  from local');
+                        dataArray[i].plan = obj.plan; ///
                     }
                 }
-            } else if (obj.plan == 'none' || obj.plan == undefined) {
+            } else if ((obj.plan == 'none' || obj.plan == undefined) && (obj.askstate == undefined || obj.askstate == 'none')) {
                 //append activity or user in exist file
+                console.log(JSON.stringify(obj));
                 dataArray.push(obj);
-                console.log("just push");
+            } else if (obj.askstate == true) {
+                //append activity or user in exist file
+                for (var i = 0; i < dataArray.length; i++) {
+                    if (dataArray[i].userId == obj.userId && dataArray[i].location == obj.location) {
+                        console.log('update from local');
+                        dataArray[i].askstate = obj.askstate;
+                    }
+                }
             }
             fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), function (err) {
                 if (err) {
                     console.error(err);
                     return;
                 };
-                console.log("already write");
             });
         } else {
             //Create new activity.json or user.json
-            console.log("start create file");
             var dataArray = [];
             dataArray.push(obj);
             fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), function (err) {
@@ -72,14 +79,14 @@ module.exports = {
 
     findInform: function findInform(obj, count, desc) {
         var presentDir;
-        if (obj instanceof _activity.Activity) {
+        if (obj instanceof _index.Activity) {
             presentDir = activityDir;
-        } else if (obj instanceof _user.Userinfo) {
+        } else if (obj instanceof _index.Userinfo) {
             presentDir = userDir;
-        } else if (obj instanceof _state.State) {
+        } else if (obj instanceof _index.State) {
             presentDir = stateDir;
         } else {
-            console.log("Unknow location to find");
+            console.log("Unknow location to find ");
         }
         if (fs.existsSync(presentDir)) {
             var data = fs.readFileSync(presentDir);
@@ -94,19 +101,13 @@ module.exports = {
                 for (var property in obj) {
                     if (obj[property] != null) {
                         propCount++;
-                        console.log("propcount +");
                         if (obj[property] == dataArray[i][property]) {
                             equalProp++;
-                            console.log("equal +");
                         }
                     }
-                    console.log(propCount);
-                    console.log(equalProp);
                 }
                 if (equalProp == propCount) {
                     resultArray.push(dataArray[i]);
-
-                    console.log("Enter comparison");
                 }
                 propCount = 0;
                 equalProp = 0;
@@ -121,14 +122,10 @@ module.exports = {
     },
 
     getLocation: function getLocation(hwid) {
-        console.log(hwid);
         if (fs.existsSync(locationDir)) {
-            console.log("Enter exist");
             var data = fs.readFileSync(locationDir);
             var dataArray = JSON.parse(data);
-            console.log(dataArray);
             for (var i in dataArray) {
-                console.log("enter for loop");
                 if (dataArray[i].hardwareID == hwid) {
                     return dataArray[i].LocationName;
                 }

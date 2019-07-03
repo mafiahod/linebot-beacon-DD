@@ -1,9 +1,17 @@
-'use strict';
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.send_message = undefined;
+
+var _index = require('../model/index');
+
+var _index2 = require('../data_access_layer/index');
 
 var line = require('@line/bot-sdk');
 var config = require('../config.js');
-var local = require('../data_access_layer/local_file');
-var find_activity = require('../model/activity');
+
 var moment = require('moment');
 var replyText = function replyText(token, texts) {
     texts = Array.isArray(texts) ? texts : [texts];
@@ -14,22 +22,23 @@ var replyText = function replyText(token, texts) {
 
 // create LINE SDK client
 var client = new line.Client(config);
-module.exports = {
 
-    send_message: function send_message(userId) {
+function send_message(message, userId) {
 
-        client.getProfile(userId).then(function (profile) {
-            //Bot push message to spacific Line Group
-            client.pushMessage(config.ReportGroupId, send_FlexMessage(profile)).then(function () {}).catch(function (err) {});
-        }).catch(function (err) {});
-    }
-};
+    console.log('send flexmessage');
 
-function send_FlexMessage(profile) {
+    client.getProfile(userId).then(function (profile) {
+        //Bot push message to spacific Line Group
+        client.pushMessage(config.ReportGroupId, send_FlexMessage(message, userId, profile)).then(function () {}).catch(function (err) {});
+    }).catch(function (err) {});
+}
+
+function send_FlexMessage(message, userId, profile) {
     //เรียกactivity.jsonมาใช้ในการส่ง
-    var Find_activityObj = new find_activity.activityInfo(event.source.userId, profile.displayName, 'in', event.timestamp, local.operate.getLocation(event.beacon.hwid), true);
-    var user_activity = local.operate.findInform(Find_activityObj, null, true);
-
+    var query_useractivity = new _index.Activity(userId, null, null, null, null, null);
+    var query_activity = (0, _index2.findInform)(query_useractivity, 1, true);
+    console.log("data that send to flexmessage");
+    console.log(query_activity);
     var flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -64,13 +73,13 @@ function send_FlexMessage(profile) {
                         "spacing": "sm",
                         "contents": [{
                             "type": "text",
-                            "text": "Date/Time",
+                            "text": "Date",
                             "color": "#aaaaaa",
                             "size": "sm",
                             "flex": 1
                         }, {
                             "type": "text",
-                            "text": moment(user_activity.timestamp).format('DD/MM/YYYY HH:mm:ss'),
+                            "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm:ss'),
                             "wrap": true,
                             "size": "sm",
                             "color": "#666666",
@@ -88,7 +97,7 @@ function send_FlexMessage(profile) {
                             "flex": 1
                         }, {
                             "type": "text",
-                            "text": local.operate.getLocation(event.beacon.hwid),
+                            "text": query_activity[0].location,
                             "wrap": true,
                             "color": "#666666",
                             "size": "sm",
@@ -100,13 +109,13 @@ function send_FlexMessage(profile) {
                         "spacing": "sm",
                         "contents": [{
                             "type": "text",
-                            "text": "Place",
+                            "text": "Ans",
                             "color": "#aaaaaa",
                             "size": "sm",
                             "flex": 1
                         }, {
                             "type": "text",
-                            "text": user_activity.plan,
+                            "text": query_activity[0].plan,
                             "wrap": true,
                             "color": "#666666",
                             "size": "sm",
@@ -120,3 +129,5 @@ function send_FlexMessage(profile) {
 
     return flexMessage;
 }
+
+exports.send_message = send_message;

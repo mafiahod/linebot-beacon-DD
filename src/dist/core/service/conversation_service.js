@@ -1,80 +1,107 @@
-'use strict';
+"use strict";
 
-var _state = require('../model/state');
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.callback = exports.ask_today_plan = exports.handle_in_Message = undefined;
 
-var reqiure_sendmessage = require('./message_service');
-var local = require('../data_access_layer/local_file');
-var call_activityInfo = require('../model/activity');
-var save_activity = require('../model/activity');
+var _index = require('../model/index');
+
+var _index2 = require('../data_access_layer/index');
+
+var _index3 = require('../service/index');
+
+var _fs = require('fs');
+
 var line = require('@line/bot-sdk');
 var config = require('../config');
 var client = new line.Client(config);
 
-module.exports = {
+function handle_in_Message(message, userId, displayName, timestamp) {
 
-    handle_in_Message: function handle_in_Message(message, userId, displayName, timestamp) {
+    console.log('find state from conver');
 
-        console.log('statesssssssssssss');
-        //เรียกใช้ state เพื่อพิจารณาบอทยังไม่ได้ส่งคำถามไปแต่มีข้อความจากuserเข้ามา
-        var Find_state = new states.state(userId, null, null, true); //userid,displayname,time,askstate
-        var ask_state = local.operate.findInform(Find_state, null, 'none');
+    var Find_state = new _index.State(userId, null, null, null, null); //userid,displayname,time,askstate
+    var ask_state = (0, _index2.findInform)(Find_state, null, true);
+    console.log(ask_state);
+    for (var i = 0; i < ask_state.length; i++) {
 
-        console.log('looooooo');
-        console.log(ask_state.length);
+        if (ask_state[i].askstate != 'none') {
+            //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
 
-        for (i = 0; i < ask_state.length; i++) {
-            console.log('state');
-            if (ask_state[i].askstate == true) {
-                //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
+            var Save_plan = new _index.Activity(userId, null, null, null, null, message.text);
+            (0, _index2.saveInform)(Save_plan);
+            console.log(Save_plan);
 
-                var Save_plan = new save_activity.activityInfo(userId, null, null, null, "012c7cbf02", message.text);
-                local.operate.saveInform(Save_plan);
-                console.log(Save_plan);
-                reqiure_sendmessage.send_message(message, userId);
-            } else {
+            (0, _index3.send_message)(message, userId);
+        } else {
 
-                var reenter = {
-                    type: 'text',
-                    text: 'i don\'t know what you meant'
-                };
+            var reenter = {
+                type: 'text',
+                text: 'i don\'t know what you meant'
+            };
 
-                //reply  i don't know what you meant
-                client.pushMessage(config.ReportGroupId, reenter).then(function () {}).catch(function (err) {});
-            }
+            //reply  i don't know what you meant
+            client.pushMessage(userId, reenter).then(function () {}).catch(function (err) {});
         }
-    },
-
-    ask_today_plan: function ask_today_plan(userId, displayName, timestamp, location) {
-
-        console.log('beacon test');
-
-        // var Find_activityInfo = new call_activityInfo.activityInfo(event.source.userId, null, null,local.operate.getLocation(hwid), true);
-        //  var finduser_activityInfo = local.operate.findInform(Find_activityInfo, null, true);
-
-        var question = {
-            type: 'text',
-            text: 'what\'s your plan to do today at ' + location + ' ?'
-        };
-
-        client.pushMessage(userId, question).then(function () {
-
-            var Save_state = new _state.State(userId, displayName, timestamp, true); //userid,displayname,time,askstate
-            console.log("before save state");
-            local.saveInform(Save_state);
-            console.log("after save state");
-
-            if (finduser_activityInfo[i].plan == null) {
-
-                callback(message);
-            }
-        }).catch(function (err) {});
-    },
-    callback: function callback(message) {
-
-        setTimeOut(function () {
-
-            ask_today_plan(message);
-        }, 3000);
     }
+}
 
-};
+function ask_today_plan(userId, displayName, timestamp, location) {
+
+    console.log('beacon test from conver');
+
+    var question = {
+        type: 'text',
+        text: 'what\'s your plan to do today at ' + location + ' ?'
+    };
+
+    client.pushMessage(userId, question).then(function () {
+
+        var Update_state = new _index.State(userId, displayName, timestamp, location, true); //userid,displayname,time,askstate
+        console.log("before update state from conver");
+        (0, _index2.saveInform)(Update_state);
+        console.log(Update_state);
+        console.log("after update state from conver");
+
+        callback(userId, location);
+    }).catch(function (err) {});
+}
+
+var count = 0;
+
+function callback(userId, location) {
+
+    console.log("Hello from conver,callback");
+    var Check_answer = new _index.Activity(userId, null, null, null, location, null); //ทำการเช็คว่ามีด
+
+    var check_ans = (0, _index2.findInform)(Check_answer, null, true);
+    console.log("check_ans from conver,callback");
+    console.log(check_ans);
+
+    if (check_ans[0].plan == 'none' && count <= 3) {
+        console.log("check_ans[0].plan  from conver,callback");
+        console.log(check_ans[0].plan);
+        console.log("if before set timout from conver,callback");
+        a = setTimeout(function () {
+            var question = {
+                type: 'text',
+                text: 'Pease enter your answer'
+            };
+            console.log("push message again from conver,callback");
+            client.pushMessage(userId, question).then(function () {}).catch(function (err) {});
+
+            console.log(count);
+            count++;
+            console.log(count);
+            callback(userId, location);
+        }, 15000);
+    } else if (check_ans[0].plan != 'none') {
+        console.log("exist loop from conver,callback");
+        clearTimeout(a);
+        return;
+    }
+}
+exports.handle_in_Message = handle_in_Message;
+exports.ask_today_plan = ask_today_plan;
+exports.callback = callback;
