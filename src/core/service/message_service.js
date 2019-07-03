@@ -23,12 +23,9 @@ const client = new line.Client(config);
 
         client.getProfile(userId)
             .then((profile) => {
-                console.log('hello user1');
-                console.log(userId);
                 //Bot push message to spacific Line Group
                 client.pushMessage(config.ReportGroupId,send_FlexMessage(message,userId,profile))
                     .then(() => {  
-                        console.log('hello user2');
 
                     }).catch((err) => { });
 
@@ -40,7 +37,6 @@ const client = new line.Client(config);
 
 function send_FlexMessage(message,userId,profile) {
     //เรียกactivity.jsonมาใช้ในการส่ง
-    console.log('hello user3');
     var query_useractivity = new Activity(userId, null, null, null,null,null);
     console.log(query_useractivity);
     var query_activity = findInform(query_useractivity, 1 , true);

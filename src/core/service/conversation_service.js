@@ -1,114 +1,110 @@
 "use strict";
-import {State,Activity} from '../model/index'
-import {findInform,saveInform} from '../data_access_layer/index'
-import {send_message} from '../service/index'
+import { State, Activity } from '../model/index'
+import { findInform, saveInform } from '../data_access_layer/index'
+import { send_message } from '../service/index'
 
 const line = require('@line/bot-sdk');
 const config = require('../config');
 const client = new line.Client(config);
 
-    function  handle_in_Message(message, userId, displayName, timestamp) {
+function handle_in_Message(message, userId, displayName, timestamp) {
 
-        console.log('find state');
+    console.log('find state');
 
-        var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
-        var ask_state = findInform(Find_state, null, true);
-        console.log(ask_state);
-        for (var i = 0; i < ask_state.length; i++) {
+    var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
+    var ask_state = findInform(Find_state, null, true);
+    console.log(ask_state);
+    for (var i = 0; i < ask_state.length; i++) {
 
-            if (ask_state[i].askstate != 'none') {  //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
+        if (ask_state[i].askstate != 'none') {  //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
 
-                var Save_plan = new Activity(userId, null, null, null, null, message.text);
-                saveInform(Save_plan);
-                console.log(Save_plan);
+            var Save_plan = new Activity(userId, null, null, null, null, message.text);
+            saveInform(Save_plan);
+            console.log(Save_plan);
 
-                send_message(message, userId);
+            send_message(message, userId);
 
-            } else {
+        } else {
 
-                const reenter = {
-                    type: 'text',
-                    text: 'i don\'t know what you meant'
-                };
+            const reenter = {
+                type: 'text',
+                text: 'i don\'t know what you meant'
+            };
 
-                //reply  i don't know what you meant
-                client.pushMessage(userId, reenter)
-                    .then(() => {
+            //reply  i don't know what you meant
+            client.pushMessage(userId, reenter)
+                .then(() => {
 
-                    }).catch((err) => { });
+                }).catch((err) => { });
 
-            }
         }
-
     }
 
-     function ask_today_plan(userId, displayName, timestamp, location, callback) {
+}
 
-        console.log('beacon test');
+function ask_today_plan(userId, displayName, timestamp, location, callback) {
 
-        const question = {
-            type: 'text',
-            text: 'what\'s your plan to do today at ' + location + ' ?'
-        };
+    console.log('beacon test');
 
-        client.pushMessage(userId, question)
-            .then(() => {
+    const question = {
+        type: 'text',
+        text: 'what\'s your plan to do today at ' + location + ' ?'
+    };
 
-                var Update_state = new State(userId, displayName, timestamp, location, true);//userid,displayname,time,askstate
-                console.log("before update state");
-                saveInform(Update_state);
-                console.log(Update_state);
-                console.log("after update state");
+    client.pushMessage(userId, question)
+        .then(() => {
 
-
-
-                console.log("Check_answer");
-
-                var Check_answer = new Activity(userId, null, null, null, location, 'none');//ทำการเช็คว่ามีด
-                console.log(Check_answer);
-                console.log("check_ans");
-                var check_ans = findInform(Check_answer, null, true);
-                console.log(check_ans);
-
-                if (check_ans[0].plan == 'none') {
-
-                    console.log("333333333333333333333333333333333333333333333333333333333333333333333")
-                    callback(userId,location);
-
-                }
+            var Update_state = new State(userId, displayName, timestamp, location, true);//userid,displayname,time,askstate
+            console.log("before update state");
+            saveInform(Update_state);
+            console.log(Update_state);
+            console.log("after update state");
 
 
-            }).catch((err) => { });
+            callback(userId, locaion);
 
 
-    }
-    let check = false;
+        }).catch((err) => { });
+
+
+}
+
+
+function callback(userId, location) {
+
+    console.log("Hello");
+    var Check_answer = new Activity(userId, null, null, null, location,null);//ทำการเช็คว่ามีด
+    console.log("check_answer");
+    console.log(Check_answer);
+    var check_ans = findInform(Check_answer, null, true);
+    console.log("check_ans");
+    console.log(check_ans);
+
     let count = 0;
-function callback(userId,location) {
-    
-    
-    if (count == 3) check = true;
-    if (check == false && count <= 3) {
+
+    if (check_ans[0].plan == 'none' && count <= 3) {
+        console.log("Hello1");
         setTimeout(() => {
             const question = {
                 type: 'text',
                 text: 'what\'s your plan to do today at ' + location + ' ?'
             };
-    
+            console.log("Hello2");
             client.pushMessage(userId, question)
-            .then(() => {
-            }).catch((err) => { });
+                .then(() => {
+                }).catch((err) => { });
 
             console.log(count);
             count++;
             console.log(count);
-            callback(userId,location);
+            callback(userId, location);
 
-        }, 3000)
-    } else if (check == true) {
-        console.log("Complete");
+        },30000)
+    } else  if (check_ans[0].plan != 'none' && count >=3){
+        console.log("Hello3");
+        return;
     }
 }
 export {
-    handle_in_Message,ask_today_plan,callback
+    handle_in_Message, ask_today_plan, callback
 }

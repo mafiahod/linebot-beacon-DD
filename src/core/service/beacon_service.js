@@ -1,7 +1,7 @@
 "use strict";
 import {Userinfo,State,Activity} from '../model/index'
 import {findInform,saveInform,getLocation} from '../data_access_layer/index'
-import {handle_beacon_event,ask_today_plan,callback} from './core/service/index'
+import {ask_today_plan,callback} from './index'
 
 const line = require('@line/bot-sdk');
 const config = require('../config');
@@ -50,7 +50,7 @@ const client = new line.Client(config); // create LINE SDK client
         console.log(Savestate);
 
         console.log('first time');
-        return ask_today_plan(userId, displayName, timestamp, getLocation(hwid));
+        return ask_today_plan(userId, displayName, timestamp, getLocation(hwid),callback(userId, getLocation(hwid)));
 
       } else {
 

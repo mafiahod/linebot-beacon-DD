@@ -1,7 +1,8 @@
 'use strict';
-import {Userinfo} from '../model/index'
+import {Userinfo} from './core/model/index'
 import {findInform,saveInform,getLocation} from './core/data_access_layer/index'
 import {handle_beacon_event,handle_in_Message} from './core/service/index'
+
 const line = require('@line/bot-sdk');
 const express = require('express');
 const config = require('./core/config.js');
