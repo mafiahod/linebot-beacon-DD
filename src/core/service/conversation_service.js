@@ -24,7 +24,7 @@ module.exports = {
                 local.saveInform(Save_plan);
                 console.log(Save_plan);
 
-                reqiure_sendmessage.send_message(message,userId);
+                reqiure_sendmessage.send_message(message, userId);
 
             } else {
 
@@ -60,38 +60,59 @@ module.exports = {
                 console.log("before update state");
                 local.saveInform(Update_state);
                 console.log(Update_state);
-
                 console.log("after update state");
 
-                var Check_ans = new Activity(userId, null, null, null, local.getLocation(hwid), 'none');//id,user,coming,timestamp,location,activityInfo
-                console.log("Check_ans");
-                console.log(Check_ans);
-                var Check_answer = local.findInform(Check_ans, null, true);
+
+
+                console.log("Check_answer");
+
+                var Check_answer = new Activity(userId, null, null, null, location, 'none');//ทำการเช็คว่ามีด
                 console.log(Check_answer);
+                console.log("check_ans");
+                var check_ans = local.findInform(Check_answer, null, true);
+                console.log(check_ans);
 
-                for (var i = 0; i < Check_answer.length; i++) {
-                    console.log("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333331lll")
-                    if (Check_answer[i].plan == 'none') {
+                if (check_ans[0].plan == 'none') {
 
-                        callback(userId, displayName, timestamp, location);
-
-                    }
+                    console.log("333333333333333333333333333333333333333333333333333333333333333333333")
+                    callback(userId,location);
 
                 }
+
+
             }).catch((err) => { });
 
-    },
-    callback: function () {
-
-console.log("ll111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111lll")
-        setTimeOut(() => {
-            console.log("2222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
-            ask_today_plan(userId, displayName, timestamp, location, callback);
-
-        }, 3000)
 
     }
 
 }
 
+let check = false;
+let count = 0;
 
+
+function callback(userId,location) {
+ 
+    
+    if (count == 3) check = true;
+    if (check == false && count <= 3) {
+        setTimeout(() => {
+            const question = {
+                type: 'text',
+                text: 'what\'s your plan to do today at ' + location + ' ?'
+            };
+    
+            client.pushMessage(userId, question)
+            .then(() => {
+            }).catch((err) => { });
+
+            console.log(count);
+            count++;
+            console.log(count);
+            callback(userId,location);
+
+        }, 3000)
+    } else if (check == true) {
+        console.log("Complete");
+    }
+}

@@ -60,11 +60,7 @@ module.exports = {
         for (var i in user_activity) {
           for (var j in ask_state) {
 
-            if (user_activity[i].plan == 'none' && ask_state[j].askstate != 'none') {
-              console.log('waiting for ans' + i);
-              return require_ask.callback();
-
-            } else if (user_activity[i].plan != 'none' && user_activity[i].location == local.getLocation(hwid) && ask_state[j].askstate == true) {
+            if (user_activity[i].plan != 'none' && user_activity[i].location == local.getLocation(hwid) && ask_state[j].askstate == true) {
 
               console.log('reenter11');
 
