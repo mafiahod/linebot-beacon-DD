@@ -1,8 +1,5 @@
 
-src/resource/
-src/dist/
-src/resource/3-7-2019.json
-src/resource/state-3-7-2019.json
-src/resource/user.json
+resource/
+
 node_modules/
 dist/
