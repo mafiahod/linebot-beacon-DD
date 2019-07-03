@@ -1,3 +1,4 @@
+"use strict";
 import {getLocation,findInform,saveInform} from './local_file'
 
 export{

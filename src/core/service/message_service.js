@@ -1,3 +1,4 @@
+"use strict";
 import {Activity} from '../model/index'
 import {findInform} from '../data_access_layer/index'
 const line = require('@line/bot-sdk');

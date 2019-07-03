@@ -1,4 +1,4 @@
-
+"use strict";
 import {Userinfo,State,Activity} from '../model/index'
 const fs = require("fs");
 const current_datetime = new Date();

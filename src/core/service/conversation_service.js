@@ -1,4 +1,4 @@
-
+"use strict";
 import {State,Activity} from '../model/index'
 import {findInform,saveInform} from '../data_access_layer/index'
 import {send_message} from '../service/index'

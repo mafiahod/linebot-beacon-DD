@@ -1,3 +1,4 @@
+"use strict";
 import {Userinfo,State,Activity} from '../model/index'
 import {findInform,saveInform,getLocation} from '../data_access_layer/index'
 import {handle_beacon_event,ask_today_plan,callback} from './core/service/index'
