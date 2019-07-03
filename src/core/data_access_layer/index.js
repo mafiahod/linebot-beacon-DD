@@ -1,6 +1,6 @@
 "use strict";
-import {getLocation,findInform,saveInform} from './local_file'
+import {getLocation,find,save} from './local_file'
 
 export{
-    getLocation,findInform,saveInform
+    getLocation,find,save
 }

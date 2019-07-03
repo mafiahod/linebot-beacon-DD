@@ -1,6 +1,6 @@
 "use strict";
 import {Activity} from '../model/index'
-import {findInform} from '../data_access_layer/index'
+import * as dal from '../data_access_layer/index'
 const line = require('@line/bot-sdk');
 const config = require('../config.js');
 
@@ -38,7 +38,7 @@ const client = new line.Client(config);
 function send_FlexMessage(message,userId,profile) {
     //เรียกactivity.jsonมาใช้ในการส่ง
     var query_useractivity = new Activity(userId, null, null, null,null,null);
-    var query_activity = findInform(query_useractivity, 1 , true);
+    var query_activity = dal.find(query_useractivity, 1 , true);
     console.log("data that send to flexmessage");
     console.log(query_activity);
     const flexMessage = {

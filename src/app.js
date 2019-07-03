@@ -1,6 +1,6 @@
 'use strict';
 import {Userinfo} from './core/model/index'
-import {findInform,saveInform,getLocation} from './core/data_access_layer/index'
+import * as dal from './core/data_access_layer/index'
 import {handle_beacon_event,handle_in_Message} from './core/service/index'
 
 const line = require('@line/bot-sdk');
@@ -75,7 +75,7 @@ function handleEvent(event) {
 
           var saveUser = new Userinfo(event.joined.members[0].userId, profile.displayName);
           console.log(saveUser);
-          saveInform(saveUser);
+          dal.save(saveUser);
 
         }).catch((err) => { });
       return;
