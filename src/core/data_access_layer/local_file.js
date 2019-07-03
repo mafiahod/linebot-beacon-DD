@@ -1,7 +1,5 @@
-import { Activity } from '../model/activity'
-import { State } from '../model/state'
-import { Userinfo } from '../model/user'
 
+import {Userinfo,State,Activity} from '../model/index'
 const fs = require("fs");
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';

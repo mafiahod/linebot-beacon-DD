@@ -1,25 +1,15 @@
 'use strict';
-
-import { Userinfo } from './core/model/user'
-import { Activity } from './core/model/activity'
-import { State } from './core/model/state'
-
+import {Userinfo} from '../model/index'
+import {findInform,saveInform,getLocation} from './core/data_access_layer/index'
+import {handle_beacon_event,handle_in_Message} from './core/service/index'
 const line = require('@line/bot-sdk');
 const express = require('express');
 const config = require('./core/config.js');
-const conv = require('./core/service/conversation_service');
-const beacon = require('./core/service/beacon_service');
-const local = require('./core/data_access_layer/local_file');
-
-
-
-
 
 // create LINE SDK client
 const client = new line.Client(config);
 
 const app = express();
-
 
 // webhook callback
 app.post('/webhook', line.middleware(config), (req, res) => {
@@ -61,7 +51,7 @@ function handleEvent(event) {
     case 'message':
       client.getProfile(event.source.userId)
         .then((profile) => {
-          conv.handle_in_Message(event.message, event.source.userId, profile.displayName, event.timestamp);
+          handle_in_Message(event.message, event.source.userId, profile.displayName, event.timestamp);
         }).catch((err) => { });
       return;
 
@@ -84,7 +74,7 @@ function handleEvent(event) {
 
           var saveUser = new Userinfo(event.joined.members[0].userId, profile.displayName);
           console.log(saveUser);
-          local.saveInform(saveUser);
+          saveInform(saveUser);
 
         }).catch((err) => { });
       return;
@@ -100,14 +90,14 @@ function handleEvent(event) {
         .then((profile) => {
           
           /*var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in', event.timestamp,
-            local.getLocation(event.beacon.hwid), 'none');
-          local.saveInform(Saveactivity);
+            getLocation(event.beacon.hwid), 'none');
+          saveInform(Saveactivity);
 
 
-          var Savestate = new State(event.source.userId, profile.displayName, event.timestamp,local.getLocation(event.beacon.hwid), 'none');//userid,displayname,time,askstate
-          local.saveInform(Savestate);*/
+          var Savestate = new State(event.source.userId, profile.displayName, event.timestamp,getLocation(event.beacon.hwid), 'none');//userid,displayname,time,askstate
+          saveInform(Savestate);*/
 
-          beacon.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
+          handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
 
 
 

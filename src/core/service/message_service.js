@@ -1,8 +1,8 @@
-import { Activity } from '../model/activity'
-
+import {Activity} from '../model/index'
+import {findInform} from '../data_access_layer/index'
 const line = require('@line/bot-sdk');
 const config = require('../config.js');
-const local = require('../data_access_layer/local_file');
+
 const moment = require('moment');
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
@@ -14,9 +14,9 @@ const replyText = (token, texts) => {
 
 // create LINE SDK client
 const client = new line.Client(config);
-module.exports = {
 
-    send_message: function (message,userId) {
+
+     function send_message(message,userId) {
 
         console.log('hello user');
 
@@ -34,7 +34,7 @@ module.exports = {
             }).catch((err) => { });
 
     }
-}
+
 
 
 function send_FlexMessage(message,userId,profile) {
@@ -42,7 +42,7 @@ function send_FlexMessage(message,userId,profile) {
     console.log('hello user3');
     var query_useractivity = new Activity(userId, null, null, null,null,null);
     console.log(query_useractivity);
-    var query_activity = local.findInform(query_useractivity, 1 , true);
+    var query_activity = findInform(query_useractivity, 1 , true);
 
     const flexMessage = {
         "type": "flex",
@@ -149,4 +149,8 @@ function send_FlexMessage(message,userId,profile) {
     };
 
     return flexMessage ;
+}
+
+export {
+    send_message
 }

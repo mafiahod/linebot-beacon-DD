@@ -1,30 +1,28 @@
-import { State } from '../model/state'
-import { Activity } from '../model/activity'
 
-const reqiure_sendmessage = require('./message_service');
-const local = require('../data_access_layer/local_file');
+import {State,Activity} from '../model/index'
+import {findInform,saveInform} from '../data_access_layer/index'
+import {send_message} from '../service/index'
+
 const line = require('@line/bot-sdk');
 const config = require('../config');
 const client = new line.Client(config);
 
-
-module.exports = {
-    handle_in_Message: function (message, userId, displayName, timestamp) {
+    function  handle_in_Message(message, userId, displayName, timestamp) {
 
         console.log('find state');
 
         var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
-        var ask_state = local.findInform(Find_state, null, true);
+        var ask_state = findInform(Find_state, null, true);
         console.log(ask_state);
         for (var i = 0; i < ask_state.length; i++) {
 
             if (ask_state[i].askstate != 'none') {  //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
 
                 var Save_plan = new Activity(userId, null, null, null, null, message.text);
-                local.saveInform(Save_plan);
+                saveInform(Save_plan);
                 console.log(Save_plan);
 
-                reqiure_sendmessage.send_message(message, userId);
+                send_message(message, userId);
 
             } else {
 
@@ -42,9 +40,9 @@ module.exports = {
             }
         }
 
-    },
+    }
 
-    ask_today_plan: function (userId, displayName, timestamp, location, callback) {
+     function ask_today_plan(userId, displayName, timestamp, location, callback) {
 
         console.log('beacon test');
 
@@ -58,7 +56,7 @@ module.exports = {
 
                 var Update_state = new State(userId, displayName, timestamp, location, true);//userid,displayname,time,askstate
                 console.log("before update state");
-                local.saveInform(Update_state);
+                saveInform(Update_state);
                 console.log(Update_state);
                 console.log("after update state");
 
@@ -69,7 +67,7 @@ module.exports = {
                 var Check_answer = new Activity(userId, null, null, null, location, 'none');//ทำการเช็คว่ามีด
                 console.log(Check_answer);
                 console.log("check_ans");
-                var check_ans = local.findInform(Check_answer, null, true);
+                var check_ans = findInform(Check_answer, null, true);
                 console.log(check_ans);
 
                 if (check_ans[0].plan == 'none') {
@@ -84,15 +82,10 @@ module.exports = {
 
 
     }
-
-}
-
-let check = false;
-let count = 0;
-
-
+    let check = false;
+    let count = 0;
 function callback(userId,location) {
- 
+    
     
     if (count == 3) check = true;
     if (check == false && count <= 3) {
@@ -115,4 +108,7 @@ function callback(userId,location) {
     } else if (check == true) {
         console.log("Complete");
     }
+}
+export {
+    handle_in_Message,ask_today_plan,callback
 }
