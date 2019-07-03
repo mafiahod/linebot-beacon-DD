@@ -12,24 +12,24 @@ const client = new line.Client(config); // create LINE SDK client
    function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
     var Find_userObj = new Userinfo(userId, displayName);
-    console.log('show userInfo');
+    console.log('show userInfo from beacon');
     console.log(Find_userObj);
     var result = findInform(Find_userObj, null, true);
     console.log(result);
-    console.log('Before Loop');
+    console.log('Before Loop from beacon' );
     console.log(result.length);
 
     if (result.length != 0) {
       var Find_activityObj = new Activity(userId, null, null, null, getLocation(hwid), null);
       var user_activity = findInform(Find_activityObj, null, true);
 
-      console.log('user_activity');
+      console.log('user_activity from beacon');
       console.log(user_activity);
 
       var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
       var ask_state = findInform(Find_state, null, true);
 
-      console.log('ask state');
+      console.log('ask state from beacon');
       console.log(ask_state);
 
       console.log(user_activity.length);
@@ -38,19 +38,19 @@ const client = new line.Client(config); // create LINE SDK client
       if (user_activity.length == 0 && ask_state.length == 0) {
         
         var Saveactivity = new Activity(userId, displayName, 'in', timestamp, getLocation(hwid), 'none');
-        console.log("before Saveactivity");
+        console.log("before Saveactivity from beacon");
         saveInform(Saveactivity);
-        console.log("Saveactivity");
+        console.log("Saveactivity from beacon");
         console.log(Saveactivity);
 
         var Savestate = new State(userId, displayName, timestamp, getLocation(hwid),'none');
-        console.log("before Savestate");
+        console.log("before Savestate from beacon");
         saveInform(Savestate);
-        console.log("Savestate");
+        console.log("Savestate from beacon");
         console.log(Savestate);
 
-        console.log('first time');
-        return ask_today_plan(userId, displayName, timestamp, getLocation(hwid),callback(userId, getLocation(hwid)));
+        console.log('first time from beacon');
+        return ask_today_plan(userId, displayName, timestamp, getLocation(hwid),callback(userId, getLocation()));
 
       } else {
 
@@ -59,7 +59,7 @@ const client = new line.Client(config); // create LINE SDK client
 
             if (user_activity[i].plan != 'none' && user_activity[i].location == getLocation(hwid) && ask_state[j].askstate == true) {
 
-              console.log('reenter11');
+              console.log('reenter11 from beacon');
 
               const message = {
                 type: 'text',
@@ -70,7 +70,7 @@ const client = new line.Client(config); // create LINE SDK client
                 }).catch((err) => { });
             }
             else if (user_activity[i].plan != 'none' && user_activity[i].location != getLocation(hwid) && ask_state[j].askstate != 'none') {
-              console.log(' different location');
+              console.log(' different location from beacon');
               return ask_today_plan(message, callback);
 
             }

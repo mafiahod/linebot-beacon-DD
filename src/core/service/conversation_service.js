@@ -9,7 +9,7 @@ const client = new line.Client(config);
 
 function handle_in_Message(message, userId, displayName, timestamp) {
 
-    console.log('find state');
+    console.log('find state from conver');
 
     var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
     var ask_state = findInform(Find_state, null, true);
@@ -44,7 +44,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
 function ask_today_plan(userId, displayName, timestamp, location, callback) {
 
-    console.log('beacon test');
+    console.log('beacon test from conver');
 
     const question = {
         type: 'text',
@@ -55,10 +55,10 @@ function ask_today_plan(userId, displayName, timestamp, location, callback) {
         .then(() => {
 
             var Update_state = new State(userId, displayName, timestamp, location, true);//userid,displayname,time,askstate
-            console.log("before update state");
+            console.log("before update state from conver");
             saveInform(Update_state);
             console.log(Update_state);
-            console.log("after update state");
+            console.log("after update state from conver");
 
 
             callback(userId, locaion);
@@ -69,27 +69,29 @@ function ask_today_plan(userId, displayName, timestamp, location, callback) {
 
 }
 
+let count = 0;
 
 function callback(userId, location) {
 
-    console.log("Hello");
-    var Check_answer = new Activity(userId, null, null, null, location,null);//ทำการเช็คว่ามีด
-    console.log("check_answer");
+    console.log("Hello from conver,callback");
+    var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีด
+    console.log("check_answer from conver,callback");
     console.log(Check_answer);
     var check_ans = findInform(Check_answer, null, true);
-    console.log("check_ans");
+    console.log("check_ans from conver,callback");
     console.log(check_ans);
 
-    let count = 0;
-
     if (check_ans[0].plan == 'none' && count <= 3) {
-        console.log("Hello1");
+        console.log("check_ans[0].plan  from conver,callback");
+        console.log(check_ans[0].plan);
+
+        console.log("if before set timout from conver,callback");
         setTimeout(() => {
             const question = {
                 type: 'text',
                 text: 'what\'s your plan to do today at ' + location + ' ?'
             };
-            console.log("Hello2");
+            console.log("push message again from conver,callback");
             client.pushMessage(userId, question)
                 .then(() => {
                 }).catch((err) => { });
@@ -99,9 +101,9 @@ function callback(userId, location) {
             console.log(count);
             callback(userId, location);
 
-        },30000)
-    } else  if (check_ans[0].plan != 'none' && count >=3){
-        console.log("Hello3");
+        }, 3000)
+    } else if (check_ans[0].plan != 'none' ) {
+        console.log("exist loop from conver,callback");
         return;
     }
 }

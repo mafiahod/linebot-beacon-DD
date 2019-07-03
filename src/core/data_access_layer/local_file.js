@@ -24,24 +24,22 @@ module.exports = {
         if (fs.existsSync(presentDir)) {                //handle when file is existed
             var data = fs.readFileSync(presentDir);
             var dataArray = JSON.parse(data);
-            console.log('obj.askstate');
+            console.log('obj.askstate from local');
             console.log(obj.askstate);
-            console.log('obj.plan');
+            console.log('obj.plan from local');
             console.log(obj.plan);
 
-            console.log("สวัสดี");
             console.log(JSON.stringify(obj));
-            console.log("11"+(obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none'));
 
             if (obj.plan != 'none' && obj.plan != undefined) {
-                console.log('enter if');
+                console.log('enter if  from local');
                 for (var i = 0; i < dataArray.length; i++) {
-                    console.log('enter for');
+                    console.log('enter for from local');
                     console.log(dataArray[i].userId);
                     console.log(dataArray[i].location);
                     console.log(obj.location);
                     if (dataArray[i].userId == obj.userId) {
-                        console.log('enter second if');
+                        console.log('enter second if  from local');
                         dataArray[i].plan = obj.plan;///
                     }
                 }
@@ -52,7 +50,7 @@ module.exports = {
             else if (obj.askstate == true) {        //append activity or user in exist file
                 for (var i = 0; i < dataArray.length; i++) {
                     if (dataArray[i].userId == obj.userId && dataArray[i].location == obj.location) {
-                        console.log('update');
+                        console.log('update from local');
                         dataArray[i].askstate = obj.askstate;
                     }
                 }
@@ -85,7 +83,7 @@ module.exports = {
         } else if (obj instanceof State) {
             presentDir = stateDir;
         } else {
-            console.log("Unknow location to find");
+            console.log("Unknow location to find ");
         }
         if (fs.existsSync(presentDir)) {
             var data = fs.readFileSync(presentDir);
