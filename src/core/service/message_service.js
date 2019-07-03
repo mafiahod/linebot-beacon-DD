@@ -38,10 +38,9 @@ const client = new line.Client(config);
 function send_FlexMessage(message,userId,profile) {
     //เรียกactivity.jsonมาใช้ในการส่ง
     var query_useractivity = new Activity(userId, null, null, null,null,null);
-    console.log("data that send to flexmessage");
-    console.log(query_useractivity);
     var query_activity = findInform(query_useractivity, 1 , true);
-
+    console.log("data that send to flexmessage");
+    console.log(query_activity);
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",

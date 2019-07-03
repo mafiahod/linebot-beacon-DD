@@ -50,7 +50,7 @@ const client = new line.Client(config); // create LINE SDK client
         console.log(Savestate);
 
         console.log('first time from beacon');
-        return ask_today_plan(userId, displayName, timestamp, getLocation(hwid),callback(userId, getLocation()));
+        return ask_today_plan(userId, displayName, timestamp, getLocation(hwid));
 
       } else {
 

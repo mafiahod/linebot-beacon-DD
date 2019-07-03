@@ -42,7 +42,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
 }
 
-function ask_today_plan(userId, displayName, timestamp, location, callback) {
+function ask_today_plan(userId, displayName, timestamp, location) {
 
     console.log('beacon test from conver');
 
@@ -61,7 +61,7 @@ function ask_today_plan(userId, displayName, timestamp, location, callback) {
             console.log("after update state from conver");
 
 
-            callback(userId, locaion);
+            callback(userId, location);
 
 
         }).catch((err) => { });
@@ -75,8 +75,7 @@ function callback(userId, location) {
 
     console.log("Hello from conver,callback");
     var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีด
-    console.log("check_answer from conver,callback");
-    console.log(Check_answer);
+  
     var check_ans = findInform(Check_answer, null, true);
     console.log("check_ans from conver,callback");
     console.log(check_ans);
@@ -84,12 +83,11 @@ function callback(userId, location) {
     if (check_ans[0].plan == 'none' && count <= 3) {
         console.log("check_ans[0].plan  from conver,callback");
         console.log(check_ans[0].plan);
-
         console.log("if before set timout from conver,callback");
         setTimeout(() => {
             const question = {
                 type: 'text',
-                text: 'what\'s your plan to do today at ' + location + ' ?'
+                text: 'Pease enter your answer'
             };
             console.log("push message again from conver,callback");
             client.pushMessage(userId, question)
@@ -101,7 +99,7 @@ function callback(userId, location) {
             console.log(count);
             callback(userId, location);
 
-        }, 3000)
+        }, 15000)
     } else if (check_ans[0].plan != 'none' ) {
         console.log("exist loop from conver,callback");
         return;
