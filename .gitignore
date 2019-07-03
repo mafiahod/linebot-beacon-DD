@@ -1,8 +1,6 @@
 
-src/resource/groupId.json
+src/resource/
+src/dist/
+src/resource/3-7-2019.json
+src/resource/state-3-7-2019.json
 src/resource/user.json
-src/resource/user.json
-src/resource/groupId.json
-*.js
-*.js
-*.js

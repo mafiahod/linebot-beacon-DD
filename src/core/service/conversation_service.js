@@ -2,6 +2,7 @@
 import { State, Activity } from '../model/index'
 import { findInform, saveInform } from '../data_access_layer/index'
 import { send_message } from '../service/index'
+import { exists } from 'fs';
 
 const line = require('@line/bot-sdk');
 const config = require('../config');
@@ -73,18 +74,20 @@ let count = 0;
 
 function callback(userId, location) {
 
-    console.log("Hello from conver,callback");
-    var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีด
-  
-    var check_ans = findInform(Check_answer, null, true);
-    console.log("check_ans from conver,callback");
-    console.log(check_ans);
 
-    if (check_ans[0].plan == 'none' && count <= 3) {
-        console.log("check_ans[0].plan  from conver,callback");
-        console.log(check_ans[0].plan);
-        console.log("if before set timout from conver,callback");
-        setTimeout(() => {
+    setTimeout(() => {
+        console.log("Hello from conver,callback");
+        var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีด
+
+        var check_ans = findInform(Check_answer, null, true);
+        console.log("check_ans from conver,callback");
+        console.log(check_ans);
+
+        if (check_ans[0].plan == 'none' && count <= 3) {
+            console.log("check_ans[0].plan  from conver,callback");
+            console.log(check_ans[0].plan);
+            console.log("if before set timout from conver,callback");
+
             const question = {
                 type: 'text',
                 text: 'Pease enter your answer'
@@ -99,11 +102,13 @@ function callback(userId, location) {
             console.log(count);
             callback(userId, location);
 
-        }, 15000)
-    } else if (check_ans[0].plan != 'none' ) {
-        console.log("exist loop from conver,callback");
-        return;
-    }
+        }
+        else if (check_ans[0].plan != 'none') {
+            console.log("exist loop from conver,callback");
+            return;
+        }
+    }, 15000)
+
 }
 export {
     handle_in_Message, ask_today_plan, callback
