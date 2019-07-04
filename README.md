@@ -18,6 +18,7 @@ npm install
 npm install dotenv
 ```
 Modify `config.js`
+--
  export  let port = '3000' ,
  channelAccessToken= process.env.channelAccessToken,
  channelSecret= process.env.channelSecret,
