@@ -18,28 +18,48 @@ function handle_in_Message(message, userId, displayName, timestamp) {
     console.log(ask_state);
 
 
-    if (ask_state.length == 0) {
-        const not_ask = {
-            type: 'text',
-            text: 'i don\'t know what you mean'
-        };
-
-        client.pushMessage(userId, not_ask)
-            .then(() => {
-
-            }).catch((err) => { });
-
-    }
-
     for (var i = 0; i < ask_state.length; i++) {
 
-        if (ask_state[i].askstate == true) {  //เป็นการเก็บคำตอบของuserเพิ่มเข้าไปในmodel acitivity
-            var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
-            dal.save(update_answer_from_user);
-            console.log(update_answer_from_user);
+        if (ask_state.length == 0) {
+            const not_ask = {
+                type: 'text',
+                text: 'i don\'t know what you mean'
+            };
 
-            send_message(message, userId);
+            client.pushMessage(userId, not_ask)
+                .then(() => {
 
+                }).catch((err) => { });
+
+        } else {
+
+            var Find_answer = new Activity(userId, null, null, null, null, null);
+            var answer = dal.find(Find_answer, null, true);
+            console.log('find answer  from conver');
+            console.log(answer);
+      
+            if (answer[i].plan == 'none') {  //เป็นการเก็บคำตอบของuserเพิ่มเข้าไปในmodel acitivity
+                var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
+                dal.save(update_answer_from_user);
+                console.log(update_answer_from_user);
+
+                send_message(message, userId);
+
+            }
+            else if (answer[i].plan != 'none') {
+
+    
+                const message = {
+                    type: 'text',
+                    text: 'you answered the question'
+                };
+
+                client.pushMessage(userId, message)
+                    .then(() => {
+
+                    }).catch((err) => { });
+
+            }
         }
     }
 

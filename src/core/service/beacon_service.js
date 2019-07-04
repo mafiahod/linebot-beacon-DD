@@ -12,10 +12,10 @@ const client = new line.Client(config); // create LINE SDK client
    function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
     var Find_userObj = new Userinfo(userId, displayName);
-    var result = dal.find(Find_userObj, null, true);
-    console.log(result);
+    var user = dal.find(Find_userObj, null, true);
+
  
-    if (result.length != 0) {
+    if (user.length != 0) {
       var Find_activityObj = new Activity(userId, null, null, null, dal.getLocation(hwid), null);
       var user_activity = dal.find(Find_activityObj, null, true);
       console.log('user_activity from beacon');
