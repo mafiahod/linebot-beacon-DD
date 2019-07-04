@@ -25,9 +25,8 @@ npm install dotenv
  channelAccessToken= process.env.channelAccessToken,
  channelSecret= process.env.channelSecret,
  ReportGroupId= "C6ce76af8d6b199b60bb675b85e8cea2f"
-สร้างenviroment variable ชื่อ channelAccessTokenกับchannelSecret และเปลี่ยน ReportGroupId ตามกลุ่มไลน์ที่บอทอยู่
-npm install dotenv
 ```
+สร้างenviroment variable ชื่อ channelAccessTokenกับchannelSecret และเปลี่ยน ReportGroupId ตามกลุ่มไลน์ที่บอทอยู่
 Run
 ```
 npm start
