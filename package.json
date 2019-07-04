@@ -4,11 +4,9 @@
   "description": "starter point to create new line bot project",
   "main": "app.js",
   "scripts": {
-  
-    
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "test": "npm run build && node dist/test.js",
-    "start": "npm run build && node dist/app.js"
+    "test": "npm run build && node dist/src/test.js",
+    "start": "npm run build && node dist/src/app.js"
   },
   "keywords": [
     "line",
