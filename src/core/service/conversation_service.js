@@ -10,33 +10,35 @@ const client = new line.Client(config);
 
 function handle_in_Message(message, userId, displayName, timestamp) {
 
-    console.log('find state from conver');
 
-    var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
+
+    var Find_state = new State(userId, null, null, null, null);
     var ask_state = dal.find(Find_state, null, true);
+    console.log('find state from conver');
     console.log(ask_state);
+
+
+    if (ask_state.length == 0) {
+        const not_ask = {
+            type: 'text',
+            text: 'i don\'t know what you mean'
+        };
+
+        client.pushMessage(userId, not_ask)
+            .then(() => {
+
+            }).catch((err) => { });
+
+    }
+
     for (var i = 0; i < ask_state.length; i++) {
 
-        if (ask_state[i].askstate != 'none') {  //เป็นการเก็บactivityInfo เพิ่มเข้าไปในmodel acitivity
-
-            var Save_plan = new Activity(userId, null, null, null, null, message.text);
-            dal.save(Save_plan);
-            console.log(Save_plan);
+        if (ask_state[i].askstate == true) {  //เป็นการเก็บคำตอบของuserเพิ่มเข้าไปในmodel acitivity
+            var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
+            dal.save(update_answer_from_user);
+            console.log(update_answer_from_user);
 
             send_message(message, userId);
-
-        } else {
-
-            const reenter = {
-                type: 'text',
-                text: 'i don\'t know what you meant'
-            };
-
-            //reply  i don't know what you meant
-            client.pushMessage(userId, reenter)
-                .then(() => {
-
-                }).catch((err) => { });
 
         }
     }
@@ -45,7 +47,6 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
 function ask_today_plan(userId, displayName, timestamp, location) {
 
-    console.log('beacon test from conver');
 
     const question = {
         type: 'text',
@@ -55,11 +56,10 @@ function ask_today_plan(userId, displayName, timestamp, location) {
     client.pushMessage(userId, question)
         .then(() => {
 
-            var Update_state = new State(userId, displayName, timestamp, location, true);//userid,displayname,time,askstate
-            console.log("before update state from conver");
+            var Update_state = new State(userId, displayName, timestamp, location, true);
             dal.save(Update_state);
-            console.log(Update_state);
             console.log("after update state from conver");
+            console.log(Update_state);
 
 
             callback(userId, location);
@@ -76,31 +76,34 @@ function callback(userId, location) {
 
 
     setTimeout(() => {
-        console.log("Hello from conver,callback");
-        var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีด
 
+        console.log("Hello from conver,callback");
+        var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีคำตอบหรือไม่
         var check_ans = dal.find(Check_answer, null, true);
         console.log("check_ans from conver,callback");
         console.log(check_ans);
 
-        if (check_ans[0].plan == 'none' && count <= 3) {
-            console.log("check_ans[0].plan  from conver,callback");
-            console.log(check_ans[0].plan);
-            console.log("if before set timout from conver,callback");
+        if (check_ans[0].plan == 'none' && count < 3) {
 
             const question = {
                 type: 'text',
                 text: 'Pease enter your answer'
             };
-            console.log("push message again from conver,callback");
+
             client.pushMessage(userId, question)
                 .then(() => {
                 }).catch((err) => { });
 
-            console.log(count);
             count++;
-            console.log(count);
             callback(userId, location);
+
+        } else if (check_ans[0].plan == 'none' && count == 3) {
+
+            const message = '           ';
+
+            var Update_answer = new Activity(userId, null, null, null, null, message);
+            dal.save(Update_answer);
+            send_message(message, userId);
 
         }
         else if (check_ans[0].plan != 'none') {

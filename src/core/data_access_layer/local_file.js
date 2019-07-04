@@ -23,33 +23,25 @@ function save(obj) {
     if (fs.existsSync(presentDir)) {                //handle when file is existed
         var data = fs.readFileSync(presentDir);
         var dataArray = JSON.parse(data);
-        console.log('obj.askstate from local');
-        console.log(obj.askstate);
-        console.log('obj.plan from local');
-        console.log(obj.plan);
+   
 
-        console.log(JSON.stringify(obj));
 
         if (obj.plan != 'none' && obj.plan != undefined) {
-            console.log('enter if  from local');
+      
             for (var i = 0; i < dataArray.length; i++) {
-                console.log('enter for from local');
-                console.log(dataArray[i].userId);
-                console.log(dataArray[i].location);
-                console.log(obj.location);
+              
                 if (dataArray[i].userId == obj.userId) {
-                    console.log('enter second if  from local');
-                    dataArray[i].plan = obj.plan;///
+                    dataArray[i].plan = obj.plan;
                 }
             }
         } else if ((obj.plan == 'none' || obj.plan == undefined) &&( obj.askstate == undefined || obj.askstate == 'none')) {        //append activity or user in exist file
-            console.log(JSON.stringify(obj));
+       
             dataArray.push(obj);
         }
         else if (obj.askstate == true) {        //append activity or user in exist file
             for (var i = 0; i < dataArray.length; i++) {
                 if (dataArray[i].userId == obj.userId && dataArray[i].location == obj.location) {
-                    console.log('update from local');
+                   
                     dataArray[i].askstate = obj.askstate;
                 }
             }

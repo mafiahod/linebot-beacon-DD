@@ -28,7 +28,7 @@ const client = new line.Client(config);
                     .then(() => {  
 
                     }).catch((err) => { });
-
+                    
             }).catch((err) => { });
 
     }
