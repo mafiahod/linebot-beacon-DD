@@ -3,8 +3,8 @@ import {Activity} from '../model/index'
 import * as dal from '../data_access_layer/index'
 import {Client,middleware} from '@line/bot-sdk'
 import * as config from '../config'
-import * as moment from 'moment'
-//const moment = require('moment');
+//import 'moment'
+const moment = require('moment');
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
     return client.replyMessage(
@@ -20,7 +20,6 @@ const client = new Client(config);
      function send_message(message,userId) {
 
         console.log('send flexmessage');
-
         client.getProfile(userId)
             .then((profile) => {
                 //Bot push message to spacific Line Group
