@@ -2,11 +2,11 @@
 import { State, Activity } from '../model/index'
 import * as dal from '../data_access_layer/index'
 import { send_message } from '../service/index'
-import { exists } from 'fs';
+import {Client} from '@line/bot-sdk'
+import * as config from '../config'
 
-const line = require('@line/bot-sdk');
-const config = require('../config');
-const client = new line.Client(config);
+
+const client = new Client(config);
 
 function handle_in_Message(message, userId, displayName, timestamp) {
 

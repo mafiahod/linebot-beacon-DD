@@ -2,12 +2,11 @@
 import {Userinfo,State,Activity} from '../model/index'
 import * as dal from '../data_access_layer/index'
 import {ask_today_plan,callback} from './index'
+import * as config from '../config'
+import {Client} from '@line/bot-sdk'
 
-const line = require('@line/bot-sdk');
-const config = require('../config');
 
-
-const client = new line.Client(config); // create LINE SDK client
+const client = new Client(config); // create LINE SDK client
 
    function handle_beacon_event(userId, displayName, timestamp, hwid) {
 

@@ -1,6 +1,7 @@
 "use strict";
 import {Userinfo,State,Activity} from '../model/index'
-const fs = require("fs");
+import * as fs from 'fs'
+
 const current_datetime = new Date();
 const activityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 const userDir = './resource/user.json';

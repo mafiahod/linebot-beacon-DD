@@ -1,10 +1,10 @@
 "use strict";
 import {Activity} from '../model/index'
 import * as dal from '../data_access_layer/index'
-const line = require('@line/bot-sdk');
-const config = require('../config.js');
-
-const moment = require('moment');
+import {Client,middleware} from '@line/bot-sdk'
+import * as config from '../config'
+import * as moment from 'moment'
+//const moment = require('moment');
 const replyText = (token, texts) => {
     texts = Array.isArray(texts) ? texts : [texts];
     return client.replyMessage(
@@ -14,7 +14,7 @@ const replyText = (token, texts) => {
 };
 
 // create LINE SDK client
-const client = new line.Client(config);
+const client = new Client(config);
 
 
      function send_message(message,userId) {
