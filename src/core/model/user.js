@@ -1,5 +1,5 @@
 "use strict";
-export class Userinfo{
+export class User{
 constructor(lineId, displayName) {
         this.userId = lineId;
         this.name = displayName;        
