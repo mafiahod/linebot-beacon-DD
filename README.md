@@ -35,8 +35,8 @@ path/(Line Bot code)/src/npm start
 [Developers Console](https://developers.line.biz/en/)
 
 ## โครงสร้าง Project
+![](https://i.imgur.com/fpZJ0rZ.png)
 
-![](https://i.imgur.com/LmyBUKA.png =250x200)
 
 
 ## Object Model และ Function การทำงาน
