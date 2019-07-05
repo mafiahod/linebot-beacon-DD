@@ -40,7 +40,6 @@ path/(Line Bot code)/src/npm start
 [Developers Console](https://developers.line.biz/en/)
 
 ## โครงสร้าง Project
----
 └───src
     ├───core
     │   ├───data_access_layer
