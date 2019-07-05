@@ -117,7 +117,7 @@ function callback(userId, location) {
             count++;
             callback(userId, location);
 
-        } else if (check_ans[0].plan == 'none' && count == 3) {
+        } else if (check_ans[0].plan == 'none' && count ==3 ) {
 
             const message = '           ';
 

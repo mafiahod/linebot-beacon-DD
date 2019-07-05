@@ -1,5 +1,5 @@
 "use strict";
-import {Userinfo,State,Activity} from '../model/index'
+import {User,State,Activity} from '../model/index'
 import * as fs from 'fs'
 
 const current_datetime = new Date();
@@ -12,7 +12,7 @@ const stateDir = './resource/state-' + current_datetime.getDate() + "-" + (curre
 function save(obj) {
     if (obj instanceof Activity) {
         var presentDir = activityDir;
-    } else if (obj instanceof Userinfo) {
+    } else if (obj instanceof User) {
         var presentDir = userDir;
     } else if (obj instanceof State) {
         var presentDir = stateDir;
@@ -69,7 +69,7 @@ function find(obj, count, desc) {
     var presentDir;
     if (obj instanceof Activity) {
         presentDir = activityDir;
-    } else if (obj instanceof Userinfo) {
+    } else if (obj instanceof User) {
         presentDir = userDir;
     } else if (obj instanceof State) {
         presentDir = stateDir;
