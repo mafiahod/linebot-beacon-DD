@@ -60,11 +60,7 @@ const client = new Client(config); // create LINE SDK client
                 .then(() => {
                 }).catch((err) => { });
             }
-            else if (user_activity[i].plan != 'none' && user_activity[i].location != dal.getLocation(hwid) && ask_state[j].askstate != 'none') {
-              console.log(' different location from beacon');
-              return ask_today_plan(message, callback);
-
-            }
+            
           }
         }
         return;
