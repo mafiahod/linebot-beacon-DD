@@ -2,11 +2,6 @@
 Linebot-Beacon-DD
 ===
 
-## Table of Contents
-
-[TOC]
-
-
 ## การติดตั้ง
 Clone and run
 ```
@@ -40,11 +35,9 @@ path/(Line Bot code)/src/npm start
 [Developers Console](https://developers.line.biz/en/)
 
 ## โครงสร้าง Project
-└───src
-    ├───core
-    │   ├───data_access_layer
-    │   ├───model
-    │   └───service
+
+![](https://i.imgur.com/LmyBUKA.png =250x200)
+
 
 ## Object Model และ Function การทำงาน
 
