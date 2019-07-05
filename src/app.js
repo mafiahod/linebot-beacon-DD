@@ -1,5 +1,5 @@
 'use strict';
-import {Userinfo} from './core/model/index'
+import {User} from './core/model/index'
 import * as dal from './core/data_access_layer/index'
 import {handle_beacon_event,handle_in_Message} from './core/service/index'
 import {Client,middleware} from '@line/bot-sdk'
@@ -73,7 +73,7 @@ function handleEvent(event) {
       client.getProfile(event.joined.members[0].userId)
         .then((profile) => {
 
-          var saveUser = new Userinfo(event.joined.members[0].userId, profile.displayName);
+          var saveUser = new User(event.joined.members[0].userId, profile.displayName);
           console.log(saveUser);
           dal.save(saveUser);
 

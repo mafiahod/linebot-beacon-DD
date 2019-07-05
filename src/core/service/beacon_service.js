@@ -1,5 +1,5 @@
 "use strict";
-import {Userinfo,State,Activity} from '../model/index'
+import {User,State,Activity} from '../model/index'
 import * as dal from '../data_access_layer/index'
 import {ask_today_plan,callback} from './index'
 import * as config from '../config'
@@ -10,7 +10,7 @@ const client = new Client(config); // create LINE SDK client
 
    function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
-    var Find_userObj = new Userinfo(userId, displayName);
+    var Find_userObj = new User(userId, displayName);
     var user = dal.find(Find_userObj, null, true);
 
  
