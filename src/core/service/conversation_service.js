@@ -13,7 +13,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
 
     var Find_state = new State(userId, null, null, null, null);
-    var ask_state = dal.find(Find_state, null, true);
+    var ask_state = dal.find(Find_state,1, true);
     console.log('find state from conver');
     console.log(ask_state);
 
@@ -34,7 +34,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
         } else {
 
             var Find_answer = new Activity(userId, null, null, null, null, null);
-            var answer = dal.find(Find_answer, null, true);
+            var answer = dal.find(Find_answer, 1, true);
             console.log('find answer  from conver');
             console.log(answer);
       
