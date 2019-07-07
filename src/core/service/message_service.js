@@ -22,7 +22,7 @@ const client = new Client(config);
         console.log('send flexmessage');
         client.getProfile(userId)
             .then((profile) => {
-                //Bot push message to spacific Line Group
+                //Bot push message to specific Line Group
                 client.pushMessage(config.ReportGroupId,send_FlexMessage(message,userId,profile))
                     .then(() => {  
 
@@ -34,13 +34,10 @@ const client = new Client(config);
 
 
 
-function send_FlexMessage(message,userId,profile) {
-    //เรียกactivity.jsonมาใช้ในการส่ง
+function send_FlexMessage(message,userId,profile) {//format of the sent message 
     var query_useractivity = new Activity(userId, null, null, null,null,null);
     var query_activity = dal.find(query_useractivity, 1 , true);
-    console.log("data that send to flexmessage");
-    console.log(query_activity);
-    const flexMessage = {
+     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
         "contents": {

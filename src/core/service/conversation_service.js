@@ -8,16 +8,13 @@ import * as config from '../config'
 
 const client = new Client(config);
 
-function handle_in_Message(message, userId, displayName, timestamp) {
 
+//handle when messages were sent
+function handle_in_Message(message, userId, displayName, timestamp) { 
 
-
-    var Find_state = new State(userId, null, null, null, null);
+    var Find_state = new State(userId, null, null, null, null); //Find out which state is asked or not.
     var ask_state = dal.find(Find_state,1, true);
-    console.log('find state from conver');
-    console.log(ask_state);
-
-
+    
     for (var i = 0; i < ask_state.length; i++) {
 
         if (ask_state.length == 0) {
@@ -33,17 +30,15 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
         } else {
 
-            var Find_answer = new Activity(userId, null, null, null, null, null);
+            var Find_answer = new Activity(userId, null, null, null, null, null);  //find the activity of the user by userid 
             var answer = dal.find(Find_answer, 1, true);
-            console.log('find answer  from conver');
-            console.log(answer);
+         
       
-            if (answer[i].plan == 'none') {  //เป็นการเก็บคำตอบของuserเพิ่มเข้าไปในmodel acitivity
+            if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
                 dal.save(update_answer_from_user);
-                console.log(update_answer_from_user);
 
-                send_message(message, userId);
+                send_message(message, userId); //
 
             }
             else if (answer[i].plan != 'none') {
@@ -65,7 +60,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
 }
 
-function ask_today_plan(userId, displayName, timestamp, location) {
+function ask_today_plan(userId, displayName, timestamp, location) { //send the question to users
 
 
     const question = {
@@ -78,9 +73,6 @@ function ask_today_plan(userId, displayName, timestamp, location) {
 
             var Update_state = new State(userId, displayName, timestamp, location, true);
             dal.save(Update_state);
-            console.log("after update state from conver");
-            console.log(Update_state);
-
 
             callback(userId, location);
 
@@ -92,17 +84,14 @@ function ask_today_plan(userId, displayName, timestamp, location) {
 
 let count = 0;
 
-function callback(userId, location) {
+function callback(userId, location) {  //handle when users do not answer question within 15 seconds
 
 
     setTimeout(() => {
 
-        console.log("Hello from conver,callback");
         var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีคำตอบหรือไม่
         var check_ans = dal.find(Check_answer, null, true);
-        console.log("check_ans from conver,callback");
-        console.log(check_ans);
-
+       
         if (check_ans[0].plan == 'none' && count < 3) {
 
             const question = {
@@ -117,7 +106,7 @@ function callback(userId, location) {
             count++;
             callback(userId, location);
 
-        } else if (check_ans[0].plan == 'none' && count ==3 ) {
+        } else if (check_ans[0].plan == 'none' && count ==3 ) { 
 
             const message = '           ';
 

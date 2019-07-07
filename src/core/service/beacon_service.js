@@ -10,47 +10,35 @@ const client = new Client(config); // create LINE SDK client
 
    function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
-    var Find_userObj = new User(userId, displayName);
+    var Find_userObj = new User(userId, displayName);  //Find out if the user is a member of the group or not.
     var user = dal.find(Find_userObj, null, true);
 
  
     if (user.length != 0) {
-      var Find_activityObj = new Activity(userId, null, null, null, dal.getLocation(hwid), null);
+      var Find_activityObj = new Activity(userId, null, null, null, dal.getLocation(hwid), null);  // Find user activity and state
       var user_activity = dal.find(Find_activityObj, null, true);
-      console.log('user_activity from beacon');
-      console.log(user_activity);
 
-      var Find_state = new State(userId, null, null, null, null);//userid,displayname,time,askstate
+      var Find_state = new State(userId, null, null, null, null);
       var ask_state = dal.find(Find_state, null, true);
 
-      console.log('ask state from beacon');
-      console.log(ask_state);
-
-   
-
-      if (user_activity.length == 0 && ask_state.length == 0) {
+      if (user_activity.length == 0 && ask_state.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
         
-        var Saveactivity = new Activity(userId, displayName, 'in', timestamp, dal.getLocation(hwid), 'none');
+        var Saveactivity = new Activity(userId, displayName, 'in', timestamp, dal.getLocation(hwid), 'none'); 
         dal.save(Saveactivity);
-        console.log("Saveactivity from beacon");
-        console.log(Saveactivity);
 
         var Savestate = new State(userId, displayName, timestamp, dal.getLocation(hwid),'none');
         dal.save(Savestate);
-        console.log("Savestate from beacon");
-        console.log(Savestate);
-
-        console.log('no activity,state from beacon');
-        return ask_today_plan(userId, displayName, timestamp, dal.getLocation(hwid));
+       
+        return ask_today_plan(userId, displayName, timestamp, dal.getLocation(hwid)); //call ask_today_plan () 
 
       } else {
 
         for (var i in user_activity) {
           for (var j in ask_state) {
 
-            if (user_activity[i].plan != 'none' && user_activity[i].location == dal.getLocation(hwid) && ask_state[j].askstate == true) {
+            if (user_activity[i].plan != 'none' && user_activity[i].location == dal.getLocation(hwid) && ask_state[j].askstate == true) { // users become active again
 
-              console.log('reenter from beacon');
+              console.log('re-enter from beacon');
 
               const message = {
                 type: 'text',

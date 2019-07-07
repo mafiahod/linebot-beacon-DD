@@ -89,20 +89,7 @@ function handleEvent(event) {
     case 'beacon':
       client.getProfile(event.source.userId)
         .then((profile) => {
-          
-          /*var Saveactivity = new Activity(event.source.userId, profile.displayName, 'in', event.timestamp,
-            getLocation(event.beacon.hwid), 'none');
-          saveInform(Saveactivity);
-
-
-          var Savestate = new State(event.source.userId, profile.displayName, event.timestamp,getLocation(event.beacon.hwid), 'none');//userid,displayname,time,askstate
-          saveInform(Savestate);*/
-
           handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
-
-
-
-
         }).catch((err) => { });
       return;
 
