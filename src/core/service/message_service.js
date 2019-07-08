@@ -147,8 +147,8 @@ function send_FlexMessage(message, userId, profile) {//format of the sent messag
 }
 class Message_service{
     constructor(){
-    this.sendMessage= send_message;
-    this.push_Massage= push_message;
+    this.send_Message= send_message;
+    this.push_Message= push_message;
     }
 }
 export {
