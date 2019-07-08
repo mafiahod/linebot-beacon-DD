@@ -1,19 +1,17 @@
 "use strict";
 import { State, Activity } from '../model/index'
-import * as dal from '../data_access_layer/index'
-import { send_message, Me } from './index'
-import { Client } from '@line/bot-sdk'
-import * as config from '../config'
+import {LocalFile} from '../data_access_layer/index'
+import { Message_service } from './index'
+//import { send_message, Me } from './index'
 
 
-const client = new Client(config);
 
 
 //handle when messages were sent
 function handle_in_Message(message, userId, displayName, timestamp) {
 
     var Find_state = new State(userId, null, null, null, null); //Find out which state is asked or not.
-    var ask_state = dal.find(Find_state, 1, true);
+    var ask_state = this.dal.find(Find_state, 1, true);
 
     for (var i = 0; i < ask_state.length; i++) {
 
@@ -22,20 +20,20 @@ function handle_in_Message(message, userId, displayName, timestamp) {
                 type: 'text',
                 text: 'i don\'t know what you mean'
             };
-            Conversation_service.message_service.push_Message(userId, not_ask);
+
+            this.message_service.push_Message(userId, not_ask);
 
         } else {
 
             var Find_answer = new Activity(userId, null, null, null, null, null);  //find the activity of the user by userid 
-            var answer = dal.find(Find_answer, 1, true);
+            var answer = this.dal.find(Find_answer, 1, true);
 
 
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
-                dal.save(update_answer_from_user);
+                this.dal.save(update_answer_from_user);
 
-                Conversation_service.message_service.send_Message(message, userId);
-
+                this.message_service.send_Message(message, userId);
             }
             else if (answer[i].plan != 'none') {
 
@@ -44,8 +42,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
                     type: 'text',
                     text: 'you answered the question'
                 };
-                Conversation_service.message_service.push_Message(userId, answered);
-
+                this.message_service.push_Message(userId, answered);
             }
         }
     }
@@ -54,18 +51,18 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
 function ask_today_plan(userId, displayName, timestamp, location) { //send the question to users
 
-
+    
     const question = {
         type: 'text',
         text: 'what\'s your plan to do today at ' + location + ' ?'
     };
-
-    Conversation_service.message_service.push_Message(userId, question);
-
+    
+    this.message_service.push_Message(userId, question);
+    
     var Update_state = new State(userId, displayName, timestamp, location, true);
-    dal.save(Update_state);
+    this.dal.save(Update_state);
 
-    callback(userId, location);
+    this.callback(userId, location);
 
 }
 
@@ -77,7 +74,7 @@ function callback(userId, location) {  //handle when users do not answer questio
     setTimeout(() => {
 
         var Check_answer = new Activity(userId, null, null, null, location, null);
-        var check_ans = dal.find(Check_answer, null, true);
+        var check_ans = this.dal.find(Check_answer, null, true);
 
         if (check_ans[0].plan == 'none' && count < 3) {
 
@@ -85,21 +82,18 @@ function callback(userId, location) {  //handle when users do not answer questio
                 type: 'text',
                 text: 'Please enter your answer'
             };
-
-            Conversation_service.message_service.push_Message(userId, enter_message);
-
+            this.message_service.push_Message(userId, enter_message);
 
             count++;
-            callback(userId, location);
+            this.callback(userId, location);
 
         } else if (check_ans[0].plan == 'none' && count == 3) {
 
             const message = '           ';
 
             var Update_answer = new Activity(userId, null, null, null, null, message);
-            dal.save(Update_answer);
-            Conversation_service.message_service.send_Message(message, userId);
-
+            this.dal.save(Update_answer);
+            this.message_service.send_Message(message, userId);
 
         }
         else if (check_ans[0].plan != 'none') {
@@ -111,11 +105,15 @@ function callback(userId, location) {  //handle when users do not answer questio
 }
 
 class Conversation_service {
-    constructor(Message_service) {
-        this.message_service = Message_service;
+    constructor() {
+        this.ask_today_plan = ask_today_plan;
+        this.callback = callback;
+        this.handle_in_Message = handle_in_Message;
+        this.message_service = new Message_service();
+        this.dal = new LocalFile();
     }
 
 }
 export {
-    handle_in_Message, ask_today_plan, callback
+    Conversation_service
 }

@@ -1,13 +1,14 @@
 "use strict";
 import { Activity } from '../model/index'
-import * as dal from '../data_access_layer/index'
 import { Client, middleware } from '@line/bot-sdk'
+import {LocalFile} from '../data_access_layer/index'
 import * as config from '../config'
 //import 'moment'
 const moment = require('moment');
 
 // create LINE SDK client
 const client = new Client(config);
+const dal = new LocalFile();
 
 
 function push_message(id, message_content) {
@@ -16,6 +17,8 @@ function push_message(id, message_content) {
         .then(() => {
 
         }).catch((err) => { });
+        
+        
 
 }
 
@@ -29,7 +32,7 @@ function send_message(message, userId) {
                 .then(() => {
 
                 }).catch((err) => { });
-
+               
         }).catch((err) => { });
 
 }
@@ -39,6 +42,8 @@ function send_message(message, userId) {
 function send_FlexMessage(message, userId, profile) {//format of the sent message 
     var query_useractivity = new Activity(userId, null, null, null, null, null);
     var query_activity = dal.find(query_useractivity, 1, true);
+
+    console.log(query_activity);
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -149,6 +154,7 @@ class Message_service{
     constructor(){
     this.send_Message= send_message;
     this.push_Message= push_message;
+    this.send_FlexMessage = send_FlexMessage;
     }
 }
 export {

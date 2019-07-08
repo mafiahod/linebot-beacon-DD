@@ -127,4 +127,14 @@ function getLocation(hwid) {
     }
 }
 
-export{save , find , getLocation}
+
+class LocalFile  {
+    constructor(){
+        this.save = save;
+        this.find = find;
+        this.getLocation = getLocation;
+    }
+    
+}
+
+export{LocalFile}

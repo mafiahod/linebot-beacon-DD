@@ -1,7 +1,7 @@
 'use strict';
 import {User} from './core/model/index'
-import * as dal from './core/data_access_layer/index'
-import {handle_beacon_event,handle_in_Message} from './core/service/index'
+import {LocalFile}  from './core/data_access_layer/index'
+import {Beacon_service,Conversation_service} from './core/service/index'
 import {Client,middleware} from '@line/bot-sdk'
 import * as config from './core/config'
 const express = require('express');
@@ -9,8 +9,12 @@ const express = require('express');
 
 // create LINE SDK client
 const client = new Client(config);
+const dal = new LocalFile();
 
 const app = express();
+
+const Conservationservice = new Conversation_service();
+const Beaconservice = new Beacon_service();
 
 // webhook callback
 app.post('/webhook', middleware(config), (req, res) => {
@@ -52,7 +56,7 @@ function handleEvent(event) {
     case 'message':
       client.getProfile(event.source.userId)
         .then((profile) => {
-          handle_in_Message(event.message, event.source.userId, profile.displayName, event.timestamp);
+         Conservationservice.handle_in_Message(event.message, event.source.userId, profile.displayName, event.timestamp);
         }).catch((err) => { });
       return;
 
@@ -74,8 +78,9 @@ function handleEvent(event) {
         .then((profile) => {
 
           var saveUser = new User(event.joined.members[0].userId, profile.displayName);
+        //  var save = new dal.save(saveUser);
           console.log(saveUser);
-          dal.save(saveUser);
+         dal.save(saveUser);
 
         }).catch((err) => { });
       return;
@@ -89,7 +94,7 @@ function handleEvent(event) {
     case 'beacon':
       client.getProfile(event.source.userId)
         .then((profile) => {
-          handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
+          Beaconservice.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
         }).catch((err) => { });
       return;
 
