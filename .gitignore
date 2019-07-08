@@ -3,3 +3,4 @@ resource/
 
 node_modules/
 dist/
+src/core/config.js
