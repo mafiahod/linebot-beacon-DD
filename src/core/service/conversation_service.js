@@ -1,8 +1,8 @@
 "use strict";
 import { State, Activity } from '../model/index'
 import * as dal from '../data_access_layer/index'
-import { send_message } from '../service/index'
-import {Client} from '@line/bot-sdk'
+import { send_message, push_message } from './index'
+import { Client } from '@line/bot-sdk'
 import * as config from '../config'
 
 
@@ -10,11 +10,11 @@ const client = new Client(config);
 
 
 //handle when messages were sent
-function handle_in_Message(message, userId, displayName, timestamp) { 
+function handle_in_Message(message, userId, displayName, timestamp) {
 
     var Find_state = new State(userId, null, null, null, null); //Find out which state is asked or not.
-    var ask_state = dal.find(Find_state,1, true);
-    
+    var ask_state = dal.find(Find_state, 1, true);
+
     for (var i = 0; i < ask_state.length; i++) {
 
         if (ask_state.length == 0) {
@@ -23,36 +23,30 @@ function handle_in_Message(message, userId, displayName, timestamp) {
                 text: 'i don\'t know what you mean'
             };
 
-            client.pushMessage(userId, not_ask)
-                .then(() => {
-
-                }).catch((err) => { });
+            return push_message(userId, not_ask);
 
         } else {
 
             var Find_answer = new Activity(userId, null, null, null, null, null);  //find the activity of the user by userid 
             var answer = dal.find(Find_answer, 1, true);
-         
-      
+
+
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
                 dal.save(update_answer_from_user);
 
-                send_message(message, userId); //
+                return send_message(message, userId); 
 
             }
             else if (answer[i].plan != 'none') {
 
-    
-                const message = {
+
+                const answered = {
                     type: 'text',
                     text: 'you answered the question'
                 };
 
-                client.pushMessage(userId, message)
-                    .then(() => {
-
-                    }).catch((err) => { });
+                return push_message(userId, answered);
 
             }
         }
@@ -68,17 +62,12 @@ function ask_today_plan(userId, displayName, timestamp, location) { //send the q
         text: 'what\'s your plan to do today at ' + location + ' ?'
     };
 
-    client.pushMessage(userId, question)
-        .then(() => {
+    push_message(userId, question);
 
-            var Update_state = new State(userId, displayName, timestamp, location, true);
-            dal.save(Update_state);
+    var Update_state = new State(userId, displayName, timestamp, location, true);
+    dal.save(Update_state);
 
-            callback(userId, location);
-
-
-        }).catch((err) => { });
-
+    callback(userId, location);
 
 }
 
@@ -89,24 +78,22 @@ function callback(userId, location) {  //handle when users do not answer questio
 
     setTimeout(() => {
 
-        var Check_answer = new Activity(userId, null, null, null, location, null);//ทำการเช็คว่ามีคำตอบหรือไม่
+        var Check_answer = new Activity(userId, null, null, null, location, null);
         var check_ans = dal.find(Check_answer, null, true);
-       
+
         if (check_ans[0].plan == 'none' && count < 3) {
 
-            const question = {
+            const enter_message = {
                 type: 'text',
-                text: 'Pease enter your answer'
+                text: 'Please enter your answer'
             };
 
-            client.pushMessage(userId, question)
-                .then(() => {
-                }).catch((err) => { });
+            push_message(userId,enter_message);
 
             count++;
             callback(userId, location);
 
-        } else if (check_ans[0].plan == 'none' && count ==3 ) { 
+        } else if (check_ans[0].plan == 'none' && count == 3) {
 
             const message = '           ';
 

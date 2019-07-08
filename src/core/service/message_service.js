@@ -1,43 +1,44 @@
 "use strict";
-import {Activity} from '../model/index'
+import { Activity } from '../model/index'
 import * as dal from '../data_access_layer/index'
-import {Client,middleware} from '@line/bot-sdk'
+import { Client, middleware } from '@line/bot-sdk'
 import * as config from '../config'
 //import 'moment'
 const moment = require('moment');
-const replyText = (token, texts) => {
-    texts = Array.isArray(texts) ? texts : [texts];
-    return client.replyMessage(
-        token,
-        texts.map((text) => ({ type: 'text', text }))
-    );
-};
 
 // create LINE SDK client
 const client = new Client(config);
 
+function push_message(id, message_content) {
 
-     function send_message(message,userId) {
+    client.pushMessage(id, message_content)
+        .then(() => {
 
-        console.log('send flexmessage');
-        client.getProfile(userId)
-            .then((profile) => {
-                //Bot push message to specific Line Group
-                client.pushMessage(config.ReportGroupId,send_FlexMessage(message,userId,profile))
-                    .then(() => {  
+        }).catch((err) => { });
 
-                    }).catch((err) => { });
-                    
-            }).catch((err) => { });
+}
 
-    }
+function send_message(message, userId) {
+
+    console.log('send flexmessage');
+    client.getProfile(userId)
+        .then((profile) => {
+            //Bot push message to specific Line Group
+            client.pushMessage(config.ReportGroupId, send_FlexMessage(message, userId, profile))
+                .then(() => {
+
+                }).catch((err) => { });
+
+        }).catch((err) => { });
+
+}
 
 
 
-function send_FlexMessage(message,userId,profile) {//format of the sent message 
-    var query_useractivity = new Activity(userId, null, null, null,null,null);
-    var query_activity = dal.find(query_useractivity, 1 , true);
-     const flexMessage = {
+function send_FlexMessage(message, userId, profile) {//format of the sent message 
+    var query_useractivity = new Activity(userId, null, null, null, null, null);
+    var query_activity = dal.find(query_useractivity, 1, true);
+    const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
         "contents": {
@@ -82,7 +83,7 @@ function send_FlexMessage(message,userId,profile) {//format of the sent message
                                     },
                                     {
                                         "type": "text",
-                                        "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm:ss' ),
+                                        "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm:ss'),
                                         "wrap": true,
                                         "size": "sm",
                                         "color": "#666666",
@@ -141,9 +142,9 @@ function send_FlexMessage(message,userId,profile) {//format of the sent message
         }
     };
 
-    return flexMessage ;
+    return flexMessage;
 }
 
 export {
-    send_message
+    send_message, push_message
 }

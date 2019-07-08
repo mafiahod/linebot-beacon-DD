@@ -1,7 +1,7 @@
 "use strict";
 import {User,State,Activity} from '../model/index'
 import * as dal from '../data_access_layer/index'
-import {ask_today_plan,callback} from './index'
+import {ask_today_plan,push_message} from './index'
 import * as config from '../config'
 import {Client} from '@line/bot-sdk'
 
@@ -40,13 +40,11 @@ const client = new Client(config); // create LINE SDK client
 
               console.log('re-enter from beacon');
 
-              const message = {
+              const reenter= {
                 type: 'text',
                 text: displayName + 're-enter'
               };
-              client.pushMessage(config.ReportGroupId, message)
-                .then(() => {
-                }).catch((err) => { });
+             return push_message(config.ReportGroupId,reenter);
             }
             
           }
