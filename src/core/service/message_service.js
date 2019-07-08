@@ -9,6 +9,7 @@ const moment = require('moment');
 // create LINE SDK client
 const client = new Client(config);
 
+
 function push_message(id, message_content) {
 
     client.pushMessage(id, message_content)
@@ -144,7 +145,12 @@ function send_FlexMessage(message, userId, profile) {//format of the sent messag
 
     return flexMessage;
 }
-
+class Message_service{
+    constructor(){
+    this.sendMessage= send_message;
+    this.push_Massage= push_message;
+    }
+}
 export {
-    send_message, push_message
+    Message_service
 }

@@ -1,7 +1,7 @@
 "use strict";
 import {User,State,Activity} from '../model/index'
 import * as dal from '../data_access_layer/index'
-import {ask_today_plan,push_message} from './index'
+import {ask_today_plan,Message_service} from './index'
 import * as config from '../config'
 import {Client} from '@line/bot-sdk'
 
@@ -44,7 +44,8 @@ const client = new Client(config); // create LINE SDK client
                 type: 'text',
                 text: displayName + 're-enter'
               };
-             return push_message(config.ReportGroupId,reenter);
+              var Messageservice = new Message_service();
+              Messageservice.push_Massage(config.ReportGroupId,reenter);
             }
             
           }
