@@ -4,11 +4,8 @@ import * as fs from 'fs'
 
 const current_datetime = new Date();
 var activityDir;
-if(activityDir === undefined)activityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 var userDir; 
-if(userDir === undefined)userDir = './resource/user.json';
 var stateDir;
-if(stateDir === undefined)stateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 const locationDir = './resource/location.json';
 
 
@@ -136,9 +133,9 @@ class LocalFile  {
         this.save = save;
         this.find = find;
         this.getLocation = getLocation;
-        this.activityDir = activityDir;
-        this.userDir = userDir;
-        this.stateDir = stateDir;
+        this.activityDir = typeof activityDir !== 'undefined' ?  activityDir : './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+        this.userDir = typeof userDir !== 'undefined' ?  userDir : './resource/user.json';
+        this.stateDir = typeof stateDir !== 'undefined' ?  stateDir : './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
     }
     
 }

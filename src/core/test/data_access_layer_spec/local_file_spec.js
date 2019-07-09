@@ -6,7 +6,7 @@ import * as fs from 'fs'
 
 const current_datetime = new Date();
 const path = './src/core/test/data_access_layer_spec/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-const dal = new LocalFile();
+const dal = new LocalFile(path,undefined,undefined);
 
 describe('answer', () => {
     it('find will return array with data in file', () => {
@@ -24,8 +24,8 @@ describe('answer', () => {
     it('save will create file if There is no exist activity file', () => {
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', 'none');
         dal.save(testSaveActivity);
-        console.log(dal.activityDir);
         console.log(dal.userDir);
+        console.log(dal.activityDir);
         console.log(dal.stateDir);
         expect(fs.existsSync(path)).toEqual(true);
     });
