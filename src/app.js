@@ -22,6 +22,7 @@ app.post('/webhook', middleware(config), (req, res) => {
 
   // req.body.events should be an array of events
   if (!Array.isArray(req.body.events)) {
+    logger.error(res);
     return res.status(500).end();
   }
   // handle events separately
