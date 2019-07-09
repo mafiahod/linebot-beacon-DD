@@ -1,4 +1,5 @@
 const log4js = require('log4js');
+const current_datetime = new Date();
 var Log_config = log4js.configure({
   
     appenders: {
@@ -10,13 +11,13 @@ var Log_config = log4js.configure({
       },
       app: {
         type: "file",
-        filename: "log/test1.log",
+        filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,
         maxLogSize: 10485760,
         numBackups: 3
       },
       errorFile: {
         type: "file",
-        filename: "log/errors.log"
+        filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " error.log" 
       },
       errors: {
         type: "logLevelFilter",
@@ -25,7 +26,8 @@ var Log_config = log4js.configure({
       }
     },
     categories: {
-      default: { "appenders": [ "app", "errors" ], "level": "DEBUG" },
+      default: { "appenders": [ "app"], "level": "INFO" },
+      default: { "appenders": [ "errors" ], "level": "DEBUG" },
       http: { "appenders": [ "access"], "level": "DEBUG" }
     }
 
