@@ -3,6 +3,7 @@ import { Activity } from '../model/index'
 import { Client, middleware } from '@line/bot-sdk'
 import {LocalFile} from '../data_access_layer/index'
 import * as config from '../config'
+import {logger} from '../../../logs/logger'
 //import 'moment'
 const moment = require('moment');
 
@@ -16,7 +17,9 @@ function push_message(id, message_content) {
     client.pushMessage(id, message_content)
         .then(() => {
 
-        }).catch((err) => { });
+        }).catch((err) => {
+            logger.error(err);
+         });
         
         
 
@@ -31,9 +34,13 @@ function send_message(message, userId) {
             client.pushMessage(config.ReportGroupId, send_FlexMessage(message, userId, profile))
                 .then(() => {
 
-                }).catch((err) => { });
+                }).catch((err) => {
+                    logger.error(err);
+                 });
                
-        }).catch((err) => { });
+        }).catch((err) => { 
+            logger.error(err);
+        });
 
 }
 
@@ -41,8 +48,8 @@ function send_message(message, userId) {
 
 function send_FlexMessage(message, userId, profile) {//format of the sent message 
     var query_useractivity = new Activity(userId, null, null, null, null, null);
-    var query_activity = dal.find(query_useractivity, 1, true);
-
+    var query_activity = dal.find(query_useractivity, 1, true);/////
+logger.info(query_activity);
     console.log(query_activity);
     const flexMessage = {
         "type": "flex",
