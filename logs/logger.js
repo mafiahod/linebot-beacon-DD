@@ -3,12 +3,6 @@ const current_datetime = new Date();
 var Log_config = log4js.configure({
   
     appenders: {
-      access: {
-        type: "dateFile",
-        filename: "log/access.log",
-        pattern: "-yyyy-MM-dd",
-        category: "http"
-      },
       app: {
         type: "file",
         filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,       
@@ -26,9 +20,9 @@ var Log_config = log4js.configure({
       }
     },
     categories: {
-      default: { "appenders": [ "app"], "level": "INFO" },
-      default: { "appenders": [ "errors" ], "level": "DEBUG" },
-      http: { "appenders": [ "access"], "level": "DEBUG" }
+      default: { "appenders": [ "app","errors" ], "level": "DEBUG" },
+
+     
     }
 
  

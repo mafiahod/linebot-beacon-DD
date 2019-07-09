@@ -15,8 +15,9 @@ const dal = new LocalFile();
 function push_message(id, message_content) {
 
     client.pushMessage(id, message_content)
-        .then(() => {
-
+        .then((res) => {
+logger.info(res);
+console.log(res);
         }).catch((err) => {
             logger.error(err);
          });
