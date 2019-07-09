@@ -3,23 +3,23 @@ import { User, State, Activity } from '../model/index'
 import * as fs from 'fs'
 
 const current_datetime = new Date();
-var activityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-var userDir = './resource/user.json';
-var stateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+var defactivityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+var defuserDir = './resource/user.json';
+var defstateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 const locationDir = './resource/location.json';
 
 
 function save(obj) {
+    var presentDir;
     if (obj instanceof Activity) {
-        var presentDir = activityDir;
+        presentDir = this.activityDir;
     } else if (obj instanceof User) {
-        var presentDir = userDir;
+        presentDir = this.userDir;
     } else if (obj instanceof State) {
-        var presentDir = stateDir;
+        presentDir = this.stateDir;
     } else {
         console.log("Unknow location to save");
     }
-    console.log('old '+activityDir);
     if (fs.existsSync(presentDir)) {                //handle when file is existed
         var data = fs.readFileSync(presentDir);
         var dataArray = JSON.parse(data);
@@ -68,11 +68,11 @@ function save(obj) {
 function find(obj, count, desc) {
     var presentDir;
     if (obj instanceof Activity) {
-        presentDir = activityDir;
+        presentDir = this.activityDir;
     } else if (obj instanceof User) {
-        presentDir = userDir;
+        presentDir = this.userDir;
     } else if (obj instanceof State) {
-        presentDir = stateDir;
+        presentDir = this.stateDir;
     } else {
         console.log("Unknow location to find ");
     }
@@ -129,11 +129,13 @@ function getLocation(hwid) {
 
 
 class LocalFile {
-    constructor(activityDir) {
+    constructor(activityDir = defactivityDir , userDir = defuserDir , stateDir = defstateDir) {
         this.save = save;
         this.find = find;
         this.getLocation = getLocation;
         this.activityDir = activityDir;
+        this.userDir = userDir;
+        this.stateDir = stateDir;
     }
 }
 

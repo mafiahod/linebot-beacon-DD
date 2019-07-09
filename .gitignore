@@ -4,4 +4,5 @@ resource/
 node_modules/
 dist/
 src/core/config.js
-spec/support/jasmine.json
+src/core/test/data_access_layer_spec/test_file
+log/
