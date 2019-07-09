@@ -11,7 +11,7 @@ var Log_config = log4js.configure({
       },
       app: {
         type: "file",
-        filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,
+        filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,       
         maxLogSize: 10485760,
         numBackups: 3
       },
