@@ -3,10 +3,13 @@ import {User,State,Activity} from '../model/index'
 import * as fs from 'fs'
 
 const current_datetime = new Date();
-const activityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-const userDir = './resource/user.json';
+var activityDir;
+if(activityDir === undefined)activityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+var userDir; 
+if(userDir === undefined)userDir = './resource/user.json';
+var stateDir;
+if(stateDir === undefined)stateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 const locationDir = './resource/location.json';
-const stateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 
 
 function save(obj) {
@@ -129,10 +132,13 @@ function getLocation(hwid) {
 
 
 class LocalFile  {
-    constructor(){
+    constructor(activityDir , userDir , stateDir){
         this.save = save;
         this.find = find;
         this.getLocation = getLocation;
+        this.activityDir = activityDir;
+        this.userDir = userDir;
+        this.stateDir = stateDir;
     }
     
 }
