@@ -12,17 +12,29 @@ const client = new Client(config);
 const dal = new LocalFile();
 
 
+
 function push_message(id, message_content) {
 
-    client.pushMessage(id, message_content)
-        .then(() => {
-            return "success";
-        }).catch((err) => {
+    if ((id != 'none' || id != null || id != undefined) && (message_content.type == 'text') && (message_content.text != 'none' || message_content.text != null || message_content.text != undefined)) {
+        console.log("success");//ต้องเขียนคำสั่งให้push
+        return "200 OK"
+    } else {
+        console.log("error");
+        return "400";
+    }
 
-            logger.error(err);
-            return "error";
-        });
+    // client.pushMessage(id, message_content)
+
+    //     .then(() => {
+    //         return "200 OK";
+    //     }).catch((err) => {
+    //         logger.error(err);
+    //         console.log(err);
+
+    //     })
+
 }
+
 
 function send_message(message, userId) {
 
@@ -35,7 +47,6 @@ function send_message(message, userId) {
 
                 }).catch((err) => {
                     logger.error(err);
-                    return err;
                 });
 
         }).catch((err) => {

@@ -3,18 +3,24 @@
 import { Message_service } from '../../service/index'
 
 var push = new Message_service();
-
-// describe('push_message', () => {
-//     it('show an error', () => {
-var id = 234234;
+var id = "6454n43h43590bgq";
 const message = {
     type: 'text',
     text: 'i don\'t know what you mean'
 };
-console.log(push.push_Message("23131","dfssd"));
-//         var err = 23;
-//         console.log(push.push_Message(id,message));
+const message1 = {
+    type: null,
+    text: 'i don\'t know what you mean'
+};
 
-//         expect(push.push_Message()).toEqual(err);
-//     });
-// });
+describe('push_message', () => {
+    it('should return 200 OK', () => {
+        expect(push.push_Message(id,message)).toEqual("200 OK");
+
+    });
+
+    it('should  return 400', () => {
+        expect(push.push_Message(id, message1)).toEqual("400");
+
+    });
+});
