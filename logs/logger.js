@@ -32,7 +32,7 @@ var Log_config = log4js.configure({
  
 });
 
-const logger = log4js.getLogger('test');
+const logger = log4js.getLogger('app');
 
 export {
   logger,Log_config
