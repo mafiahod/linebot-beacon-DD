@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "test": "npm run build && jasmine ./dist/src/core/test/service_spec/message_service_spec.js",
+    "test": "npm run build && jasmine ./dist/src/core/test/data_access_layer_spec/local_file_spec.js",
     "start": "npm run build && node dist/src/app.js"
   },
   "keywords": [
