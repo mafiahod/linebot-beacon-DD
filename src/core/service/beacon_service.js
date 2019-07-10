@@ -15,9 +15,6 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
   if (user.length != 0) {
 
-    console.log("Enter user != 0 case");
-    console.log(this.getLocation(hwid));
-
     var Find_activityObj = new Activity(userId, null, null, null, this.getLocation(hwid), null);  // Find user activity and state
     var user_activity = this.dal.find(Find_activityObj, null, true);
 
@@ -26,7 +23,6 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
     if (user_activity.length == 0 && ask_state.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
 
-      console.log("Enter activity check case");
       var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocation(hwid), 'none');
       this.dal.save(Saveactivity);
 
