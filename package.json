@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "test": "npm run build && jasmine test/spec.js" ,
+    "test": "npm run build && jasmine ./dist/src/core/test/service_spec/message_service_spec.js",
     "start": "npm run build && node dist/src/app.js"
   },
   "keywords": [
@@ -32,6 +32,7 @@
     "babel": "^6.23.0",
     "babelify": "^10.0.0",
     "express": "^4.17.1",
+    "log4js": "^4.4.0",
     "moment": "^2.24.0",
     "morgan": "^1.9.1"
   }
