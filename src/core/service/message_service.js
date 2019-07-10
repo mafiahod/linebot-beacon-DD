@@ -15,23 +15,23 @@ const dal = new LocalFile();
 
 function push_message(id, message_content) {
 
-    if ((id != 'none' || id != null || id != undefined) && (message_content.type == 'text') && (message_content.text != 'none' || message_content.text != null || message_content.text != undefined)) {
-        console.log("success");//ต้องเขียนคำสั่งให้push
-        return "200 OK"
-    } else {
-        console.log("error");
-        return "400";
-    }
+    // if ((id != 'none' || id != null || id != undefined) && (message_content.type == 'text') && (message_content.text != 'none' || message_content.text != null || message_content.text != undefined)) {
+    //     console.log("success");//ต้องเขียนคำสั่งให้push
+    //     return "200 OK"
+    // } else {
+    //     console.log("error");
+    //     return "400";
+    // }
 
-    // client.pushMessage(id, message_content)
+    client.pushMessage(id, message_content)
 
-    //     .then(() => {
-    //         return "200 OK";
-    //     }).catch((err) => {
-    //         logger.error(err);
-    //         console.log(err);
+        .then(() => {
 
-    //     })
+        }).catch((err) => {
+            logger.error(err);
+            console.log(err);
+
+        });
 
 }
 
