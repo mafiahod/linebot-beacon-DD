@@ -1,5 +1,5 @@
 "use strict";
-import { State, Activity } from '../model/index'
+import { Activity } from '../model/index'
 import {LocalFile} from '../data_access_layer/index'
 import { Message_service } from './index'
 //import { send_message, Me } from './index'
@@ -10,7 +10,7 @@ import { Message_service } from './index'
 //handle when messages were sent
 function handle_in_Message(message, userId, displayName, timestamp) {
 
-    var Find_state = new State(userId, null, null, null, null); //Find out which state is asked or not.
+    var Find_state = new Activity(userId, null, null, null, null,true,null); //Find out which state is asked or not.
     var ask_state = this.dal.find(Find_state, 1, true);
 
     for (var i = 0; i < ask_state.length; i++) {
@@ -25,13 +25,13 @@ function handle_in_Message(message, userId, displayName, timestamp) {
 
         } else {
 
-            var Find_answer = new Activity(userId, null, null, null, null, null);  //find the activity of the user by userid 
+            var Find_answer = new Activity(userId, null, null, null, null, null,null);  //find the activity of the user by userid 
             var answer = this.dal.find(Find_answer, 1, true);
 
 
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
-                var update_answer_from_user = new Activity(userId, null, null, null, null, message.text);
-                this.dal.save(update_answer_from_user);
+                var update_answer_from_user = new Activity(userId, null, null, null, null ,null, message.text);
+                this.dal.update(update_answer_from_user , null , answer[0] );
 
                 this.message_service.send_Message(message, userId);
             }
@@ -58,9 +58,14 @@ function ask_today_plan(userId, displayName, timestamp, location) { //send the q
     };
     
     this.message_service.push_Message(userId, question);
-    
-    var Update_state = new State(userId, displayName, timestamp, location, true);
-    this.dal.save(Update_state);
+
+    var find_act = new Activity(userId , null , null , null , location , null , null);
+    var find_obj = this.dal.find(find_act,null,true);
+    console.log("111111111111111111111111111111111111111111111111111111111111111111111111111111");
+    console.log(find_obj);
+    var Update_act = new Activity(userId, null, null, null, null , true , null);
+    this.dal.update(Update_act , null , find_obj[0]);
+
 
     this.callback(userId, location);
 
@@ -73,7 +78,7 @@ function callback(userId, location) {  //handle when users do not answer questio
 
     setTimeout(() => {
 
-        var Check_answer = new Activity(userId, null, null, null, location, null);
+        var Check_answer = new Activity(userId, null, null, null, location, null ,null);
         var check_ans = this.dal.find(Check_answer, null, true);
 
         if (check_ans[0].plan == 'none' && count < 3) {
@@ -91,8 +96,8 @@ function callback(userId, location) {  //handle when users do not answer questio
 
             const message = '           ';
 
-            var Update_answer = new Activity(userId, null, null, null, null, message);
-            this.dal.save(Update_answer);
+            var Update_answer = new Activity(userId, null, null, null, null,null, message);
+            this.dal.update(Update_answer , null , check_ans[0]);
             this.message_service.send_Message(message, userId);
 
         }

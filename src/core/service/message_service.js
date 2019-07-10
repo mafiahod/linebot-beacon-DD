@@ -13,7 +13,9 @@ const dal = new LocalFile();
 
 
 function push_message(id, message_content) {
-
+    console.log(id);
+    console.log(message_content);
+    console.log("push message");
     client.pushMessage(id, message_content)
         .then(() => {
             return "success";
@@ -47,7 +49,7 @@ function send_message(message, userId) {
 
 
 function send_FlexMessage(message, userId, profile) {//format of the sent message 
-    var query_useractivity = new Activity(userId, null, null, null, null, null);
+    var query_useractivity = new Activity(userId, null, null, null, null, null,null);
     var query_activity = dal.find(query_useractivity, 1, true);/////
     logger.info(query_activity);
     console.log(query_activity);
