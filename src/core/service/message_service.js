@@ -1,9 +1,9 @@
 "use strict";
 import { Activity } from '../model/index'
 import { Client, middleware } from '@line/bot-sdk'
-import {LocalFile} from '../data_access_layer/index'
+import { LocalFile } from '../data_access_layer/index'
 import * as config from '../config'
-import {logger} from '../../../logs/logger'
+import { logger } from '../../../logs/logger'
 //import 'moment'
 const moment = require('moment');
 
@@ -15,15 +15,13 @@ const dal = new LocalFile();
 function push_message(id, message_content) {
 
     client.pushMessage(id, message_content)
-        .then((res) => {
-logger.info(res);
-console.log(res);
+        .then(() => {
+            return "success";
         }).catch((err) => {
-            logger.error(err);
-         });
-        
-        
 
+            logger.error(err);
+            return "error";
+        });
 }
 
 function send_message(message, userId) {
@@ -37,9 +35,10 @@ function send_message(message, userId) {
 
                 }).catch((err) => {
                     logger.error(err);
-                 });
-               
-        }).catch((err) => { 
+                    return err;
+                });
+
+        }).catch((err) => {
             logger.error(err);
         });
 
@@ -50,7 +49,7 @@ function send_message(message, userId) {
 function send_FlexMessage(message, userId, profile) {//format of the sent message 
     var query_useractivity = new Activity(userId, null, null, null, null, null);
     var query_activity = dal.find(query_useractivity, 1, true);/////
-logger.info(query_activity);
+    logger.info(query_activity);
     console.log(query_activity);
     const flexMessage = {
         "type": "flex",
@@ -158,11 +157,11 @@ logger.info(query_activity);
 
     return flexMessage;
 }
-class Message_service{
-    constructor(){
-    this.send_Message= send_message;
-    this.push_Message= push_message;
-    this.send_FlexMessage = send_FlexMessage;
+class Message_service {
+    constructor() {
+        this.send_Message = send_message;
+        this.push_Message = push_message;
+        this.send_FlexMessage = send_FlexMessage;
     }
 }
 export {
