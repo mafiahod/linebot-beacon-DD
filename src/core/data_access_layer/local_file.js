@@ -3,10 +3,9 @@ import { User, State, Activity } from '../model/index'
 import * as fs from 'fs'
 
 const current_datetime = new Date();
-var defactivityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-var defuserDir = './resource/user.json';
-var defstateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-const locationDir = './resource/location.json';
+const defactivityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+const defuserDir = './resource/user.json';
+const defstateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 
 
 function save(obj) {
@@ -112,27 +111,10 @@ function find(obj, count, desc) {
 
 
 
-function getLocation(hwid) {
-    if (fs.existsSync(locationDir)) {
-        var data = fs.readFileSync(locationDir);
-        var dataArray = JSON.parse(data);
-        for (var i in dataArray) {
-            if (dataArray[i].hardwareID == hwid) {
-                return dataArray[i].LocationName;
-            }
-        }
-
-    } else {
-        console.log("No Location File");
-    }
-}
-
-
 class LocalFile {
     constructor(activityDir = defactivityDir , userDir = defuserDir , stateDir = defstateDir) {
         this.save = save;
         this.find = find;
-        this.getLocation = getLocation;
         this.activityDir = activityDir;
         this.userDir = userDir;
         this.stateDir = stateDir;

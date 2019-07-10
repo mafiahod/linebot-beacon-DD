@@ -8,9 +8,9 @@ const current_datetime = new Date();
 const activitysavepath = './src/core/test/data_access_layer_spec/test_file/save/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 const usersavepath = './src/core/test/data_access_layer_spec/test_file/save/user.json';
 const statesavepath = './src/core/test/data_access_layer_spec/test_file/save/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-const activityfindpath = './src/core/test/data_access_layer_spec/test_file/find/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+const activityfindpath = './src/core/test/data_access_layer_spec/test_file/find/10-7-2019.json';
 const userfindpath = './src/core/test/data_access_layer_spec/test_file/find/user.json';
-const statefindpath = './src/core/test/data_access_layer_spec/test_file/find/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+const statefindpath = './src/core/test/data_access_layer_spec/test_file/find/state-10-7-2019.json';
 
 const dalforsave = new LocalFile(activitysavepath, usersavepath, statesavepath);
 const dalforfind = new LocalFile(activityfindpath, userfindpath, statefindpath);
