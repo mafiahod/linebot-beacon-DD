@@ -31,7 +31,7 @@ function save(obj) {
     } else {                      //Create new activity.json or user.json
         var dataArray = [];
         dataArray.push(obj);
-        if(!(fs.existsSync('./resource'))){
+        if (!(fs.existsSync('./resource'))) {
             fs.mkdir('./resource', function (err) {     //Create directory
                 if (err) {
                     return logger.error(err);
@@ -59,28 +59,35 @@ function update(obj, replace, act) {
     } else {
         console.log("Unknow location to find ");
     }
+    if(act.length == 0) return console.log("Can not find anything to update");
     if (fs.existsSync(presentDir)) {
         var data = fs.readFileSync(presentDir);
         var dataArray = JSON.parse(data);
+        var tempArray = [];
         for (var i in dataArray) {
-            if (_.isEqual(dataArray[i], act)) {                      //comparison between 2 object                
-                if (replace == true) {
-                    console.log("Update All Objectttttttttttttttttttttttttttttttttttttttttttttttttt");
-                    console.log("--------------------------------------------");
-                    dataArray[i] = obj;
-                } else if (replace != true) {
-                    console.log("Update Propertyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-                    for (var property in obj) {
-                        if (obj[property] != null) {
-                            console.log("Enter IF");
-                            dataArray[i][property] = obj[property];
-                            console.log("defined");
+            var temp = new obj.constructor();
+            for (var property in obj) {
+                temp[property] = dataArray[i][property];
+            }
+            tempArray.push(temp);
+        }
+        for (var i in tempArray) {
+            for (var j in act){
+                if (_.isEqual(tempArray[i], act[j])) {                      //comparison between 2 object
+                    if (replace == true) {
+                        tempArray[i] = obj;
+                    } else if (replace != true) {
+                        for (var property in obj) {
+                            if (obj[property] != null) {
+                                tempArray[i][property] = obj[property];
+                            }
                         }
                     }
+                    break;
                 }
             }
         }
-        fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), (err) => {
+        fs.writeFileSync(presentDir, JSON.stringify(tempArray, null, 4), (err) => {
             if (err) {
                 console.error(err);
                 return;
@@ -96,7 +103,7 @@ function update(obj, replace, act) {
 
 
 function find(obj, count, desc) {
-    
+
     var presentDir;
     if (obj instanceof Activity) {
         presentDir = this.activityDir;
@@ -113,18 +120,18 @@ function find(obj, count, desc) {
             count = dataArray.length;
         }
         for (var i in dataArray) {
-            var temp= new obj.constructor();
+            var temp = new obj.constructor();
             var check_flag = true;
             for (var property in obj) {
                 if (obj[property] != null && obj[property] != dataArray[i][property]) {
                     check_flag = false;
                     break;
                 }
-                else{
+                else {
                     temp[property] = dataArray[i][property];
                 }
             }
-            if(check_flag) resultArray.push(temp);
+            if (check_flag) resultArray.push(temp);
         }
         if (desc == true) {                //desc เป็น property ที่ใช้เรียงตาม เวลา เก่า ไปใหม่ หรือ ใหม่ไปเก่า เท่านั้น
             resultArray.reverse();

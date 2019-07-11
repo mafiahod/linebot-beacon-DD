@@ -54,9 +54,11 @@ describe('answer', () => {
         }
         var check = [];
         var testSaveUser = new User('59010126', 'Ball');
-        var testSaveUser2 = new User('59010122', 'Jah');
+        var testSaveUser2 = new User('59011234', 'Jam');
+        var testSaveUser3 = new User('59010654', 'Jah');
         daltest.save(testSaveUser);
         daltest.save(testSaveUser2);
+        daltest.save(testSaveUser3);
         check.push(testSaveUser);
         var testFind_activityObj = new User('59010126', null);
         var testFind = daltest.find(testFind_activityObj, null, true);
@@ -133,6 +135,56 @@ describe('answer', () => {
         expect(testFind.length).toEqual(2);
         for (var i in testFind) {
             expect(testFind[i]).toEqual(checkArray[i]);
+        }
+    });
+
+
+    it('should will update new Answer to wanted activity', () => {
+        if (fs.existsSync(activitytestpath)) {
+            fs.unlinkSync(activitytestpath);
+        }
+        var checkArray = [];
+        var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
+        var testSaveActivity2 = new Activity('59010126', 'Ball', 'in', '665456789', 'Test55', true, 'free');
+        var two = new Activity('8888', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work2');
+        var three = new Activity('3333', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work3');
+        var four = new Activity('4444', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work4');
+        daltest.save(testSaveActivity);
+        daltest.save(testSaveActivity2);
+        daltest.save(two);
+        daltest.save(three);
+        daltest.save(four);
+        var testfindobj = new Activity('59010126',null,null,null,null,null,null);
+        var testfindres = daltest.find(testfindobj , null , null);
+        var testupdateobj = new Activity(null,null,null,null,null,null,'gotoPlay');
+
+        daltest.update(testupdateobj,null,testfindres);
+
+        var mustbe = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, 'gotoPlay');
+        var mustbe2 = new Activity('59010126', 'Ball', 'in', '665456789', 'Test55', true, 'gotoPlay');
+        checkArray.push(mustbe);
+        checkArray.push(mustbe2);
+        var findobj2 = new Activity('59010126',null,null,null,null,null,null);
+        var find2 = daltest.find(findobj2,null,null);
+        expect(find2.length).toEqual(2);
+        for(var i in find2){
+            expect(find2[i]).toEqual(checkArray[i]);
+        }
+    });
+
+    it('should will replace whole activity property', () => {     //ไว้ล่าง Test Case ของ function นั้นๆ ที่มีการ save object แล้วเท่านั้น
+        var testfindobj = new Activity('59010126',null,null,null,null,null,null);
+        var testfindres = daltest.find(testfindobj , null , null);
+        var testupdateobj = new Activity('59010126',null,null,null,null,null,'gotoPlay');
+        
+        daltest.update(testupdateobj,true,testfindres);
+
+        var mustbe = new Activity('59010126',null,null,null,null,null, 'gotoPlay');
+        var findobj2 = new Activity('59010126',null,null,null,null,null,null);
+        var find2 = daltest.find(findobj2,null,null);
+        expect(find2.length).toEqual(2);
+        for(var i in find2){
+            expect(find2[i]).toEqual(mustbe);
         }
     });
 
