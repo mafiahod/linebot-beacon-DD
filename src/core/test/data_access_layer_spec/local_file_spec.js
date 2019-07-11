@@ -46,31 +46,42 @@ describe('answer', () => {
     });
 
 
-    it('find will return array with user data in user file only name == "Ball"', () => {
+
+
+    it('find will return array with user data that has userid following in find', () => {
         if (fs.existsSync(usertestpath)) {
             fs.unlinkSync(usertestpath);
         }
+        var check = [];
         var testSaveUser = new User('59010126', 'Ball');
-        var two = new User('59010126', 'Jam');
+        var testSaveUser2 = new User('59010122', 'Jah');
         daltest.save(testSaveUser);
-        daltest.save(two);
-        var testFind_activityObj = new User(null, 'Ball');
-        var testFind = daltest.find(testFind_activityObj, null, true);
-        for (var i in testFind) {
-            expect(testFind[i]).toEqual(testSaveUser);
-        }
-    });
-
-
-
-    it('find will return array with user data in user file', () => {
-        if (fs.existsSync(usertestpath)) {
-            fs.unlinkSync(usertestpath);
-        }
-        var testSaveUser = new User('59010126', 'Ball');
-        daltest.save(testSaveUser);
+        daltest.save(testSaveUser2);
+        check.push(testSaveUser);
         var testFind_activityObj = new User('59010126', null);
         var testFind = daltest.find(testFind_activityObj, null, true);
+        expect(testFind.length).toEqual(1);
+        for (var i in testFind) {
+            expect(testFind[i]).toEqual(check[i]);
+        }
+    });
+
+
+    it('find will return array with only user data that has name == Ball', () => {
+        if (fs.existsSync(usertestpath)) {
+            fs.unlinkSync(usertestpath);
+        }
+        var check = [];
+        var testSaveUser = new User('59010126', 'Ball');
+        var testSaveUser2 = new User('59011234', 'Jam');
+        var testSaveUser3 = new User('59010654', 'Jah');
+        daltest.save(testSaveUser);
+        daltest.save(testSaveUser2);
+        daltest.save(testSaveUser3);
+        check.push(testSaveUser);
+        var testFind_activityObj = new User(null, 'Ball');
+        var testFind = daltest.find(testFind_activityObj, null, true);
+        expect(testFind.length).toEqual(1);
         for (var i in testFind) {
             expect(testFind[i]).toEqual(testSaveUser);
         }
@@ -78,39 +89,27 @@ describe('answer', () => {
 
 
 
-    it('find will return array with activity data in activity file', () => {
+    it('find will return array with activity data that has userid following in find and sort by lastest to oldest', () => {
         if (fs.existsSync(activitytestpath)) {
             fs.unlinkSync(activitytestpath);
         }
+        var check = [];
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '555');
+        var testSaveActivity2 = new Activity('59010126', 'Ball', 'in', '123432189', 'Try', true, 'Work');
+        var testSaveActivity3 = new Activity('59010234', 'Jam', 'in', '123122289', 'Fight', true, 'clone');
         daltest.save(testSaveActivity);
+        daltest.save(testSaveActivity2);
+        daltest.save(testSaveActivity3);
+        check.push(testSaveActivity2);
+        check.push(testSaveActivity);
         var testFind_activityObj = new Activity('59010126', null, null, null, null, null, null);
         var testFind = daltest.find(testFind_activityObj, null, true);
+        expect(testFind.length).toEqual(2);
         for (var i in testFind) {
-            expect(testFind[i]).toEqual(testSaveActivity);
+            expect(testFind[i]).toEqual(check[i]);
         }
     });
 
-
-
-    it('find will return only activity data that have specific id', () => {
-        if (fs.existsSync(activitytestpath)) {
-            fs.unlinkSync(activitytestpath);
-        }
-        var checkArray = [];
-        var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
-        var two = new Activity('8888', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work');
-        daltest.save(testSaveActivity);
-        daltest.save(two);
-        checkArray.push(two);
-        var testFind_activityObj = new Activity('8888', null, null, null, 'Test', null, null);
-        var testFind = daltest.find(testFind_activityObj, null, null);
-        expect(testFind.length).toEqual(1);
-        for (var i in testFind) {
-            expect(testFind[i]).toEqual(checkArray[i]);
-            
-        }
-    });
 
 
     it('find will return only 2 newest activity data (2 last data saved)', () => {
