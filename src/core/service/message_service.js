@@ -12,14 +12,22 @@ const dal = new LocalFile();
 
 
 function send_message(id, message_content) {
-    //Bot push message to user
-    this.client.pushMessage(id, message_content)
 
-        .then(() => {
+    var promise = new Promise((resolve, reject) => {
+       //Bot push message to user
+    this.client.pushMessage(id, message_content);
+    resolve();
+    reject();
 
-        }).catch((err) => {
+     });
+    
+        promise.then(() => {
+            console.log(id);
+            console.log(message_content);
+      
+        })
+        promise.catch((err) => {
             logger.error(err);
-
         });
 
 
@@ -51,6 +59,9 @@ function sendwalkin_message(userId) {
 
 
 function create_walkinMessage(profile, query_activity) {//format of the sent message 
+    
+    console.log(profile);
+    console.log(query_activity);
 
     const flexMessage = {
         "type": "flex",
@@ -97,7 +108,7 @@ function create_walkinMessage(profile, query_activity) {//format of the sent mes
                                     },
                                     {
                                         "type": "text",
-                                        "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm:ss'),
+                                        "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm'),
                                         "wrap": true,
                                         "size": "sm",
                                         "color": "#666666",

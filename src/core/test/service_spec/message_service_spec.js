@@ -1,26 +1,58 @@
 'use strict';
 
 import { Message_service } from '../../service/index'
-
+import { Client } from '@line/bot-sdk'
+import * as config from '../../config'
 var push = new Message_service();
-var id = "6454n43h43590bgq";
-const message = {
-    type: 'text',
-    text: 'i don\'t know what you mean'
-};
-const message1 = {
-    type: null,
-    text: 'i don\'t know what you mean'
-};
 
-describe('push_message', () => {
-    it('should return 200 OK', () => {
-        expect(push.push_Message(id,message)).toEqual("200 OK");
+const moment = require('moment');
 
-    });
+describe('message_service', () => {
+    it('should send message to userId when called', () => {
 
-    it('should  return 400', () => {
-        expect(push.push_Message(id, message1)).toEqual("400");
+        var pushCalled;
+        push.client.pushMessage = function mock_sendMessage(id, message) {
 
-    });
+            pushCalled = {
+                toId: id,
+                message: message
+            };
+        };
+        push.send_Message("1234", "hello");
+        expect(pushCalled.toId).toEqual("1234");
+        expect(pushCalled.message).toEqual("hello");
+
+    }),
+
+        it('should match the data and position with original data', () => {
+
+            const pushCalled1 = [];
+
+            var profile = {
+                userId: 'Ub182adba86d289c7154a6963e725c4f5',
+                displayName: 'jam',
+                pictureUrl: 'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e'
+            };
+            var activity = [{
+                userId: "Ub182adba86d289c7154a6963e725c4f5",
+                name: "jam",
+                type: "in",
+                timestamp: "1562834628816",
+                location: "Test2",
+                plan: "none"
+            }];
+
+            pushCalled1.push(push.create_Walkinmessage(profile, activity));
+          expect(pushCalled1[0].contents.hero.url).toEqual('https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e');
+          
+          expect(pushCalled1[0].contents.body.contents[0].text).toEqual("jam");
+          
+          expect(pushCalled1[0].contents.body.contents[1].contents[0].contents[1].text).toEqual( moment("1562834628816").format('DD/MM/YYYY HH:mm'));
+          
+          expect(pushCalled1[0].contents.body.contents[1].contents[1].contents[1].text).toEqual('Test2');
+          expect(pushCalled1[0].contents.body.contents[1].contents[2].contents[1].text).toEqual('none');
+
+
+        });
+
 });
