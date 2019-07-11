@@ -15,7 +15,7 @@ function save(obj) {
     } else if (obj instanceof User) {
         presentDir = this.userDir;
     } else {
-        console.log("Unknow location to save");
+        logger.info("Unknow location to save");
     }
     if (fs.existsSync(presentDir)) {                //handle when file is existed
         var data = fs.readFileSync(presentDir);
@@ -24,7 +24,7 @@ function save(obj) {
         dataArray.push(obj);
         fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), (err) => {
             if (err) {
-                console.error(err);
+                logger.error(err);
                 return;
             };
         });
@@ -40,7 +40,7 @@ function save(obj) {
         }
         fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), (err) => {
             if (err) {
-                console.error(err);
+                logger.error(err);
                 return;
             };
         });
@@ -57,7 +57,7 @@ function update(obj, replace, act) {
     } else if (obj instanceof User) {
         presentDir = this.userDir;
     } else {
-        console.log("Unknow location to find ");
+        logger.info("Unknow location to find ");
     }
     if(act.length == 0) return console.log("Can not find anything to update");
     if (fs.existsSync(presentDir)) {
@@ -89,13 +89,13 @@ function update(obj, replace, act) {
         }
         fs.writeFileSync(presentDir, JSON.stringify(tempArray, null, 4), (err) => {
             if (err) {
-                console.error(err);
+                logger.error(err);
                 return;
             };
         });
 
     } else {
-        console.log("There is no file to update");
+        logger.info("There is no file to update");
     }
 
 }
@@ -110,7 +110,7 @@ function find(obj, count, desc) {
     } else if (obj instanceof User) {
         presentDir = this.userDir;
     } else {
-        console.log("Unknow location to find ");
+        logger.info("Unknow location to find ");
     }
     if (fs.existsSync(presentDir)) {
         var data = fs.readFileSync(presentDir);

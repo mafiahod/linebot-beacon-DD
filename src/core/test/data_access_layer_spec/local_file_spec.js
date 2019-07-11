@@ -173,10 +173,25 @@ describe('answer', () => {
     });
 
     it('should will replace whole activity property', () => {     //ไว้ล่าง Test Case ของ function นั้นๆ ที่มีการ save object แล้วเท่านั้น
+        if (fs.existsSync(activitytestpath)) {
+            fs.unlinkSync(activitytestpath);
+        }
+        var checkArray = [];
+        var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
+        var testSaveActivity2 = new Activity('59010126', 'Ball', 'in', '665456789', 'Test55', true, 'free');
+        var two = new Activity('8888', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work2');
+        var three = new Activity('3333', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work3');
+        var four = new Activity('4444', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work4');
+        daltest.save(testSaveActivity);
+        daltest.save(testSaveActivity2);
+        daltest.save(two);
+        daltest.save(three);
+        daltest.save(four);
+        
         var testfindobj = new Activity('59010126',null,null,null,null,null,null);
         var testfindres = daltest.find(testfindobj , null , null);
+
         var testupdateobj = new Activity('59010126',null,null,null,null,null,'gotoPlay');
-        
         daltest.update(testupdateobj,true,testfindres);
 
         var mustbe = new Activity('59010126',null,null,null,null,null, 'gotoPlay');
