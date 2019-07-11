@@ -89,7 +89,7 @@ describe('answer', () => {
 
 
 
-    it('find will return array with activity data that has userid following in find and sort by lastest to oldest', () => {
+    it('find will return array with activity data that has userid following in find and sort by oldest to slastest', () => {
         if (fs.existsSync(activitytestpath)) {
             fs.unlinkSync(activitytestpath);
         }
@@ -100,10 +100,10 @@ describe('answer', () => {
         daltest.save(testSaveActivity);
         daltest.save(testSaveActivity2);
         daltest.save(testSaveActivity3);
-        check.push(testSaveActivity2);
         check.push(testSaveActivity);
+        check.push(testSaveActivity2);
         var testFind_activityObj = new Activity('59010126', null, null, null, null, null, null);
-        var testFind = daltest.find(testFind_activityObj, null, true);
+        var testFind = daltest.find(testFind_activityObj, null, null);
         expect(testFind.length).toEqual(2);
         for (var i in testFind) {
             expect(testFind[i]).toEqual(check[i]);
