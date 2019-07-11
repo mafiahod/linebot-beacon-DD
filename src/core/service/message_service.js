@@ -7,44 +7,37 @@ import { logger } from '../../../logs/logger'
 //import 'moment'
 const moment = require('moment');
 
-// create LINE SDK client
-const client = new Client(config);
 const dal = new LocalFile();
 
 
 
-function push_message(id, message_content) {
-
-    // if ((id != 'none' || id != null || id != undefined) && (message_content.type == 'text') && (message_content.text != 'none' || message_content.text != null || message_content.text != undefined)) {
-    //     console.log("success");//ต้องเขียนคำสั่งให้push
-    //     return "200 OK"
-    // } else {
-    //     console.log("error");
-    //     return "400";
-    // }
-
-    client.pushMessage(id, message_content)
+function send_message(id, message_content) {
+    //Bot push message to user
+    this.client.pushMessage(id, message_content)
 
         .then(() => {
 
         }).catch((err) => {
             logger.error(err);
-            console.log(err);
 
         });
 
+
 }
 
+function sendwalkin_message(userId) {
 
-function send_message(message, userId) {
+    var query_useractivity = new Activity(userId, null, null, null, null, null, null);
+    var query_activity = dal.find(query_useractivity, 1, true);/////
+    logger.info(query_activity);
 
-    console.log('send flexmessage');
-    client.getProfile(userId)
+
+    this.client.getProfile(userId)
         .then((profile) => {
-            //Bot push message to specific Line Group
-            client.pushMessage(config.ReportGroupId, send_FlexMessage(message, userId, profile))
-                .then(() => {
 
+            //Bot push message to specific Line Group
+            this.client.pushMessage(config.ReportGroupId, this.create_Walkinmessage(profile, query_activity))
+                .then(() => {
                 }).catch((err) => {
                     logger.error(err);
                 });
@@ -53,15 +46,12 @@ function send_message(message, userId) {
             logger.error(err);
         });
 
+
 }
 
 
+function create_walkinMessage(profile, query_activity) {//format of the sent message 
 
-function send_FlexMessage(message, userId, profile) {//format of the sent message 
-    var query_useractivity = new Activity(userId, null, null, null, null, null,null);
-    var query_activity = dal.find(query_useractivity, 1, true);/////
-    logger.info(query_activity);
-    console.log(query_activity);
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -170,9 +160,10 @@ function send_FlexMessage(message, userId, profile) {//format of the sent messag
 }
 class Message_service {
     constructor() {
+        this.client = new Client(config);
         this.send_Message = send_message;
-        this.push_Message = push_message;
-        this.send_FlexMessage = send_FlexMessage;
+        this.sendwalkin_Message = sendwalkin_message;
+        this.create_Walkinmessage = create_walkinMessage;
     }
 }
 export {

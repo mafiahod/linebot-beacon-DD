@@ -25,7 +25,7 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
       this.dal.save(Saveactivity);
 
 
-      return this.Conversationservice.ask_today_plan(userId, displayName, timestamp, this.getLocation(hwid)); //call ask_today_plan ()
+      return this.Conversationservice.ask_today_plan(userId, this.getLocation(hwid)); //call ask_today_plan ()
 
     } else {
 
@@ -39,7 +39,7 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
             type: 'text',
             text: displayName + 're-enter'
           };
-          this.Messageservice.push_Message(config.ReportGroupId, reenter);
+          this.Messageservice.send_Message(config.ReportGroupId, reenter);
 
         }
 
