@@ -5,14 +5,14 @@ var Log_config = log4js.configure({
     appenders: {
       app: {
         type: "file",
-        filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " app.log" ,       
+        filename: "./logs/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " app.log" ,       
         maxLogSize: 10485760,
         numBackups: 3
       
       },
       infoFile: {
         type: "file",
-        filename: "./log/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,       
+        filename: "./logs/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,       
         maxLogSize: 10485760,
         numBackups: 3
       
@@ -32,7 +32,7 @@ var Log_config = log4js.configure({
  
 });
 
-const logger = log4js.getLogger('app');
+const logger = log4js.getLogger('');
 
 export {
   logger,Log_config
