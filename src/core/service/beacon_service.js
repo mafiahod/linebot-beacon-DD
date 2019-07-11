@@ -1,8 +1,8 @@
 "use strict";
-import { User, State, Activity } from '../model/index'
+import { User, Activity } from '../model/index'
 import * as config from '../config'
 import { Conversation_service, Message_service, GetLocation_service } from './index'
-import {LocalFile} from '../data_access_layer/index'
+import { LocalFile } from '../data_access_layer/index'
 
 
 
@@ -15,20 +15,14 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
   if (user.length != 0) {
 
-    var Find_activityObj = new Activity(userId, null, null, null, this.getLocation(hwid), null);  // Find user activity and state
+    var Find_activityObj = new Activity(userId, null, null, null, this.getLocation(hwid), null, null);  // Find user activity and state
     var user_activity = this.dal.find(Find_activityObj, null, true);
 
-    var Find_state = new State(userId, null, null, null, null);
-    var ask_state = this.dal.find(Find_state, null, true);
 
-    if (user_activity.length == 0 && ask_state.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
+    if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
 
-      var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocation(hwid), 'none');
+      var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocation(hwid), 'none', 'none');
       this.dal.save(Saveactivity);
-
-
-      var Savestate = new State(userId, displayName, timestamp, this.getLocation(hwid), 'none');
-      this.dal.save(Savestate);
 
 
       return this.Conversationservice.ask_today_plan(userId, displayName, timestamp, this.getLocation(hwid)); //call ask_today_plan ()
@@ -36,21 +30,20 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
     } else {
 
       for (var i in user_activity) {
-        for (var j in ask_state) {
 
-          if (user_activity[i].plan != 'none' && user_activity[i].location == this.getLocation(hwid) && ask_state[j].askstate == true) { // users become active again
+        if (user_activity[i].plan != 'none' && user_activity[i].location == this.getLocation(hwid) && user_activity[i].askstate == true) { // users become active again
 
-            console.log('re-enter from beacon');
+          console.log('re-enter from beacon');
 
-            const reenter = {
-              type: 'text',
-              text: displayName + 're-enter'
-            };
-            this.Messageservice.push_Message(config.ReportGroupId, reenter);
-
-          }
+          const reenter = {
+            type: 'text',
+            text: displayName + 're-enter'
+          };
+          this.Messageservice.push_Message(config.ReportGroupId, reenter);
 
         }
+
+
       }
       return;
     }

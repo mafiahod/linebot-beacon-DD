@@ -1,12 +1,11 @@
 "use strict";
-import { User, State, Activity } from '../model/index'
+import { User, Activity } from '../model/index'
 import * as fs from 'fs'
+import * as _ from 'lodash'
 
 const current_datetime = new Date();
 const defactivityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
 const defuserDir = './resource/user.json';
-const defstateDir = './resource/state-' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-
 
 function save(obj) {
     var presentDir;
@@ -14,37 +13,14 @@ function save(obj) {
         presentDir = this.activityDir;
     } else if (obj instanceof User) {
         presentDir = this.userDir;
-    } else if (obj instanceof State) {
-        presentDir = this.stateDir;
     } else {
         console.log("Unknow location to save");
     }
     if (fs.existsSync(presentDir)) {                //handle when file is existed
         var data = fs.readFileSync(presentDir);
         var dataArray = JSON.parse(data);
-
-
-
-        if (obj.plan != 'none' && obj.plan != undefined) {
-
-            for (var i = 0; i < dataArray.length; i++) {
-
-                if (dataArray[i].userId == obj.userId) {
-                    dataArray[i].plan = obj.plan;
-                }
-            }
-        } else if ((obj.plan == 'none' || obj.plan == undefined) && (obj.askstate == undefined || obj.askstate == 'none')) {        //append activity or user in exist file
-
-            dataArray.push(obj);
-        }
-        else if (obj.askstate == true) {        //append activity or user in exist file
-            for (var i = 0; i < dataArray.length; i++) {
-                if (dataArray[i].userId == obj.userId && dataArray[i].location == obj.location) {
-
-                    dataArray[i].askstate = obj.askstate;
-                }
-            }
-        }
+        //append activity or user in exist file
+        dataArray.push(obj);
         fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), (err) => {
             if (err) {
                 console.error(err);
@@ -64,14 +40,59 @@ function save(obj) {
 }
 
 
+
+
+function update(obj, replace, act) {
+    var presentDir;
+    if (obj instanceof Activity) {
+        presentDir = this.activityDir;
+    } else if (obj instanceof User) {
+        presentDir = this.userDir;
+    } else {
+        console.log("Unknow location to find ");
+    }
+    if (fs.existsSync(presentDir)) {
+        var data = fs.readFileSync(presentDir);
+        var dataArray = JSON.parse(data);
+        for (var i in dataArray) {
+            if (_.isEqual(dataArray[i], act)) {                      //comparison between 2 object                
+                if (replace == true) {
+                    console.log("Update All Objectttttttttttttttttttttttttttttttttttttttttttttttttt");
+                    console.log("--------------------------------------------");
+                    dataArray[i] = obj;
+                } else if (replace != true) {
+                    console.log("Update Propertyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+                    for (var property in obj) {
+                        if (obj[property] != null) {
+                            console.log("Enter IF");
+                            dataArray[i][property] = obj[property];
+                            console.log("defined");
+                        }
+                    }
+                }
+            }
+        }
+        fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            };
+        });
+
+    } else {
+        console.log("There is no file to update");
+    }
+
+}
+
+
+
 function find(obj, count, desc) {
     var presentDir;
     if (obj instanceof Activity) {
         presentDir = this.activityDir;
     } else if (obj instanceof User) {
         presentDir = this.userDir;
-    } else if (obj instanceof State) {
-        presentDir = this.stateDir;
     } else {
         console.log("Unknow location to find ");
     }
@@ -112,12 +133,12 @@ function find(obj, count, desc) {
 
 
 class LocalFile {
-    constructor(activityDir = defactivityDir , userDir = defuserDir , stateDir = defstateDir) {
+    constructor(activityDir = defactivityDir, userDir = defuserDir) {
         this.save = save;
         this.find = find;
+        this.update = update;
         this.activityDir = activityDir;
         this.userDir = userDir;
-        this.stateDir = stateDir;
     }
 }
 
