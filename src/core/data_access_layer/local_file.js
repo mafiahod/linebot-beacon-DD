@@ -2,6 +2,7 @@
 import { User, Activity } from '../model/index'
 import * as fs from 'fs'
 import * as _ from 'lodash'
+import { logger } from '../../../logs/logger';
 
 const current_datetime = new Date();
 const defactivityDir = './resource/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
@@ -30,6 +31,13 @@ function save(obj) {
     } else {                      //Create new activity.json or user.json
         var dataArray = [];
         dataArray.push(obj);
+        if(!(fs.existsSync('./resource'))){
+            fs.mkdir('./resource', function (err) {     //Create directory
+                if (err) {
+                    return logger.error(err);
+                }
+            });
+        }
         fs.writeFileSync(presentDir, JSON.stringify(dataArray, null, 4), (err) => {
             if (err) {
                 console.error(err);
