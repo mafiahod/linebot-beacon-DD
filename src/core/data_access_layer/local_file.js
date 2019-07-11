@@ -96,6 +96,7 @@ function update(obj, replace, act) {
 
 
 function find(obj, count, desc) {
+    
     var presentDir;
     if (obj instanceof Activity) {
         presentDir = this.activityDir;
@@ -108,27 +109,24 @@ function find(obj, count, desc) {
         var data = fs.readFileSync(presentDir);
         var dataArray = JSON.parse(data);
         var resultArray = [];
-        var propCount = 0;
-        var equalProp = 0;
         if (count == null) {
             count = dataArray.length;
         }
         for (var i in dataArray) {
+            var temp= new obj.constructor();
+            var check_flag = true;
             for (var property in obj) {
-                if (obj[property] != null) {
-                    propCount++;
-                    if (obj[property] == dataArray[i][property]) {
-                        equalProp++;
-                    }
+                if (obj[property] != null && obj[property] != dataArray[i][property]) {
+                    check_flag = false;
+                    break;
+                }
+                else{
+                    temp[property] = dataArray[i][property];
                 }
             }
-            if (equalProp == propCount) {
-                resultArray.push(dataArray[i]);
-            }
-            propCount = 0;
-            equalProp = 0;
+            if(check_flag) resultArray.push(temp);
         }
-        if (desc == true) {
+        if (desc == true) {                //desc เป็น property ที่ใช้เรียงตาม เวลา เก่า ไปใหม่ หรือ ใหม่ไปเก่า เท่านั้น
             resultArray.reverse();
         }
         return resultArray.slice(0, count);
