@@ -8,7 +8,7 @@ import { Message_service } from './index'
 
 
 //handle when messages were sent
-function handle_in_Message(message, userId, displayName, timestamp) {
+function handle_in_Message(message, userId) {
 
     var Find_state = new Activity(userId, null, null, null, null,true,null); //Find out which state is asked or not.
     var ask_state = this.dal.find(Find_state, 1, true);
@@ -21,7 +21,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
                 text: 'i don\'t know what you mean'
             };
 
-            this.message_service.push_Message(userId, not_ask);
+            this.message_service.send_Message(userId, not_ask);
 
         } else {
 
@@ -33,7 +33,7 @@ function handle_in_Message(message, userId, displayName, timestamp) {
                 var update_answer_from_user = new Activity(userId, null, null, null, null ,null, message.text);
                 this.dal.update(update_answer_from_user , null , answer[0] );
 
-                this.message_service.send_Message(message, userId);
+                this.message_service.sendwalkin_Message(userId);
             }
             else if (answer[i].plan != 'none') {
 
@@ -42,14 +42,14 @@ function handle_in_Message(message, userId, displayName, timestamp) {
                     type: 'text',
                     text: 'you answered the question'
                 };
-                this.message_service.push_Message(userId, answered);
+                this.message_service.send_Message(userId, answered);
             }
         }
     }
 
 }
 
-function ask_today_plan(userId, displayName, timestamp, location) { //send the question to users
+function ask_today_plan(userId, location) { //send the question to users
 
     
     const question = {
@@ -57,11 +57,10 @@ function ask_today_plan(userId, displayName, timestamp, location) { //send the q
         text: 'what\'s your plan to do today at ' + location + ' ?'
     };
     
-    this.message_service.push_Message(userId, question);
+    this.message_service.send_Message(userId, question);
 
     var find_act = new Activity(userId , null , null , null , location , null , null);
     var find_obj = this.dal.find(find_act,null,true);
-    console.log("111111111111111111111111111111111111111111111111111111111111111111111111111111");
     console.log(find_obj);
     var Update_act = new Activity(userId, null, null, null, null , true , null);
     this.dal.update(Update_act , null , find_obj[0]);
@@ -87,7 +86,7 @@ function callback(userId, location) {  //handle when users do not answer questio
                 type: 'text',
                 text: 'Please enter your answer'
             };
-            this.message_service.push_Message(userId, enter_message);
+            this.message_service.send_Message(userId, enter_message);
 
             count++;
             this.callback(userId, location);
@@ -98,7 +97,7 @@ function callback(userId, location) {  //handle when users do not answer questio
 
             var Update_answer = new Activity(userId, null, null, null, null,null, message);
             this.dal.update(Update_answer , null , check_ans[0]);
-            this.message_service.send_Message(message, userId);
+            this.message_service.sendwalkin_Message(userId);
 
         }
         else if (check_ans[0].plan != 'none') {

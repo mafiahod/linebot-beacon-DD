@@ -1,10 +1,10 @@
 'use strict';
-import {User} from './core/model/index'
-import {LocalFile}  from './core/data_access_layer/index'
-import {Beacon_service,Conversation_service} from './core/service/index'
-import {Client,middleware} from '@line/bot-sdk'
+import { User } from './core/model/index'
+import { LocalFile } from './core/data_access_layer/index'
+import { Beacon_service, Conversation_service } from './core/service/index'
+import { Client, middleware } from '@line/bot-sdk'
 import * as config from './core/config'
-import {logger,Log_config} from '../logs/logger'
+import { logger, Log_config } from '../logs/logger'
 const express = require('express');
 //const config = require('./core/config.js');
 const logconfig = Log_config;
@@ -56,13 +56,9 @@ const replyText = (token, texts) => {
 function handleEvent(event) {
   switch (event.type) {
     case 'message':
-      client.getProfile(event.source.userId)
-        .then((profile) => {
-         Conservationservice.handle_in_Message(event.message, event.source.userId, profile.displayName, event.timestamp);
-        }).catch((err) => {   
-             logger.error(err);
-        });
-      return;
+
+      return Conservationservice.handle_in_Message(event.message, event.source.userId);
+
 
     case 'follow':
       return replyText(event.replyToken, 'Got followed event');
@@ -82,11 +78,11 @@ function handleEvent(event) {
         .then((profile) => {
 
           var saveUser = new User(event.joined.members[0].userId, profile.displayName);
-        logger.info(saveUser);
+          logger.info(saveUser);
           console.log(saveUser);////
-         dal.save(saveUser);
+          dal.save(saveUser);
 
-        }).catch((err) => { 
+        }).catch((err) => {
           logger.error(err);
         });
       return;
@@ -101,7 +97,7 @@ function handleEvent(event) {
       client.getProfile(event.source.userId)
         .then((profile) => {
           Beaconservice.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
-        }).catch((err) => { 
+        }).catch((err) => {
           logger.error(err);
         });
       return;
