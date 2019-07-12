@@ -43,14 +43,12 @@ describe('message_service', () => {
             }];
 
             pushCalled1.push(push.create_Walkinmessage(profile, activity));
-          expect(pushCalled1[0].contents.hero.url).toEqual('https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e');
-          
-          expect(pushCalled1[0].contents.body.contents[0].text).toEqual("jam");
-          
-          expect(pushCalled1[0].contents.body.contents[1].contents[0].contents[1].text).toEqual( moment("1562834628816").format('DD/MM/YYYY HH:mm'));
-          
-          expect(pushCalled1[0].contents.body.contents[1].contents[1].contents[1].text).toEqual('Test2');
-          expect(pushCalled1[0].contents.body.contents[1].contents[2].contents[1].text).toEqual('none');
+
+            expect(pushCalled1[0].contents.hero.url).toEqual('https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e');
+            expect(pushCalled1[0].contents.body.contents[0].text).toEqual("jam");
+            expect(pushCalled1[0].contents.body.contents[1].contents[0].contents[1].text).toEqual(moment("1562834628816").format('DD/MM/YYYY HH:mm'));
+            expect(pushCalled1[0].contents.body.contents[1].contents[1].contents[1].text).toEqual('Test2');
+            expect(pushCalled1[0].contents.body.contents[1].contents[2].contents[1].text).toEqual('none');
 
 
         });
