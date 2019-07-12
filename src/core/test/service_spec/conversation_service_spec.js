@@ -6,10 +6,15 @@ var push = new Conversation_service();
 
 describe('callback', () => {
 
+      
+    // beforeEach(function(done) {
+    //      let count = 0;
+    //       done();
+    //     }, 1);
+    //   });
 
-    it('should push message even late reply ', (done) => {
-
-
+    it('should push message even late reply ', () => {
+    
         var check_ans = [];
         var activity = {
             "userId": "U9f12e85f8a0d10571a4af43eacd9e127",
@@ -22,8 +27,7 @@ describe('callback', () => {
         };
         check_ans.push(activity);
 
-
-        let count = 0;
+        var count =0;
         push.callback = function mock_callback(check_ans) {
 
 
@@ -31,20 +35,21 @@ describe('callback', () => {
 
                 if (check_ans[0].plan == 'none' && count < 3) {
 
-                    count++;
-                    push.callback(check_ans);
+
+                   push.callback(check_ans);
+                   return count++;
                    
                 } 
-                done();
-
+              
             }, 1000)
         };
 
         push.callback(check_ans);
-        expect(count).tobr(3);
+        expect(count).toEqual(3);
+      //  done();
     });
 
-
+});
 
 
     // async.it('should push message even late reply ', (done) => {
@@ -87,11 +92,3 @@ describe('callback', () => {
     //     push.callback(check_ans);
     //     console.log(count);
     // });
-
-
-
-
-
-
-
-});
