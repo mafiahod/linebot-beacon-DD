@@ -1,16 +1,17 @@
 "use strict";
 import * as fs from 'fs'
-const locationDir = './resource/location.json';
+var locationDir = './resource/location.json';
 
 function getLocation(hwid) {
-    if (fs.existsSync(locationDir)) {
-        var data = fs.readFileSync(locationDir);
+    if (fs.existsSync(this.locationDir)) {
+        var data = fs.readFileSync(this.locationDir);
         var dataArray = JSON.parse(data);
         for (var i in dataArray) {
             if (dataArray[i].hardwareID == hwid) {
                 return dataArray[i].LocationName;
             }
         }
+        return ("This Hardware ID is not saved Location");
 
     } else {
         console.log("No Location File");
@@ -21,6 +22,7 @@ function getLocation(hwid) {
 class GetLocation_service{
     constructor(){
         this.getLocation = getLocation;
+        this.locationDir = locationDir;
     }
 }
 

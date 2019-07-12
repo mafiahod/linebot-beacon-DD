@@ -172,11 +172,10 @@ describe('answer', () => {
         }
     });
 
-    it('should will replace whole activity property', () => {     //ไว้ล่าง Test Case ของ function นั้นๆ ที่มีการ save object แล้วเท่านั้น
+    it('should will replace whole activity property', () => {
         if (fs.existsSync(activitytestpath)) {
             fs.unlinkSync(activitytestpath);
         }
-        var checkArray = [];
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
         var testSaveActivity2 = new Activity('59010126', 'Ball', 'in', '665456789', 'Test55', true, 'free');
         var two = new Activity('8888', 'AAAAAA', 'in', '123456789', 'Test', true, 'Work2');
