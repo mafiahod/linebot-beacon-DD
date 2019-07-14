@@ -41,6 +41,12 @@ describe('callback', () => {
           
        
             setTimeout(() => {
+                
+                if(count == 2 ){
+
+                    activity.plan = "work";
+
+                }
                 if (check_ans[0].plan == 'none' && count < 3) {
 
                     push.message_service.send_Message("1234", "hello");
@@ -49,6 +55,9 @@ describe('callback', () => {
 
                     push.callback(check_ans);
 
+                } else if (check_ans[0].plan != 'none') {
+                    console.log("exist loop from conver,callback");
+                    return;
                 }
 
 
@@ -61,8 +70,8 @@ describe('callback', () => {
         push.callback(check_ans);
       
         setTimeout(() => {
-          
-            expect(resultArray).toEqual([ { toId : '1234', message : 'hello' }, { toId : '1234', message : 'hello' }, { toId : '1234', message : 'hello' } ]);
+            console.log(resultArray);
+            expect(resultArray).toEqual([ { toId : '1234', message : 'hello' }, { toId : '1234', message : 'hello' } ]);
             done();
          
             }, 4000);
