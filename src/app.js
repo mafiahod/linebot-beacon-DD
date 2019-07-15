@@ -1,7 +1,7 @@
 'use strict';
 import { User } from './core/model/index'
 import { LocalFile } from './core/data_access_layer/index'
-import { Beacon_service, Conversation_service } from './core/service/index'
+import { Beacon_service, Conversation_service, Elastic_service } from './core/service/index'
 import { Client, middleware } from '@line/bot-sdk'
 import * as config from './core/config'
 import { logger, Log_config } from '../logs/logger'
@@ -11,7 +11,7 @@ const logconfig = Log_config;
 // create LINE SDK client
 const client = new Client(config);
 const dal = new LocalFile();
-
+const elastic = new Elastic_service();
 const app = express();
 
 const Conservationservice = new Conversation_service();
@@ -78,6 +78,8 @@ function handleEvent(event) {
         .then((profile) => {
 
           var saveUser = new User(event.joined.members[0].userId, profile.displayName);
+         elastic.elasticsave(saveUser);
+        
           logger.info(saveUser);
           console.log(saveUser);////
           dal.save(saveUser);

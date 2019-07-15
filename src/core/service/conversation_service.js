@@ -1,7 +1,7 @@
 "use strict";
 import { Activity } from '../model/index'
 import {LocalFile} from '../data_access_layer/index'
-import { Message_service,elastic_post } from './index'
+import { Message_service,Elastic_service } from './index'
 //import { send_message, Me } from './index'
 
 
@@ -31,7 +31,7 @@ function handle_in_Message(message, userId) {
 
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null ,null, message.text);
-               elastic_post(update_answer_from_user);
+              this.elastic.elasticupdate(update_answer_from_user);
                 this.dal.update(update_answer_from_user , null , answer );
 
                 this.message_service.sendwalkin_Message(userId);
@@ -64,7 +64,7 @@ function ask_today_plan(userId, location) { //send the question to users
     var find_obj = this.dal.find(find_act,null,true);
     console.log(find_obj);
     var Update_act = new Activity(userId, null, null, null, null , true , null);
-  elastic_post( Update_act);
+  this.elastic.elasticupdate(Update_act);
     this.dal.update(Update_act , null , find_obj);
 
 
@@ -99,7 +99,7 @@ console.log(check_ans);
             const message = '           ';
 
             var Update_answer = new Activity(userId, null, null, null, null,null, message);
-            elastic_post(Update_answer);
+           this.elastic.elasticupdate(Update_answer);
             this.dal.update(Update_answer , null , check_ans);
             this.message_service.sendwalkin_Message(userId);
            
@@ -119,6 +119,7 @@ class Conversation_service {
         this.callback = callback;
         this.handle_in_Message = handle_in_Message;
         this.message_service = new Message_service();
+        this.elastic = new Elastic_service();
         this.dal = new LocalFile();
     }
 
