@@ -1,7 +1,7 @@
 "use strict";
 import { User, Activity } from '../model/index'
 import * as config from '../config'
-import { Conversation_service, Message_service, GetLocation_service } from './index'
+import { Conversation_service, Message_service, GetLocation_service,elastic_post } from './index'
 import { LocalFile } from '../data_access_layer/index'
 import { logger } from '../../../logs/logger';
 
@@ -22,6 +22,7 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
     if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
 
       var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocationService.getLocation(hwid), 'none', 'none');
+      elastic_post(Saveactivity);
       this.dal.save(Saveactivity);
 
 

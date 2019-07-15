@@ -1,7 +1,7 @@
 "use strict";
 import { Activity } from '../model/index'
 import {LocalFile} from '../data_access_layer/index'
-import { Message_service } from './index'
+import { Message_service,elastic_post } from './index'
 //import { send_message, Me } from './index'
 
 
@@ -31,6 +31,7 @@ function handle_in_Message(message, userId) {
 
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null ,null, message.text);
+               elastic_post(update_answer_from_user);
                 this.dal.update(update_answer_from_user , null , answer );
 
                 this.message_service.sendwalkin_Message(userId);
@@ -63,23 +64,25 @@ function ask_today_plan(userId, location) { //send the question to users
     var find_obj = this.dal.find(find_act,null,true);
     console.log(find_obj);
     var Update_act = new Activity(userId, null, null, null, null , true , null);
+  elastic_post( Update_act);
     this.dal.update(Update_act , null , find_obj);
 
 
-    this.callback(userId, location);
+    this.callback(userId, location,0);
 
 }
 
-let count = 0;
 
-function callback(userId, location) {  //handle when users do not answer question within 15 seconds
+
+function callback(userId, location,count) {  //handle when users do not answer question within 15 seconds
 
 
     setTimeout(() => {
 
         var Check_answer = new Activity(userId, null, null, null, location, null ,null);
         var check_ans = this.dal.find(Check_answer, null, true);
-
+        console.log("-------------------------------------------");
+console.log(check_ans);
         if (check_ans[0].plan == 'none' && count < 3) {
 
             const enter_message = {
@@ -89,18 +92,20 @@ function callback(userId, location) {  //handle when users do not answer questio
             this.message_service.send_Message(userId, enter_message);
 
             count++;
-            this.callback(userId, location);
+            this.callback(userId, location,count);
 
         } else if (check_ans[0].plan == 'none' && count == 3) {
 
             const message = '           ';
 
             var Update_answer = new Activity(userId, null, null, null, null,null, message);
+            elastic_post(Update_answer);
             this.dal.update(Update_answer , null , check_ans);
             this.message_service.sendwalkin_Message(userId);
-
+           
         }
         else if (check_ans[0].plan != 'none') {
+            
             console.log("exist loop from conver,callback");
             return;
         }
