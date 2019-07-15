@@ -31,7 +31,7 @@ function handle_in_Message(message, userId) {
 
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null ,null, message.text);
-                this.dal.update(update_answer_from_user , null , answer[0] );
+                this.dal.update(update_answer_from_user , null , answer );
 
                 this.message_service.sendwalkin_Message(userId);
             }
@@ -63,7 +63,7 @@ function ask_today_plan(userId, location) { //send the question to users
     var find_obj = this.dal.find(find_act,null,true);
     console.log(find_obj);
     var Update_act = new Activity(userId, null, null, null, null , true , null);
-    this.dal.update(Update_act , null , find_obj[0]);
+    this.dal.update(Update_act , null , find_obj);
 
 
     this.callback(userId, location);
@@ -96,7 +96,7 @@ function callback(userId, location) {  //handle when users do not answer questio
             const message = '           ';
 
             var Update_answer = new Activity(userId, null, null, null, null,null, message);
-            this.dal.update(Update_answer , null , check_ans[0]);
+            this.dal.update(Update_answer , null , check_ans);
             this.message_service.sendwalkin_Message(userId);
 
         }
