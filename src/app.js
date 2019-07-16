@@ -5,15 +5,13 @@ import { Beacon_service, Conversation_service, Elastic_service } from './core/se
 import { Client, middleware } from '@line/bot-sdk'
 import * as config from './core/config'
 import { logger, Log_config } from '../logs/logger'
+
 const express = require('express');
-//const config = require('./core/config.js');
-const logconfig = Log_config;
-// create LINE SDK client
-const client = new Client(config);
+const app = express();
+const logconfig = Log_config;               //const config = require('./core/config.js');
+const client = new Client(config);          // create LINE SDK client
 const dal = new LocalFile();
 const elastic = new Elastic_service();
-const app = express();
-
 const Conservationservice = new Conversation_service();
 const Beaconservice = new Beacon_service();
 
@@ -56,9 +54,7 @@ const replyText = (token, texts) => {
 function handleEvent(event) {
   switch (event.type) {
     case 'message':
-
       return Conservationservice.handle_in_Message(event.message, event.source.userId);
-
 
     case 'follow':
       return replyText(event.replyToken, 'Got followed event');
@@ -76,14 +72,10 @@ function handleEvent(event) {
     case 'memberJoined':
       client.getProfile(event.joined.members[0].userId)
         .then((profile) => {
-
           var saveUser = new User(event.joined.members[0].userId, profile.displayName);
-         elastic.elasticsave(saveUser);
-        
-          logger.info(saveUser);
-          console.log(saveUser);////
+          elastic.elasticsave(saveUser);
           dal.save(saveUser);
-
+          logger.info(saveUser);
         }).catch((err) => {
           logger.error(err);
         });
@@ -103,7 +95,6 @@ function handleEvent(event) {
           logger.error(err);
         });
       return;
-
 
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);

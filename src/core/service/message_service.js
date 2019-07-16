@@ -4,65 +4,49 @@ import { Client, middleware } from '@line/bot-sdk'
 import { LocalFile } from '../data_access_layer/index'
 import * as config from '../config'
 import { logger } from '../../../logs/logger'
+
 //import 'moment'
 const moment = require('moment');
-
 const dal = new LocalFile();
 
 
-
 function send_message(id, message_content) {
-
     var promise = new Promise((resolve, reject) => {
-       //Bot push message to user
-    this.client.pushMessage(id, message_content);
-    resolve();
-    reject();
+        //Bot push message to user
+        this.client.pushMessage(id, message_content);
+        resolve();
+        reject();
+    });
 
-     });
-    
-        promise.then(() => {
-            console.log(id);
-            console.log(message_content);
-      
-        })
-        promise.catch((err) => {
-            logger.error(err);
-        });
-
-
+    promise.then(() => {
+        console.log("Pushed Message to Target");
+    })
+    promise.catch((err) => {
+        logger.error(err);
+    });
 }
 
-function sendwalkin_message(userId) {
 
+function sendwalkin_message(userId) {
     var query_useractivity = new Activity(userId, null, null, null, null, null, null);
     var query_activity = dal.find(query_useractivity, 1, true);/////
     logger.info(query_activity);
 
-
     this.client.getProfile(userId)
         .then((profile) => {
-
             //Bot push message to specific Line Group
             this.client.pushMessage(config.ReportGroupId, this.create_Walkinmessage(profile, query_activity))
                 .then(() => {
                 }).catch((err) => {
                     logger.error(err);
                 });
-
         }).catch((err) => {
             logger.error(err);
         });
-
-
 }
 
 
 function create_walkinMessage(profile, query_activity) {//format of the sent message 
-    
-    console.log(profile);
-    console.log(query_activity);
-
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -169,6 +153,8 @@ function create_walkinMessage(profile, query_activity) {//format of the sent mes
 
     return flexMessage;
 }
+
+
 class Message_service {
     constructor() {
         this.client = new Client(config);
@@ -177,6 +163,8 @@ class Message_service {
         this.create_Walkinmessage = create_walkinMessage;
     }
 }
+
+
 export {
     Message_service
 }

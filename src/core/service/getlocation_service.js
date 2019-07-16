@@ -19,8 +19,8 @@ function getLocation(hwid) {
 }
 
 
-class GetLocation_service{
-    constructor(){
+class GetLocation_service {
+    constructor() {
         this.getLocation = getLocation;
         this.locationDir = locationDir;
     }
