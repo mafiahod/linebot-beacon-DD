@@ -26,7 +26,7 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
     } else {
 
       for (var i in user_activity) {
-        if (user_activity[i].plan != 'none' && user_activity[i].location == this.getLocationService.getLocation(hwid) && user_activity[i].askstate == true) { // users become active again
+        if (user_activity[i].plan != 'none'  && user_activity[i].askstate == true) { // users become active again
           console.log('re-enter from beacon');
           const reenter = {
             type: 'text',
