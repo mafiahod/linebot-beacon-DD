@@ -32,9 +32,9 @@ describe('handle beacon event', () => {
             }
 
 
-            push.handle_beacon_event(user2.userId, user2.name, user2.timestamp, user2.location);
+        push.handle_beacon_event(user2.userId, user2.name, user2.timestamp, user2.location);
 
-        expect (state).toEqual(true);
+        expect(state).toEqual(true);
         // push.Conversationservice.ask_today_plan(user2.userId, user2.location);
 
         // push.message_service.send_Message = function mock_send_reenter(userId, message) {
@@ -70,7 +70,7 @@ describe('handle beacon event', () => {
         push.handle_beacon_event(user2.userId, user2.name, user2.timestamp, user2.location);
        
 
-        expect(pushCalled1.message.text).toEqual(user2.name+" re-enter");
+        expect(pushCalled1.message.text).toEqual(user2.name +" re-enter");
 
     });
 

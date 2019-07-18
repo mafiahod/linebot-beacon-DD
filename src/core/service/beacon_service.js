@@ -21,9 +21,8 @@ async function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
     if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
       var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocationService.getLocation(hwid), 'none', 'none');
-   
+     await this.elastic.elasticsave(Saveactivity);
       this.dal.save(Saveactivity);
-    await this.elastic.elasticsave(Saveactivity);
       return this.Conversationservice.ask_today_plan(userId, this.getLocationService.getLocation(hwid)); //call ask_today_plan ()
 
     } else {
@@ -32,7 +31,7 @@ async function handle_beacon_event(userId, displayName, timestamp, hwid) {
         if (user_activity[i].plan != 'none'  && user_activity[i].askstate == true) { // users become active again
           const reenter = {
             type: 'text',
-            text: displayName + 're-enter'
+            text: displayName + ' re-enter'
           };
           this.message_service.send_Message(config.ReportGroupId, reenter);
         }

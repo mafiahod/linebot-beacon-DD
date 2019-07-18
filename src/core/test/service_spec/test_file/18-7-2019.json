@@ -6,7 +6,7 @@
         "timestamp": 1562774750526,
         "location": "Dimension Data Office, Asok",
         "askstate": true,
-        "plan": "work"
+        "plan": "none"
     },
     {
         "userId": "59011166",
@@ -32,7 +32,7 @@
         "type": "in",
         "timestamp": 1562774750526,
         "location": "Dimension Data Office, Asok",
-        "askstate": "none",
+        "askstate": true,
         "plan": "none"
     },
     {
@@ -41,16 +41,16 @@
         "type": "in",
         "timestamp": 1562774750526,
         "location": "Dimension Data Office, Asok",
-        "askstate": "none",
+        "askstate": true,
         "plan": "none"
     },
     {
-        "userId": "59011178",
-        "name": "Jahja",
+        "userId": "59010127",
+        "name": "ping",
         "type": "in",
         "timestamp": 1562774750526,
         "location": "Dimension Data Office, Asok",
-        "askstate": "none",
-        "plan": "none"
+        "askstate": true,
+        "plan": "work"
     }
 ]
