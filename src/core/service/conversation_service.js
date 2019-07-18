@@ -50,7 +50,7 @@ function ask_today_plan(userId, location) { //send the question to users
 
     var find_act = new Activity(userId, null, null, null, location, null, null);
     var find_obj = this.dal.find(find_act, null, true);
-    var Update_act = new Activity(userId, null, null, null, null, true, null);
+    var Update_act = new Activity(userId, null, null, null, location, true, null);
     setTimeout(() => {
     this.elastic.elasticupdate(Update_act,"askstate");
     },2000)
@@ -77,7 +77,7 @@ function callback(userId, location, count) {  //handle when users do not answer 
 
         } else if (check_ans[0].plan == 'none' && count == 3) {
             const message = '           ';
-            var Update_answer = new Activity(userId, null, null, null, null, null, message);
+            var Update_answer = new Activity(userId, null, null, null, location, null, message);
             this.elastic.elasticupdate(Update_answer,"plan");
             this.dal.update(Update_answer, null, check_ans);
             this.message_service.sendwalkin_Message(userId);
