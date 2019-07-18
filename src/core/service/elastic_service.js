@@ -1,47 +1,74 @@
 import * as elasticsearch from 'elasticsearch'
+import {Activity , User} from '../model/index'
+import { doesNotThrow } from 'assert';
 import { logger } from '../../../logs/logger';
+
 const current_datetime = new Date();
+
 var client = new elasticsearch.Client({
     host: 'localhost:9200',
-     log: 'trace'
+    //log: 'trace'
 });
-// var thescript ={
-//     "inline" :`ctx._source.plan='${obj.plan}';`
-// }
 
-async function elastic_update(obj,property) {
-    console.log("-------------------------------------")
-    console.log(obj[property]);
-   // console.log(obj);
-   //let a = obj[property];
-   await  client.updateByQuery({
-        index: 'myindex',//+current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear(),
-        type: '_doc',
-        body: {          
-            "query": { "match": { "obj.userId": obj.userId} },            
-            "script": { "inline": `ctx._source.obj.${property}='${obj[property]}';` }
-        }      
-    }, (result) => {
-        logger.info("elasticupdate");
-        logger.error(result);
+
+function elastic_save(obj) {
+    console.log("Enter function");
+    var presentIndex;
+    if (obj instanceof Activity) {
+        presentIndex = 'activity-'+current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
+    } else if (obj instanceof User) {
+        presentIndex = 'user';
+    }
+    var promise = new Promise((resolve, reject) => {
+        var res = client.index({
+            index: presentIndex,
+            type: '_doc',
+            body: obj
+        });
+        resolve(res);
+        reject();
     });
-
+    return promise;
 }
 
 
-async function elastic_save(obj) {
-    await client.index({
-        index: 'myindex',//+current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear(),
-        type: '_doc',
-        body: {
-            obj
+
+function elastic_update(obj , target) {
+    var presentIndex;
+    if (obj instanceof Activity) {
+        presentIndex = 'activity-'+current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
+    } else if (obj instanceof User) {
+        presentIndex = "user";
+    }
+    console.log("Enter Query");
+    var queryArray = [];
+    for(var property in obj){
+        console.log(property);
+        if(obj[property] != null && property != target){
+            queryArray.push({match : { [property] : obj[property] }});
         }
-    }, (result) => {
-        logger.info("elasticsave");
-        logger.error(result);
-
+    }
+    console.log(queryArray);
+    var promise = new Promise((resolve, reject) => {
+        var res = client.updateByQuery({
+            index: presentIndex,
+            type: '_doc',
+            body: {
+                "query": {
+                    "bool": {
+                      "must": queryArray
+                    }
+                  },
+                "script": { "inline": `ctx._source.${target} = ${obj[target]}; ` }
+            }
+        });
+        resolve(res);
+        reject();
     });
+    return promise;
 }
+
+
 
 class Elastic_service {
     constructor() {
