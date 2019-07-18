@@ -10,22 +10,16 @@ var Log_config = log4js.configure({
         numBackups: 3
       
       },
-      infoFile: {
-        type: "file",
-        filename: "./logs/"+ current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear()+ " info.log" ,       
-        maxLogSize: 10485760,
-        numBackups: 3
       
-      },
-      infoes: {
+      apps: {
         type: "logLevelFilter",
         level: "INFO",
-        appender: "infoFile"
+        appender: "app"
        
       }
     },
     categories: {
-     default: { "appenders": ["app","infoes"], "level": "DEBUG" }
+     default: { "appenders": ["apps"], "level": "DEBUG" }
      
     }
 
