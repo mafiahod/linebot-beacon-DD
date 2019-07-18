@@ -2,6 +2,7 @@
 import { Activity } from '../model/index'
 import { LocalFile } from '../data_access_layer/index'
 import { Message_service, Elastic_service } from './index'
+import { setTimeout } from 'timers';
 //import { send_message, Me } from './index'
 
 
@@ -24,7 +25,7 @@ function handle_in_Message(message, userId) {
 
             if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
                 var update_answer_from_user = new Activity(userId, null, null, null, null, null, message.text);
-                this.elastic.elasticupdate(update_answer_from_user);
+                this.elastic.elasticupdate(update_answer_from_user,"plan");
                 this.dal.update(update_answer_from_user, null, answer);
                 this.message_service.sendwalkin_Message(userId);
             }
@@ -49,10 +50,12 @@ function ask_today_plan(userId, location) { //send the question to users
 
     var find_act = new Activity(userId, null, null, null, location, null, null);
     var find_obj = this.dal.find(find_act, null, true);
-    var Update_act = new Activity(userId, null, null, null, null, true, null);
-
-    this.elastic.elasticupdate(Update_act);
+    var Update_act = new Activity(userId, null, null, null, location, true, null);
+    setTimeout(() => {
+    this.elastic.elasticupdate(Update_act,"askstate");
+    },2000)
     this.dal.update(Update_act, null, find_obj);
+   
     this.callback(userId, location, 0);
 
 }
@@ -74,8 +77,8 @@ function callback(userId, location, count) {  //handle when users do not answer 
 
         } else if (check_ans[0].plan == 'none' && count == 3) {
             const message = '           ';
-            var Update_answer = new Activity(userId, null, null, null, null, null, message);
-            this.elastic.elasticupdate(Update_answer);
+            var Update_answer = new Activity(userId, null, null, null, location, null, message);
+            this.elastic.elasticupdate(Update_answer,"plan");
             this.dal.update(Update_answer, null, check_ans);
             this.message_service.sendwalkin_Message(userId);
         }
