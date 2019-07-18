@@ -7,7 +7,7 @@ const current_datetime = new Date();
 
 var client = new elasticsearch.Client({
     host: 'localhost:9200',
-    //log: 'trace'
+    log: 'trace'
 });
 
 
@@ -22,6 +22,7 @@ function elastic_save(obj) {
     var promise = new Promise((resolve, reject) => {
         var res = client.index({
             index: presentIndex,
+            refresh:true,
             type: '_doc',
             body: obj
         });
@@ -46,12 +47,15 @@ function elastic_update(obj , target) {
         console.log(property);
         if(obj[property] != null && property != target){
             queryArray.push({match : { [property] : obj[property] }});
+            
         }
     }
     console.log(queryArray);
     var promise = new Promise((resolve, reject) => {
+        
         var res = client.updateByQuery({
             index: presentIndex,
+            refresh:true,
             type: '_doc',
             body: {
                 "query": {
@@ -59,12 +63,33 @@ function elastic_update(obj , target) {
                       "must": queryArray
                     }
                   },
-                "script": { "inline": `ctx._source.${target} = ${obj[target]}; ` }
+                "script": { "inline": `ctx._source.${target} = '${obj[target]}'; ` }
             }
-        });
+        })
+        
+        // console.log("-----------------------------------------");
+        // console.log("res string", JSON.stringify(res)); // {}
+        // console.log("res object", res); // {}
         resolve(res);
         reject();
+        // res.then(() => {
+        //     console.log("resolve")
+        //     resolve(res);
+        // })
+        // .catch(() => {
+        //     console.log("reject")
+        //     reject();
+        // })
+        
+        
     });
+
+    // promise.then((data) => {
+    //     console.log("data", data)
+    // })
+    // .catch((err) => {
+    //     console.log("err", err)
+    // })
     return promise;
 }
 

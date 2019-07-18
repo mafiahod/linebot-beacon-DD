@@ -7,7 +7,7 @@ import { logger } from '../../../logs/logger';
 
 
 
-function handle_beacon_event(userId, displayName, timestamp, hwid) {
+async function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
   var Find_userObj = new User(userId, displayName);  //Find out if the user is a member of the group or not.
   var user = this.dal.find(Find_userObj, null, true);
@@ -19,8 +19,9 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
     if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
       var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocationService.getLocation(hwid), 'none', 'none');
-      this.elastic.elasticsave(Saveactivity);
+   
       this.dal.save(Saveactivity);
+    await this.elastic.elasticsave(Saveactivity);
       return this.Conversationservice.ask_today_plan(userId, this.getLocationService.getLocation(hwid)); //call ask_today_plan ()
 
     } else {
