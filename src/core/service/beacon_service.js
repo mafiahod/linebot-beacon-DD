@@ -12,9 +12,11 @@ async function handle_beacon_event(userId, displayName, timestamp, hwid) {
   var Find_userObj = new User(userId, displayName);  //Find out if the user is a member of the group or not.
   var user = this.dal.find(Find_userObj, null, true);
 
+
   if (user.length != 0) {
     var Find_activityObj = new Activity(userId, null, null, null, this.getLocationService.getLocation(hwid), null, null);  // Find user activity and state
     var user_activity = this.dal.find(Find_activityObj, null, true);
+
     logger.info(user_activity);
 
     if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
@@ -28,7 +30,6 @@ async function handle_beacon_event(userId, displayName, timestamp, hwid) {
 
       for (var i in user_activity) {
         if (user_activity[i].plan != 'none'  && user_activity[i].askstate == true) { // users become active again
-          console.log('re-enter from beacon');
           const reenter = {
             type: 'text',
             text: displayName + 're-enter'
@@ -54,4 +55,3 @@ class Beacon_service {
 export {
   Beacon_service
 }
-

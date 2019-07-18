@@ -1,84 +1,81 @@
 'use strict';
-import { Beacon_service } from '../../service/index'
+import { LocalFile } from '../../data_access_layer/index'
+import { Beacon_service, GetLocation_service } from '../../service/index'
+
 var push = new Beacon_service();
+const current_datetime = new Date();
+const activitytestpath = './src/core/test/service_spec/test_file/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+const usertestpath = './src/core/test/service_spec/test_file/user.json'
+
+push.dal = new LocalFile(activitytestpath, usertestpath);
+push.getLocationService = new GetLocation_service();
+push.getLocationService.locationDir = './src/core/test/service_spec/getlocation_service_test_file/location.json'
 
 describe('handle beacon event', () => {
 
-    it(' should send message to group if user become active again in the same location', () => {
+    it(' should send question to user if user come in  first time when call  ask today plan', () => {
         var pushCalled;
-        var pushCalled1;
-        var useractivity = [];
-        var user1 = {
-            "userId": "1",
-            "name": "..BALL..",
-            "type": "in",
-            "timestamp": 1562774750526,
-            "location": "11111",
-            "askstate": "none",
-            "plan": "work"
-        };
+        var state = false;
+
         var user2 = {
-            "userId": "1",
-            "name": "..BALL..",
-            "type": "in",
+            "userId": "59011178",
+            "name": "Jahja",
             "timestamp": 1562774750526,
-            "location": "22222",
-            "askstate": "none",
-            "plan": "work"
+            "location": "012c75d8a3",
+
         };
-        useractivity.push(user1);
-        useractivity.push(user2);
 
-        push.handle_beacon_event = function mock_beacon(userId, location) {
+        push.Conversationservice.ask_today_plan = function mock_asktodayplan() {
 
-            for (var i in useractivity) {
-
-
-                if (userId == useractivity[i].userId && location == useractivity[i].location && useractivity[i].askstate == 'none') {
-
-                    push.Conversationservice.ask_today_plan = function mock_asktodayplan() {
-
-                        useractivity[i].askstate = true;
-
-                        push.Messageservice.send_Message = function mock_send_reenter(userId, message) {
-                           
-                            pushCalled = {
-                                toId: userId,
-                                message: message
-                            };
-
-                        }
-                        push.Messageservice.send_Message(userId, "what is your plan")
-                    }
-                   
-                    push.Conversationservice.ask_today_plan();
-
-                } else if (userId == useractivity[i].userId && location == useractivity[i].location && useractivity[i].askstate != 'none') {
-
-                    push.Messageservice.send_Message = function mock_send_reenter(groupId, message) {
-
-                        pushCalled1 = {
-                            toId: groupId,
-                            message: message
-                        };
-
-                    }
-
-                    push.Messageservice.send_Message(userId, "reenter");
-
-
-
-                }
+            state = true ;
+            
             }
+
+
+            push.handle_beacon_event(user2.userId, user2.name, user2.timestamp, user2.location);
+
+        expect (state).toEqual(true);
+        // push.Conversationservice.ask_today_plan(user2.userId, user2.location);
+
+        // push.message_service.send_Message = function mock_send_reenter(userId, message) {
+
+        //     pushCalled = {
+        //         toId: userId,
+        //         message: message
+        //     };
+
+        // }
+
+        // expect(pushCalled.message).toEqual("what is your plan todo today ");
+    });
+
+
+    it(' should send message to group if user become active again in the same location when call send messagge sevice', () => {
+        var pushCalled1;
+
+        var user2 = {
+            "userId": "59010126",
+            "name": "Ball",
+            "timestamp": 1562774750526,
+            "location": "012c75d8a3",
+        };
+
+        push.message_service.send_Message= function mock_send(userId, message) {
+            pushCalled1 = {
+                toId: userId,
+                message: message
+            };
+
         }
-        push.handle_beacon_event("1", "22222");
-        expect(pushCalled.message).toEqual("what is your plan");
-        push.handle_beacon_event("1", "22222");
-        expect(pushCalled1.message).toEqual("reenter");
-        push.handle_beacon_event("1", "11111");
-        expect(pushCalled.message).toEqual("what is your plan");
+        push.handle_beacon_event(user2.userId, user2.name, user2.timestamp, user2.location);
+       
+
+        expect(pushCalled1.message.text).toEqual(user2.name+" re-enter");
 
     });
+
+
+
 
 
 });
