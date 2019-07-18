@@ -32,7 +32,7 @@ function handle_beacon_event(userId, displayName, timestamp, hwid) {
             type: 'text',
             text: displayName + 're-enter'
           };
-          this.Messageservice.send_message(config.ReportGroupId, reenter);
+          this.message_service.send_Message(config.ReportGroupId, reenter);
         }
       }
       return;
@@ -44,7 +44,7 @@ class Beacon_service {
   constructor() {
     this.Conversationservice = new Conversation_service();
     this.handle_beacon_event = handle_beacon_event;
-    this.Messageservice = new Message_service();
+    this.message_service = new Message_service();
     this.dal = new LocalFile();
     this.getLocationService = new GetLocation_service();
     this.elastic = new Elastic_service();
