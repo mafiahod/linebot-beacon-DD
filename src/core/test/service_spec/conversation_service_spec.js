@@ -1,138 +1,106 @@
 'use strict';
 import { Conversation_service } from '../../service/index'
+import { LocalFile } from '../../data_access_layer/index'
+
+import { Beacon_service, GetLocation_service } from '../../service/index'
 var push = new Conversation_service();
+const current_datetime = new Date();
+const activitytestpath = './src/core/test/service_spec/test_file/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
+const usertestpath = './src/core/test/service_spec/test_file/user.json'
 
-describe('callback', () => {
+push.dal = new LocalFile(activitytestpath, usertestpath);
+describe('conversation service ', () => {
+    // it('should send queastion to user when call ask_today_plan', () => {
 
-    it('should push 3 message even late reply ', (done) => {
-        var check_ans = [];
-        var activity = {
-            "userId": "U9f12e85f8a0d10571a4af43eacd9e127",
-            "name": "..BALL..",
-            "type": "in",
-            "timestamp": 1562774750526,
-            "location": "Dimension Data Office, Asok",
-            "askstate": true,
-            "plan": "none"
-        };
-        check_ans.push(activity);
-        var resultArray = [];
-        push.message_service.send_Message = function mock_sendMessage(id, message) {
-            resultArray.push({
-                toId: id,
-                message: message
-            });
-        };
+    //     var pushCalled;
 
-        push.callback = function mock_callback(check_ans,count) {
-            setTimeout(() => {
-                if (check_ans[0].plan == 'none' && count < 3) {
-                    push.message_service.send_Message("U9f12e85f8a0d10571a4af43eacd9e127", "hello");
-                    count++;
-                   
-                    push.callback(check_ans,count);
-                } else if (check_ans[0].plan != 'none') {
-                    console.log("exist loop from conver,callback");
-                    return;
-                }
-            }, 1000)
-        };
+    //     var user2 = {
+    //         "userId": "59011166",
+    //         "name": "Grace",
+    //         "timestamp": 1562774750526,
+    //         "location": "Dimension Data Office, Asok",
 
-        push.callback(check_ans,0);
-        setTimeout(() => {
-            expect(resultArray).toEqual([{ toId: 'U9f12e85f8a0d10571a4af43eacd9e127', message: 'hello' }, { toId: 'U9f12e85f8a0d10571a4af43eacd9e127', message: 'hello' }, { toId: 'U9f12e85f8a0d10571a4af43eacd9e127', message: 'hello' }]);
-            done();
-
-        }, 4000);
-    });
+    //     };
 
 
+    //     push.ask_today_plan(user2.userId, user2.location);
 
-    it('should push only 2 message when activity.plan has updated at second callback()', (done) => {
-        var check_ans = [];
-        var activity = {
-            "userId": "U9f12e85f8a0d10571a4af43eacd9e127",
-            "name": "..BALL..",
-            "type": "in",
-            "timestamp": 1562774750526,
-            "location": "Dimension Data Office, Asok",
-            "askstate": true,
-            "plan": "none"
-        };
+    //     push.message_service.send_Message = function mock_send_reenter(userId, message) {
 
-        check_ans.push(activity);
-        var resultArray = [];
-        push.message_service.send_Message = function mock_sendMessage(id, message) {
-            resultArray.push({
-                toId: id,
-                message: message
-            });
-        };
+    //         pushCalled = {
+    //             toId: userId,
+    //             message: message
+    //         };
 
-      
-        push.callback = function mock_callback(check_ans,count) {
-            setTimeout(() => {
-                if (count == 2) {
-                    activity.plan = "work";
-                }
-                if (check_ans[0].plan == 'none' && count < 3) {
-                    push.message_service.send_Message("U9f12e85f8a0d10571a4af43eacd9e127", "hello");
-                    count++;
-                    push.callback(check_ans,count);
-                } else if (check_ans[0].plan != 'none') {
-                    console.log("exist loop from conver,callback");
-                    return;
-                }
-            }, 1000)
-        };
+    //     }
+    //     push.message_service.send_Message('user2.userId', "what is your plan todo today ");
 
-        push.callback(check_ans,0);
-        setTimeout(() => {
-            expect(resultArray).toEqual([{ toId: 'U9f12e85f8a0d10571a4af43eacd9e127', message: 'hello' }, { toId: 'U9f12e85f8a0d10571a4af43eacd9e127', message: 'hello' }]);
-            done();
-        }, 4000);
-    });
+
+    //     expect(pushCalled.message).toEqual("what is your plan todo today ");
+    // });
+
+    // it('should push 3 message even late reply when call callback()', (done) => {
+
+    //     var resultArray = [];
+    //     var user2 = {
+    //         "userId": "59011111",
+    //         "name": "jam",
+    //         "timestamp": 1562774750526,
+    //         "location": "Dimension Data Office, Asok",
+
+    //     };
+
+    //     push.callback(user2.userId, user2.location, 0)
+
+    //     push.message_service.send_Message = function mock_callback(userId, message) {
+    //         resultArray.push({
+    //             toId: userId,
+    //             message: message
+    //         });
+
+    //     }
+
+    //     setTimeout(() => {
+    //         console.log(resultArray);
+    //         expect(resultArray.length).toEqual(3);
+    //         done();
+    //     }, 4000);
+    // });
+
+
+
+   
 
     it('should push message 6 times if users are arrive 2 people', (done) => {
-        var check_ans = [];
-        var activity = {
-            "userId": "U9f12e85f8a0d10571a4af43eacd9e127",
-            "name": "..BALL..",
-            "type": "in",
-            "timestamp": 1562774750526,
-            "location": "Dimension Data Office, Asok",
-            "askstate": true,
-            "plan": "none"
-        };
+        var dataArray = [];
+            var user2 = {
+                "userId": "59011112",
+                "name": "jib",
+                "timestamp": 1562774750526,
+                "location": "Dimension Data Office, Asok",
+    
+            };
+            var user1 = {
+                "userId": "59011113",
+                "name": "jang",
+                "timestamp": 1562774750526,
+                "location": "Dimension Data Office, Asok",
+    
+            };
+    
+            push.message_service.send_Message = function mock_callback(userId, message) {
+                dataArray.push({
+                    toId: userId,
+                    message: message
+                });
+    
+            }
+        push.callback(user2.userId, user2.location, 0);
+        push.callback(user1.userId, user1.location, 0);
 
-        check_ans.push(activity);
-        var resultArray = [];
-        push.message_service.send_Message = function mock_sendMessage(id, message) {
-            resultArray.push({
-                toId: id,
-                message: message
-            });
-        };
-
-      
-        push.callback = function mock_callback(check_ans,count) {
-            setTimeout(() => {
-                
-                if (check_ans[0].plan == 'none' && count < 3) {
-                    push.message_service.send_Message("U9f12e85f8a0d10571a4af43eacd9e127", "hello");
-                    count++;
-                    push.callback(check_ans,count);
-                } else if (check_ans[0].plan != 'none') {
-                    console.log("exist loop from conver,callback");
-                    return;
-                }
-            }, 1000)
-        };
-
-        push.callback(check_ans,0);
-        push.callback(check_ans,0);
         setTimeout(() => {
-            expect(resultArray.length).toEqual(6);
+            console.log(dataArray);
+            expect(dataArray.length).toEqual(6);
             done();
         }, 4000);
     });
