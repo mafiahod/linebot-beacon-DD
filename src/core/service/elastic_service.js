@@ -22,6 +22,7 @@ function elastic_save(obj) {
     var promise = new Promise((resolve, reject) => {
         var res = client.index({
             index: presentIndex,
+            refresh : true,
             type: '_doc',
             body: obj
         });
@@ -48,10 +49,13 @@ function elastic_update(obj , target) {
             queryArray.push({match : { [property] : obj[property] }});
         }
     }
+    var scriptSet = {"inline": `ctx._source.${target} = '${obj[target]}'; `};
+    if(target == 'askstate' && obj[target] == true) scriptSet = {"inline": `ctx._source.${target} = ${obj[target]}; `};
     console.log(queryArray);
     var promise = new Promise((resolve, reject) => {
         var res = client.updateByQuery({
             index: presentIndex,
+            refresh : true,
             type: '_doc',
             body: {
                 "query": {
@@ -59,7 +63,7 @@ function elastic_update(obj , target) {
                       "must": queryArray
                     }
                   },
-                "script": { "inline": `ctx._source.${target} = ${obj[target]}; ` }
+                "script": scriptSet
             }
         });
         resolve(res);
