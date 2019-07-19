@@ -90,7 +90,7 @@ function handleEvent(event) {
     case 'beacon':
       client.getProfile(event.source.userId)
         .then((profile) => {
-          Beaconservice.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid);
+          Beaconservice.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid,profile.pictureUrl);
         }).catch((err) => {
           logger.error(err);
         });

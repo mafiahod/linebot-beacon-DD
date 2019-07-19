@@ -28,7 +28,7 @@ function send_message(id, message_content) {
 
 
 function sendwalkin_message(userId) {
-    var query_useractivity = new Activity(userId, null, null, null, null, null, null);
+    var query_useractivity = new Activity(userId, null, null, null, null, null, null,null);
     var query_activity = dal.find(query_useractivity, 1, true);/////
     logger.info(query_activity);
 
