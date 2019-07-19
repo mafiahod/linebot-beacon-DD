@@ -10,23 +10,16 @@ import { setTimeout } from 'timers';
 function handle_in_Message(message, userId) {
     var Find_state = new Activity(userId, null, null, null, null, true, null); //Find out which state is asked or not.
     var ask_state = this.dal.find(Find_state, 1, true);
-
     for (var i = 0; i < ask_state.length; i++) {
-        if (ask_state.length == 0) {
-            const not_ask = {
-                type: 'text',
-                text: 'i don\'t know what you mean'
-            };
-            this.message_service.send_Message(userId, not_ask);
-
-        } else {
+    
             var Find_answer = new Activity(userId, null, null, null, null, null, null);  //find the activity of the user by userid 
             var answer = this.dal.find(Find_answer, 1, true);
 
-            if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message  
-                var update_answer_from_user = new Activity(userId, null, null, null, null, null, message.text);
+            if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message 
+                var update_answer_from_user = new Activity(userId, null, null, null, "Dimension Data Office, Asok", null, message.text);
                 this.elastic.elasticupdate(update_answer_from_user,"plan");
                 this.dal.update(update_answer_from_user, null, answer);
+              
                 this.message_service.sendwalkin_Message(userId);
             }
             else if (answer[i].plan != 'none') {
@@ -35,7 +28,7 @@ function handle_in_Message(message, userId) {
                     text: 'you answered the question'
                 };
                 this.message_service.send_Message(userId, answered);
-            }
+            
         }
     }
 
@@ -47,16 +40,18 @@ function ask_today_plan(userId, location) { //send the question to users
         text: 'what\'s your plan to do today at ' + location + ' ?'
     };
     this.message_service.send_Message(userId, question);
-
+console.log("++++++++++++++++++++++++++++++");
     var find_act = new Activity(userId, null, null, null, location, null, null);
     var find_obj = this.dal.find(find_act, null, true);
     var Update_act = new Activity(userId, null, null, null, location, true, null);
-    setTimeout(() => {
-    this.elastic.elasticupdate(Update_act,"askstate");
-    },2000)
+    //setTimeout(() => {
+    this.elastic.elasticupdate(Update_act,"askstate")
+        
+
+    //},2000)
     this.dal.update(Update_act, null, find_obj);
-   
     this.callback(userId, location, 0);
+    
 
 }
 
@@ -86,7 +81,7 @@ function callback(userId, location, count) {  //handle when users do not answer 
             console.log("exist loop from conver,callback");
             return;
         }
-    }, 15000)
+    }, 1000)
 }
 
 class Conversation_service {
