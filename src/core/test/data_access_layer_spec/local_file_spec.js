@@ -1,56 +1,37 @@
 'use strict';
 
-import { LocalFile } from '../../data_access_layer/index'
-import { Activity, State, User } from '../../model/index'
-import * as fs from 'fs'
-
+import { LocalFile } from '../../data_access_layer'
+import { Activity, State, User } from '../../model'
+import fs from 'fs'
+import rimraf from 'rimraf'
 const current_datetime = new Date();
-const activitytestpath = './src/core/test/data_access_layer_spec/test_file/' + current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear() + '.json';
-const usertestpath = './src/core/test/data_access_layer_spec/test_file/user.json';
-
-const daltest = new LocalFile(activitytestpath, usertestpath);
-
-describe('answer', () => {
+const testpath = './src/core/test/data_access_layer_spec/test_file/';
 
 
 
-    it('save will create user file if There is no exist file or append data if file is created', () => {
-        if (fs.existsSync(usertestpath)) {
-            fs.unlinkSync(usertestpath);
-        }
-        var testSaveUser = new User('59010126', 'Ball');
-        daltest.save(testSaveUser);
-        var check = fs.readFileSync(usertestpath);
-        var dataArray = JSON.parse(check);
-        for (var i in dataArray) {
-            if (dataArray[i] === testSaveUser) {
-                expect(dataArray[i]).toEqual(testSaveUser);
-            }
-        }
+const daltest = new LocalFile(testpath,[Activity]);
+describe('LocalFile', () => {
+
+    it('save() should write obj to file correctly', () => {
+        if (fs.existsSync(testpath)) rimraf.sync(testpath);
+        var userFilePath = daltest.getSaveFilePath(User);
+        var activityFilePath = daltest.getSaveFilePath(User);
+        daltest.save(new User('59010126', 'Ball'));
+        expect(daltest.getObjFileContent(User)).withContext(`Never add obj; file:${userFilePath} should contain 1 obj`).toEqual([{userId:'59010126',name:'Ball'}]);
+        daltest.save(new User('59010127', 'Jah'));
+        expect(daltest.getObjFileContent(User)).withContext(`1 obj already save; file:${userFilePath} should contain 2 obj`).toEqual([{name:'Ball',userId:'59010126'},{userId:'59010127',name:'Jah'}]);
+        rimraf.sync(testpath);
+        daltest.save(new User('59010126', 'Ball'));
+        expect(daltest.getObjFileContent(User)).withContext(`Remove save dir and save a new obj; file:${userFilePath} should contain a new obj`)
+        daltest.save(new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '222'));
+        expect(daltest.getObjFileContent(User)).withContext(`save obj different class, previous class file:${userFilePath} should not be affected`).toEqual([{userId:'59010126',name:'Ball'}]);
+        expect(daltest.getObjFileContent(Activity)).withContext(`save another class previous class file: ${activityFilePath} should contains different obj`).toEqual([{userId : '59010126', name :  'Ball', type : 'in', timestamp :  '123456789',location : 'Test', askstate : true, plan : '222'}]);
     });
 
 
-    it('save will create activity file if There is no exist file or append data to exist file', () => {
-        if (fs.existsSync(activitytestpath)) {
-            fs.unlinkSync(activitytestpath);
-        }
-        var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '222');
-        daltest.save(testSaveActivity);
-        var check = fs.readFileSync(activitytestpath);
-        var dataArray = JSON.parse(check);
-        for (var i in dataArray) {
-            if (dataArray[i] === testSaveActivity) {
-                expect(dataArray[i]).toEqual(testSaveActivity);
-            }
-        }
-    });
-
-
-
-
-    it('find will return array with user data that has userid following in find', () => {
-        if (fs.existsSync(usertestpath)) {
-            fs.unlinkSync(usertestpath);
+    it('find() will return array with user data that has userid following in find', () => {
+        if (fs.existsSync(testpath)) {
+            rimraf.sync(testpath);
         }
         var check = [];
         var testSaveUser = new User('59010126', 'Ball');
@@ -70,8 +51,8 @@ describe('answer', () => {
 
 
     it('find will return array with only user data that has name == Ball', () => {
-        if (fs.existsSync(usertestpath)) {
-            fs.unlinkSync(usertestpath);
+        if (fs.existsSync(testpath)) {
+            rimraf.sync(testpath);
         }
         var check = [];
         var testSaveUser = new User('59010126', 'Ball');
@@ -92,8 +73,8 @@ describe('answer', () => {
 
 
     it('find will return array with activity data that has userid following in find and sort by oldest to slastest', () => {
-        if (fs.existsSync(activitytestpath)) {
-            fs.unlinkSync(activitytestpath);
+        if (fs.existsSync(testpath)) {
+            rimraf.sync(testpath);
         }
         var check = [];
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '555');
@@ -115,8 +96,8 @@ describe('answer', () => {
 
 
     it('find will return only 2 newest activity data (2 last data saved)', () => {
-        if (fs.existsSync(activitytestpath)) {
-            fs.unlinkSync(activitytestpath);
+        if (fs.existsSync(testpath)) {
+            rimraf.sync(testpath);
         }
         var checkArray = [];
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
@@ -139,9 +120,9 @@ describe('answer', () => {
     });
 
 
-    it('should will update new Answer to wanted activity', () => {
-        if (fs.existsSync(activitytestpath)) {
-            fs.unlinkSync(activitytestpath);
+    it('should update new Answer to wanted activity', () => {
+        if (fs.existsSync(testpath)) {
+            rimraf.sync(testpath);
         }
         var checkArray = [];
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
@@ -155,10 +136,9 @@ describe('answer', () => {
         daltest.save(three);
         daltest.save(four);
         var testfindobj = new Activity('59010126',null,null,null,null,null,null);
-        var testfindres = daltest.find(testfindobj , null , null);
         var testupdateobj = new Activity(null,null,null,null,null,null,'gotoPlay');
 
-        daltest.update(testupdateobj,null,testfindres);
+        daltest.update(testupdateobj,null,testfindobj);
 
         var mustbe = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, 'gotoPlay');
         var mustbe2 = new Activity('59010126', 'Ball', 'in', '665456789', 'Test55', true, 'gotoPlay');
@@ -172,9 +152,9 @@ describe('answer', () => {
         }
     });
 
-    it('should will replace whole activity property', () => {
-        if (fs.existsSync(activitytestpath)) {
-            fs.unlinkSync(activitytestpath);
+    it('should replace whole activity property', () => {
+        if (fs.existsSync(testpath)) {
+            rimraf.sync(testpath);
         }
         var testSaveActivity = new Activity('59010126', 'Ball', 'in', '123456789', 'Test', true, '666');
         var testSaveActivity2 = new Activity('59010126', 'Ball', 'in', '665456789', 'Test55', true, 'free');
@@ -188,10 +168,9 @@ describe('answer', () => {
         daltest.save(four);
         
         var testfindobj = new Activity('59010126',null,null,null,null,null,null);
-        var testfindres = daltest.find(testfindobj , null , null);
 
         var testupdateobj = new Activity('59010126',null,null,null,null,null,'gotoPlay');
-        daltest.update(testupdateobj,true,testfindres);
+        daltest.update(testupdateobj,true,testfindobj);
 
         var mustbe = new Activity('59010126',null,null,null,null,null, 'gotoPlay');
         var findobj2 = new Activity('59010126',null,null,null,null,null,null);

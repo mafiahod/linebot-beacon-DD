@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "test": "npm run build && jasmine ./dist/src/core/test/service_spec/message_service_spec.js",
+    "test": "npm run build && jasmine ./dist/src/core/test/data_access_layer_spec/local_file_spec.js",
+    "play": "npm run build && node dist/src/core/test/play.js",
     "start": "npm run build && node dist/src/app.js"
   },
   "keywords": [
@@ -31,7 +32,9 @@
     "@line/bot-sdk": "^6.8.0",
     "babel": "^6.23.0",
     "babelify": "^10.0.0",
+    "elasticsearch": "^16.3.0",
     "express": "^4.17.1",
+    "is-subset": "^0.1.1",
     "lodash": "^4.17.13",
     "log4js": "^4.4.0",
     "moment": "^2.24.0",
