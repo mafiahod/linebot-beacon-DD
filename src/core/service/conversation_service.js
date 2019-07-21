@@ -10,26 +10,23 @@ import { setTimeout } from 'timers';
 function handle_in_Message(message, userId) {
     var Find_state = new Activity(userId, null, null, null, null, true, null,null); //Find out which state is asked or not.
     var ask_state = this.dal.find(Find_state, 1, true);
-    for (var i = 0; i < ask_state.length; i++) {
-    
-            var Find_answer = new Activity(userId, null, null, null, null, null, null,null);  //find the activity of the user by userid 
-            var answer = this.dal.find(Find_answer, 1, true);
 
-            if (answer[i].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message 
-                var update_answer_from_user = new Activity(userId, null, null, null, "Dimension Data Office, Asok", null, message.text,null);
+
+            if (ask_state[0].plan == 'none') {  //if plan parameter equals to none then updated an answer with incomeing message 
+                var update_answer_from_user = new Activity(userId, null, null, null,ask_state[0].location, null, message.text,null);
                 this.elastic.elasticupdate(update_answer_from_user,"plan");
                 this.dal.update(update_answer_from_user, null, answer);
               
                 this.message_service.sendwalkin_Message(userId);
             }
-            else if (answer[i].plan != 'none') {
+            else if (ask_state[0].plan!= 'none') {
                 const answered = {
                     type: 'text',
                     text: 'you answered the question'
                 };
                 this.message_service.send_Message(userId, answered);
             
-        }
+        
     }
 
 }
