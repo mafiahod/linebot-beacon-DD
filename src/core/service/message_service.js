@@ -4,10 +4,7 @@ import { Client, middleware } from '@line/bot-sdk'
 import { LocalFile } from '../data_access_layer/index'
 import * as config from '../config'
 import { logger } from '../../../logs/logger'
-<<<<<<< Updated upstream
-=======
 import { Elastic_service } from './index';
->>>>>>> Stashed changes
 
 //import 'moment'
 const moment = require('moment');
@@ -51,10 +48,7 @@ function sendwalkin_message(userId) {
 
 
 function create_walkinMessage(profile, query_activity) {//format of the sent message 
-<<<<<<< Updated upstream
-=======
     this.elastic_Service.elasticsave(query_activity[0]);
->>>>>>> Stashed changes
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -169,6 +163,7 @@ class Message_service {
         this.send_Message = send_message;
         this.sendwalkin_Message = sendwalkin_message;
         this.create_Walkinmessage = create_walkinMessage;
+        this.elastic_Service = new Elastic_service();
     }
 }
 
