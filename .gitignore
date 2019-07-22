@@ -1,7 +1,7 @@
 
 resource/
-
+ngrok-stable-windows-amd64/
 node_modules/
 dist/
-src/core/config.js
-log/
+logs/
+**/test_file/*
