@@ -4,7 +4,7 @@ import { Client, middleware } from '@line/bot-sdk'
 import { LocalFile } from '../data_access_layer/index'
 import * as config from '../config'
 import { logger } from '../../../logs/logger'
-
+import {Elastic_service} from './index'
 //import 'moment'
 const moment = require('moment');
 const dal = new LocalFile();
@@ -46,7 +46,10 @@ function sendwalkin_message(userId) {
 }
 
 
-function create_walkinMessage(profile, query_activity) {//format of the sent message 
+function create_walkinMessage(profile, query_activity) {//format of the sent message
+   
+   
+this.elastic_Service.elasticsave(query_activity[0]);
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -150,7 +153,7 @@ function create_walkinMessage(profile, query_activity) {//format of the sent mes
             }
         }
     };
-
+    
     return flexMessage;
 }
 
@@ -161,6 +164,7 @@ class Message_service {
         this.send_Message = send_message;
         this.sendwalkin_Message = sendwalkin_message;
         this.create_Walkinmessage = create_walkinMessage;
+        this.elastic_Service = new Elastic_service();
     }
 }
 
