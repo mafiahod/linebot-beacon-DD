@@ -60,7 +60,7 @@ class LocalFile {
         findObj = extractNotNull(findObj);
         var cleanUpdateValue = extractNotNull(updateValue)
         var updateCount =0;
-        for (var i =0; i<=dataArray.length; i++) {
+        for (var i =0; i<dataArray.length; i++) {
             var curData = Object.assign(new findObj.constructor(),dataArray[i]);
             if(isIncludeMatchedProperties(curData,findObj)){
                 let toUpdate;
@@ -86,7 +86,7 @@ class LocalFile {
         if(desc)  dataArray.reverse();
         var resultArray = [];
         findObj = extractNotNull(findObj)
-        for (var i =0; i<=dataArray.length; i++) {
+        for (var i =0; i<dataArray.length; i++) {
             if(count != null && resultArray.length+1>count) break;
             var curData = Object.assign(new findObj.constructor(),dataArray[i]);
             if(isIncludeMatchedProperties(curData,findObj)){
