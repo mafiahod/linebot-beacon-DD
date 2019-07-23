@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "test": "npm run build && jasmine ./dist/src/core/test/service_spec/message_service_spec.js",
+    "esinsert":"npm run build && ./dist/src/utility/elastic_script/insert.js",
     "start": "npm run build && node dist/src/app.js"
   },
   "keywords": [
