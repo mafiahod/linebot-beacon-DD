@@ -8,7 +8,7 @@ function getLocation(hwid) {
         var dataArray = JSON.parse(data);
         for (var i in dataArray) {
             if (dataArray[i].hardwareID == hwid) {
-                return dataArray[i].LocationName;
+                return [dataArray[i].LocationName,dataArray[i].lat_long];
             }
         }
         return ("This Hardware ID is not saved Location");

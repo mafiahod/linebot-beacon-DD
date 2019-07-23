@@ -20,6 +20,22 @@ function elastic_save(obj) {
         presentIndex = 'user';
     }
     var promise = new Promise((resolve, reject) => {
+        client.indices.create({
+            index: presentIndex,
+            body: {
+                mappings:{
+                    "properties": {
+                        "timestamp": {
+                        "type": "date"
+                        },
+                        "lat_long":{
+                            "type":"geo_point"
+                        }
+                    }
+                }
+            }
+            
+        }).then(suc=>console.log(suc)).catch(err=>{console.log(err)});
         var res = client.index({
             index: presentIndex,
             refresh : true,
@@ -28,7 +44,7 @@ function elastic_save(obj) {
         });
         resolve(res);
         reject();
-    });
+    }).then(suc=>console.log(suc)).catch(err=>{console.log(err)});
     return promise;
 }
 
