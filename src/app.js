@@ -10,7 +10,7 @@ const express = require('express');
 const app = express();
 const logconfig = Log_config;               //const config = require('./core/config.js');
 const client = new Client(config);          // create LINE SDK client
-const dal = new LocalFile('../resource',[Activity]);
+const dal = new LocalFile(null,[Activity]);
 const elastic = new ElasticService();
 const messageService = new MessageService(new Client(config));
 const conversationService = new ConversationService(dal,messageService,elastic);

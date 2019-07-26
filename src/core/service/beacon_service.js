@@ -1,15 +1,13 @@
 (function () {'use strict';}());
-import { User, Activity } from '../model';
+import { User, Activity, Location } from '../model';
 import config from '../config';
 import { logger } from '../../logger';
 import { LocalFile } from '../data_access_layer';
 
-
  function handleBeaconEvent(userId, displayName, timestamp, hwid, url) {
   var user = this.dal.find(new User(userId), null, true); //Find out if the user is a member of the group or not.
-
   if (user.length != 0) {
-    let location = dal.find(new Location(hwid))[0];
+    let location = this.dal.find(new Location(hwid))[0];
     if(location === undefined){logger.error(`Unrecognized hardware id: ${hwid}`);return;}
 
     var findActivity = new Activity(userId, null, null, null, location , null, null,null);  
@@ -23,9 +21,9 @@ import { LocalFile } from '../data_access_layer';
 
     } else {
       logger.debug(`handleBeaconEvent found matched activity -> userid: ${userId}, location: ${location.locationName}`);
-      for (var i in user_activity) {
-        if (user_activity[i].plan != 'none'  && user_activity[i].askstate == true) { // users become active again
-          this.message_service.send_Message(config.ReportGroupId, displayName + ' re-enter '+location.locationName);
+      for (var i in matchedActities) {
+        if (matchedActities[i].plan != 'none'  && matchedActities[i].askstate == true) { // users become active again
+          this.messageService.sendMessage(config.ReportGroupId, displayName + ' re-enter '+location.locationName);
           return;
         }
       }

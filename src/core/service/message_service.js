@@ -10,7 +10,13 @@ async function sendMessage(id, messageContent) {
                 text: messageContent
             };
     }
-    await this.client.pushMessage(id, messageContent);
+    console.log(messageContent);
+    try{
+        await this.client.pushMessage(id, messageContent);
+    }
+    catch(err){
+        logger.error("Fail while try to send message: ",err);
+    }
 }
 
 async function sendWalkInMessage(activity) {
@@ -88,7 +94,7 @@ function createWalkInMessage( activity) {//format of the sent message
                                     },
                                     {
                                         "type": "text",
-                                        "text": activity.location,
+                                        "text": activity.location.locationName,
                                         "wrap": true,
                                         "color": "#666666",
                                         "size": "sm",

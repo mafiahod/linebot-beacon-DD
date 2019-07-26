@@ -18,8 +18,8 @@ async function handleInMessage(message, userId) {
         let matchedActivity = matchedActivities[0];
         if (matchedActivity.plan === 'none') {  
             //if plan parameter equals to none then updated an answer with incomeing message 
+            this.dal.update( {plan:message.text}, null, matchedActivity);
             matchedActivity.plan = message.text;
-            this.dal.update( matchedActivity, null, new Activity(userId,null,null,null,matchedActivity.location,'none',null));
             this.elastic.save(matchedActivity);
             await this.messageService.sendWalkInMessage( matchedActivity);
         }
@@ -33,7 +33,7 @@ async function handleInMessage(message, userId) {
 }
 
 function askTodayPlan(userId, location) { //send the question to users
-    this.message_service.sendMessage(userId, 'what\'s your plan to do today at ' + location.locationName + ' ?');
+    this.messageService.sendMessage(userId, 'what\'s your plan to do today at ' + location.locationName + ' ?');
     // update to mark as already ask question
     this.dal.update({askstate:true}, null, new Activity(userId, null, null, null, location, null, null, null)); 
     return new Promise((resolve) => {this.callback(userId, location, 0);});
@@ -43,17 +43,20 @@ function askTodayPlan(userId, location) { //send the question to users
 function callback(userId, location, count) {  //handle when users do not answer question within 15 seconds
     return new Promise(resolve=>{
         setTimeout(() => {
+            logger.debug(`call back for ${count} times`);
             var checkAnswer = new Activity(userId, null, null, null, location, null, null, null);
             var checkAns = this.dal.find(checkAnswer, 1, true);
-            if (checkAns[0].plan == 'none' && count < 3) {
-                this.message_service.sendMessage(userId, 'Please enter your answer');
-                this.callback(userId, location, count++).then(()=>{resolve();});
+            if (checkAns[0].plan === 'none' && count < 3) {
+                this.messageService.sendMessage(userId, 'Please enter your answer');
+                count= count+1;
+                this.callback(userId, location, count).then(()=>{resolve();});
 
-            } else if (checkAns[0].plan == 'none' && count == 3) {
-                var updateAnswer = new Activity(userId, null, null, null, location, null, '           ', null);  // has notified for 3 times but no response
-                this.dal.update(updateAnswer, null, checkAns);
-                this.elastic.save(updateAnswer);
-                this.message_service.sendWalkInMessage(userId).then(
+            } else if (checkAns[0].plan === 'none' && count == 3) {
+                //var updateAnswer = new Activity(userId, null, null, null, location, null, '           ', null);  // has notified for 3 times but no response
+                
+                this.dal.update({plan:'           '},false,checkAns[0]);
+                checkAns[0].plan = '           ';
+                this.messageService.sendWalkInMessage(checkAns[0]).then(
                     ()=>{resolve();}
                 ).catch(err=>{logger.error(err);});
             }

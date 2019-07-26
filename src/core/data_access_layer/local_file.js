@@ -23,6 +23,7 @@ function extractNotNull(in_obj) { // remove null and undefined property
 class LocalFile {
     
     constructor(inputDbDir = defDir, transactionalClass=[]) {
+        logger.debug("LocalFile init save file at: "+inputDbDir);
         if(inputDbDir === null) inputDbDir = defDir;
         this.dbDir = inputDbDir;
         let tran = [];
@@ -60,13 +61,13 @@ class LocalFile {
                     toUpdate = Object.assign(curData,cleanUpdateValue);
                 else 
                     toUpdate = updateValue;
-                logger.debug(`mark for update: ${dataArray[i]} to ${toUpdate}`);
+                logger.debug(`mark for update: ${JSON.stringify(dataArray[i])} to ${JSON.stringify(toUpdate)}`);
                 dataArray[i] = toUpdate;
                 updateCount++;
             }
         }
         fs.writeFileSync(fileUrl, JSON.stringify(dataArray, null, 4));
-        logger.debug(`update success: ${JSON.stringify(updateValue)} replace=${replace} total: ${updateCount} records`);
+        logger.debug(`update success: ${JSON.stringify(updateValue)} replace=${replace} where=${JSON.stringify(findObj)} total: ${updateCount} records`);
     }
     
     find(findObj, count=null, desc=false) { 
@@ -93,7 +94,7 @@ class LocalFile {
     }
 
     getSaveFilePath(obj){ // ควรเป้น private method
-        return path.join(this.getSaveDir(obj),getClassName(obj)+".json");
+        return path.resolve(path.join(this.getSaveDir(obj),getClassName(obj)+".json"));
     }
 
     getSaveDir(obj){
