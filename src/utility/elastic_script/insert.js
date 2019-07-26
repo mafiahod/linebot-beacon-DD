@@ -14,7 +14,13 @@ allUsers[7].url = "https://profile.line-scdn.net/0m01069df87251aea554672fcdde287
 allUsers[8].url = "https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e";
 allUsers[9].url = "https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e";
 let allMessages = ['no plan', 'working', 'sleeping', 'have lunch'];
-let allLocations = ['Ais', 'DDTH', 'BBL', 'KK', 'SiamPiwat']
+let allLocations = [
+    {'name':'Chidlom Site','lat_long':'13.783080, 100.546186'},
+    {'name':'Dimension Data, Asok','lat_long':'13.732993, 100.560407'},
+    {'name':'BBL','lat_long':'13.742993, 100.561407'},
+    {'name':'KK','lat_long':'13.792993, 100.591407'},
+    {'name':'SiamPiwat','lat_long':'13.762993, 100.661407'}
+]
 
 let client = new ESClient({ host: 'localhost:9200', log: 'trace' });
 
@@ -28,7 +34,7 @@ function createRandomActivity(date) {
     date.setTime(randomHour + date.getTime());
 
 
-    return new Activity(pickedUser.userId, pickedUser.name, 'in', date.getTime(), pickedLocation, true, pickedMessage, pickedUser.url, "13.733014, 100.560290");
+    return new Activity(pickedUser.userId, pickedUser.name, 'in', date.getTime(), pickedLocation.name, true, pickedMessage, pickedUser.url, pickedLocation.lat_long);
 }
 
 

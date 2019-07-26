@@ -1,0 +1,722 @@
+[2019-07-25T09:57:48.275] [INFO] default - { type: 'beacon',
+  replyToken: '9a1513927c5042ae8b07cb05d51e00f4',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1564023457905,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T09:57:48.687] [INFO] default - []
+[2019-07-25T09:58:00.005] [INFO] default - { type: 'message',
+  replyToken: 'ff4977f0de3b43619874f3da45dbe165',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1564023469882,
+  message: { type: 'text', id: '10272761334044', text: 'Meeting ' } }
+[2019-07-25T09:58:00.032] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1564023457905,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Meeting ',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T09:58:58.128] [INFO] default - { type: 'beacon',
+  replyToken: 'efbe64630c7d48b4bfa9389b8d425371',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1564023527835,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'leave' } }
+[2019-07-25T09:58:58.339] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1564023457905,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Meeting ',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T10:01:11.522] [INFO] default - { type: 'beacon',
+  replyToken: '3e44693c455049a199ef9782bed6d5bd',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564023661149,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T10:01:12.206] [INFO] default - []
+[2019-07-25T10:01:24.698] [INFO] default - { type: 'message',
+  replyToken: '78b0af7b45c04fd7a1f43e49a6055847',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564023674599,
+  message: { type: 'text', id: '10272776140341', text: 'เทสจย้าาาาาา' } }
+[2019-07-25T10:02:35.548] [INFO] default - { type: 'beacon',
+  replyToken: '397cc76a7cb54e588a6d14706c7a73c4',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1564023745200,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T10:02:35.876] [INFO] default - []
+[2019-07-25T10:02:43.539] [INFO] default - { type: 'message',
+  replyToken: '35709c8e18854d4c8ea57827d35c88cf',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1564023753425,
+  message: { type: 'text', id: '10272782081737', text: 'Meeting ' } }
+[2019-07-25T10:02:43.561] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1564023745200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Meeting ',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T10:02:54.221] [INFO] default - { type: 'beacon',
+  replyToken: '126ade68aae747cda4067a04b0d37c5c',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564023763930,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T10:02:54.554] [INFO] default - []
+[2019-07-25T10:03:03.543] [INFO] default - { type: 'message',
+  replyToken: '2b142e64255c469388756ddb2c4891f4',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564023773401,
+  message: { type: 'text', id: '10272783588531', text: 'ทำเทสจย้าา' } }
+[2019-07-25T10:03:03.566] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564023763930,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำเทสจย้าา',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T10:21:06.300] [INFO] default - { type: 'beacon',
+  replyToken: 'b7a5f4cc7da54fc688a9d91096c91e6d',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1564024856024,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T10:21:06.645] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1564023745200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Meeting ',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:03:25.689] [INFO] default - { type: 'beacon',
+  replyToken: 'a27764f1f60e48fdaaf729c297cf1c0b',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564027395460,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:03:26.217] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564023763930,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำเทสจย้าา',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:23:25.623] [INFO] default - { type: 'beacon',
+  replyToken: 'b703b940b1b04669bd74616ff124b41f',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028595364,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.396] [INFO] default - { type: 'beacon',
+  replyToken: 'f7b614e7cd0f43d9977e1f0794716191',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028595381,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.410] [INFO] default - { type: 'beacon',
+  replyToken: 'ad7c5a3408ea4c7d9cc9ce6864b02eeb',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028616200,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.417] [INFO] default - { type: 'beacon',
+  replyToken: '425e993b111d4b69a54351ca4d2a16e2',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028616339,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.425] [INFO] default - { type: 'beacon',
+  replyToken: '2fdf8ec2907340c7aed39c3e439f1cdb',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028656480,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.440] [INFO] default - { type: 'beacon',
+  replyToken: '086af9b848574da5857eabd349c9dc4b',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028656751,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.453] [INFO] default - { type: 'beacon',
+  replyToken: '954a123f8bf446e29d5bbe4ddc13f43c',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564028692433,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.461] [INFO] default - { type: 'beacon',
+  replyToken: '466f9c1adcdd4785b7efc41835acf8d3',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564028692443,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:25:34.636] [INFO] default - []
+[2019-07-25T11:25:34.671] [INFO] default - []
+[2019-07-25T11:25:34.699] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028616200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'none',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:25:34.704] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028616200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'none',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:25:34.708] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028595364,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'none',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T11:25:34.712] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028595364,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'none',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T11:25:34.718] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564023763930,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำเทสจย้าา',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:25:34.732] [INFO] default - []
+[2019-07-25T11:25:43.101] [INFO] default - { type: 'message',
+  replyToken: '1221e275b60f4394a82cce40c0751857',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028733108,
+  message: { type: 'text', id: '10273177090089', text: 'าา' } }
+[2019-07-25T11:25:43.122] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028616200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'าา',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:25:58.773] [INFO] default - { type: 'message',
+  replyToken: '3e93f7f0901646f9aa6a3de8f51b072d',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028748772,
+  message: { type: 'text', id: '10273178262287', text: 'สสส' } }
+[2019-07-25T11:26:11.074] [INFO] default - { type: 'message',
+  replyToken: '0ae4877cdf8649e4bc0d04b202a90e8e',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028761062,
+  message: { type: 'text', id: '10273179188750', text: 'สสา' } }
+[2019-07-25T11:26:14.675] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028616200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'าา',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:26:14.772] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564028692443,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: '           ',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T11:26:55.976] [INFO] default - { type: 'beacon',
+  replyToken: 'b1f3a523735842f9bcbea6204d6e8583',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028805794,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:26:56.213] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028595364,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: '           ',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T11:26:56.721] [INFO] default - { type: 'beacon',
+  replyToken: '641634b43921400ab1744ce12539eac0',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028805914,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:26:57.198] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028616200,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'าา',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:29:16.401] [INFO] default - { type: 'beacon',
+  replyToken: '7a9acf531138494fae52a7651244c8f0',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564028946213,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:29:16.761] [INFO] default - []
+[2019-07-25T11:29:16.993] [INFO] default - { type: 'beacon',
+  replyToken: 'fd89aa2f36a94a879de1ef3952896950',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564028946444,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:29:17.189] [INFO] default - []
+[2019-07-25T11:29:29.252] [INFO] default - { type: 'message',
+  replyToken: 'd948acfac7ee4028905d2381a73586ad',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564028958789,
+  message: { type: 'text', id: '10273194025125', text: 'ทำงาน' } }
+[2019-07-25T11:29:29.260] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564028946444,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำงาน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T11:29:42.109] [INFO] default - { type: 'message',
+  replyToken: 'bf928bb457f64235b73ebd4d02520a7b',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564028971805,
+  message: { type: 'text', id: '10273194997687', text: 'ง่ะ' } }
+[2019-07-25T11:29:47.773] [INFO] default - { type: 'beacon',
+  replyToken: '8f2fcbb953434375a628bd679a9d90dd',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028977770,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T11:29:48.031] [INFO] default - []
+[2019-07-25T11:29:48.288] [INFO] default - { type: 'beacon',
+  replyToken: 'a5db9ad6eaeb4dae81a00bbba6411e6b',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028978510,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:29:48.443] [INFO] default - []
+[2019-07-25T11:29:56.778] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564028946444,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำงาน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T11:30:02.966] [INFO] default - { type: 'message',
+  replyToken: '1b7a485abeaa47359dacdf332d274fd8',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564028992879,
+  message: { type: 'text', id: '10273196577411', text: 'Kkj' } }
+[2019-07-25T11:30:02.987] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564028978510,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Kkj',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:31:51.290] [INFO] default - { type: 'beacon',
+  replyToken: '8bbc6e4a6d5b449c91b6eb14dc234abf',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564029101262,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:31:51.601] [INFO] default - []
+[2019-07-25T11:31:53.397] [INFO] default - { type: 'beacon',
+  replyToken: 'c64928f45c334aaea54254786e2de10f',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564029102430,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:31:53.552] [INFO] default - []
+[2019-07-25T11:31:57.020] [INFO] default - { type: 'message',
+  replyToken: '6483b8a4497842c49fcd5025aa6142d0',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564029106761,
+  message: { type: 'text', id: '10273205091754', text: 'Llll' } }
+[2019-07-25T11:31:57.043] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564029101262,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Llll',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:31:59.859] [INFO] default - { type: 'message',
+  replyToken: '2f0b8b3cf3034b50b02fd3cf27eaa72e',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564029109883,
+  message: { type: 'text', id: '10273205329042', text: 'มาทำงาน' } }
+[2019-07-25T11:31:59.883] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564029102430,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'มาทำงาน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:32:08.756] [INFO] default - { type: 'message',
+  replyToken: 'd6a79e38d8524139bdb321c2e7ed8b12',
+  source:
+   { groupId: 'C78acee550fc1bdaa3bd17209feaad6a7',
+     userId: 'Ub182adba86d289c7154a6963e725c4f5',
+     type: 'group' },
+  timestamp: 1564029118695,
+  message: { type: 'text', id: '10273205979775', text: 'Jjjjjuu' } }
+[2019-07-25T11:32:16.104] [INFO] default - { type: 'message',
+  replyToken: '3f6c238e0f524b9db3012a832b9b3601',
+  source:
+   { groupId: 'C78acee550fc1bdaa3bd17209feaad6a7',
+     userId: 'Ub182adba86d289c7154a6963e725c4f5',
+     type: 'group' },
+  timestamp: 1564029126102,
+  message: { type: 'text', id: '10273206536097', text: 'Hjj' } }
+[2019-07-25T11:33:48.763] [INFO] default - { type: 'beacon',
+  replyToken: 'df8a97c55fe44d158c96ccbc16c96dfe',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564029218561,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:33:48.999] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564029102430,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'มาทำงาน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:34:34.431] [INFO] default - { type: 'beacon',
+  replyToken: 'c5c59c1906fe478086c7bd7106df9f7d',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564029264205,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:34:35.009] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564029101262,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Llll',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:34:59.574] [INFO] default - { type: 'beacon',
+  replyToken: 'f33222157c9d40b7a2ab2dbe1c39ef64',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564029289339,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:34:59.896] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564029101262,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Llll',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:35:31.262] [INFO] default - { type: 'beacon',
+  replyToken: '982241dbf43f4a578c768954cbb4bb44',
+  source:
+   { userId: 'Ub182adba86d289c7154a6963e725c4f5', type: 'user' },
+  timestamp: 1564029321138,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:35:31.516] [INFO] default - [ Activity {
+    userId: 'Ub182adba86d289c7154a6963e725c4f5',
+    name: 'jam',
+    type: 'in',
+    timestamp: 1564029101262,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'Llll',
+    url:
+     'https://profile.line-scdn.net/0m01069df87251aea554672fcdde287efeb6dceb87891e',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T11:41:19.371] [INFO] default - { type: 'beacon',
+  replyToken: '32ccac91771749f5b44e7b7b1e682462',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564029669186,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T11:41:20.018] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564029102430,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'มาทำงาน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T12:10:23.113] [INFO] default - { type: 'beacon',
+  replyToken: 'aec9088e4f2b4d2bb76b54c27bd30277',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564031412936,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'leave' } }
+[2019-07-25T12:10:23.437] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564029102430,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'มาทำงาน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T12:11:40.685] [INFO] default - { type: 'beacon',
+  replyToken: '308b1f2f598243deac73e86f74404088',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564031490549,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T12:11:41.100] [INFO] default - []
+[2019-07-25T12:11:46.857] [INFO] default - { type: 'message',
+  replyToken: '9b3036a594f24f90a9fbccf8f902b32c',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564031496938,
+  message: { type: 'text', id: '10273377462228', text: 'ทำงานนนน' } }
+[2019-07-25T12:11:46.878] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564031490549,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำงานนนน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T13:09:51.443] [INFO] default - { type: 'beacon',
+  replyToken: '75676c7913264cacb05eedca0347a1a7',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564034981282,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'leave' } }
+[2019-07-25T13:09:51.847] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564031490549,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำงานนนน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T14:32:30.598] [INFO] default - { type: 'beacon',
+  replyToken: 'd652110d7bdb4bb8b75135ac7a777257',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564039940568,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T14:32:30.879] [INFO] default - []
+[2019-07-25T14:32:44.393] [INFO] default - { type: 'message',
+  replyToken: '2bdd74f039bf422ebbc593e4de9c3a91',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564039954595,
+  message: { type: 'text', id: '10273974114605', text: 'ทำงานน' } }
+[2019-07-25T14:32:44.405] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564039940568,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำงานน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T14:33:02.588] [INFO] default - { type: 'beacon',
+  replyToken: '8330849643b4418a859f5e895778760c',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564039972773,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T14:33:02.890] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564039940568,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำงานน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T14:33:16.430] [INFO] default - { type: 'beacon',
+  replyToken: '396d978aa83749b9b87e94f6b3f9ef0b',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564039986364,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T14:33:16.592] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564039940568,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำงานน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T14:33:53.425] [INFO] default - { type: 'beacon',
+  replyToken: 'ce5588c15ca84c8b9559d618f2a012b1',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564040023370,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-25T14:33:53.772] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564039940568,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำงานน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-25T16:50:08.670] [INFO] default - { type: 'beacon',
+  replyToken: '93d2faedec04474ebe6557bc78699e7d',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564048198992,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'enter' } }
+[2019-07-25T16:50:08.982] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564031490549,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำงานนนน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]
+[2019-07-25T17:16:00.905] [INFO] default - { type: 'beacon',
+  replyToken: '703f3be877f34bd5bc731ea975348895',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1564049751289,
+  beacon: { hwid: '012e2eec62', dm: '', type: 'leave' } }
+[2019-07-25T17:16:01.492] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1564031490549,
+    location: 'Dimension Data Office, Asok',
+    askstate: true,
+    plan: 'ทำงานนนน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.733014, 100.560290' } ]

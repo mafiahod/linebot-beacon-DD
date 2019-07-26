@@ -21,7 +21,6 @@ async function handle_beacon_event(userId, displayName, timestamp, hwid, url) {
 
     if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
       var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocationService.getLocation(hwid)[0], 'none', 'none', url,this.getLocationService.getLocation(hwid)[1]);
-     await this.elastic.elasticsave(Saveactivity);
       this.dal.save(Saveactivity);
       return this.Conversationservice.ask_today_plan(userId, this.getLocationService.getLocation(hwid)[0]); //call ask_today_plan ()
 

@@ -1,0 +1,223 @@
+[2019-07-24T16:47:02.221] [INFO] default - { replyToken: '00000000000000000000000000000000',
+  type: 'message',
+  timestamp: 1563961612813,
+  source:
+   { type: 'user', userId: 'Udeadbeefdeadbeefdeadbeefdeadbeef' },
+  message: { id: '100001', type: 'text', text: 'Hello, world' } }
+[2019-07-24T16:47:02.236] [INFO] default - { replyToken: 'ffffffffffffffffffffffffffffffff',
+  type: 'message',
+  timestamp: 1563961612813,
+  source:
+   { type: 'user', userId: 'Udeadbeefdeadbeefdeadbeefdeadbeef' },
+  message:
+   { id: '100002', type: 'sticker', packageId: '1', stickerId: '1' } }
+[2019-07-24T16:47:57.508] [INFO] default - { type: 'beacon',
+  replyToken: 'bd82b49bd950417c9ec9f87df154fece',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563961667545,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T16:47:57.966] [INFO] default - []
+[2019-07-24T16:48:08.504] [INFO] default - { type: 'message',
+  replyToken: '2ae590aeff214f0697e20420aabd61f9',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563961678749,
+  message: { type: 'text', id: '10268750674159', text: 'นอน' } }
+[2019-07-24T16:48:08.526] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1563961667545,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'นอน',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T16:48:18.575] [INFO] default - { type: 'beacon',
+  replyToken: '52779cc5bff04b8ea68f79a756399609',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563961688600,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T16:48:18.868] [INFO] default - []
+[2019-07-24T16:48:22.747] [INFO] default - { type: 'beacon',
+  replyToken: 'f3a52858515148b994eabfbb60225da9',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563961692977,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T16:48:23.030] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1563961688600,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'none',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T16:48:31.280] [INFO] default - { type: 'message',
+  replyToken: '589b9162a89848e9918be8387a167d01',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563961701503,
+  message: { type: 'text', id: '10268752646790', text: 'Working ' } }
+[2019-07-24T16:48:31.309] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1563961688600,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'Working ',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T16:50:13.072] [INFO] default - { type: 'beacon',
+  replyToken: 'e2999410804c4c73b2260e7d376ecf16',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563961803096,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T16:50:13.355] [INFO] default - []
+[2019-07-24T16:50:22.499] [INFO] default - { type: 'message',
+  replyToken: 'ab8cb20396744651a7a8043cb3a74449',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563961812723,
+  message:
+   { type: 'text', id: '10268762229341', text: 'Workinggggggg' } }
+[2019-07-24T16:50:22.517] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1563961803096,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'Workinggggggg',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T16:50:35.327] [INFO] default - { type: 'beacon',
+  replyToken: 'c351e92870e649c9a9096d3a356d8c28',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563961825555,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T16:50:35.571] [INFO] default - []
+[2019-07-24T16:50:45.126] [INFO] default - { type: 'message',
+  replyToken: '75f7ee761f8048ba968395eafef096ab',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563961835357,
+  message:
+   { type: 'text', id: '10268764194611', text: 'ง่วงงงงงงงงงง' } }
+[2019-07-24T16:50:45.151] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1563961825555,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ง่วงงงงงงงงงง',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T18:01:38.253] [INFO] default - { replyToken: '00000000000000000000000000000000',
+  type: 'message',
+  timestamp: 1563966088356,
+  source:
+   { type: 'user', userId: 'Udeadbeefdeadbeefdeadbeefdeadbeef' },
+  message: { id: '100001', type: 'text', text: 'Hello, world' } }
+[2019-07-24T18:01:38.260] [INFO] default - { replyToken: 'ffffffffffffffffffffffffffffffff',
+  type: 'message',
+  timestamp: 1563966088356,
+  source:
+   { type: 'user', userId: 'Udeadbeefdeadbeefdeadbeefdeadbeef' },
+  message:
+   { id: '100002', type: 'sticker', packageId: '1', stickerId: '1' } }
+[2019-07-24T18:01:53.772] [INFO] default - { type: 'beacon',
+  replyToken: 'ab98bbd04718487d83d9a3b2f4a95de2',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563966103860,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T18:01:54.119] [INFO] default - []
+[2019-07-24T18:02:07.913] [INFO] default - { type: 'message',
+  replyToken: 'aca3c63d3ee24d76b688cfdc56538bc8',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563966118233,
+  message: { type: 'text', id: '10269136317216', text: 'ทำโค๊ดหาย' } }
+[2019-07-24T18:02:07.930] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1563966103860,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำโค๊ดหาย',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T18:02:10.805] [INFO] default - { type: 'beacon',
+  replyToken: '27e3609bf316496ab14d2cbe53750022',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563966120940,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T18:02:10.968] [INFO] default - []
+[2019-07-24T18:02:17.177] [INFO] default - { type: 'message',
+  replyToken: 'da41d88538da46778b7d5d5b9e97a35e',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563966127496,
+  message: { type: 'text', id: '10269137122905', text: 'Jaaa' } }
+[2019-07-24T18:02:17.194] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1563966120940,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'Jaaa',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T18:05:47.281] [INFO] default - { type: 'beacon',
+  replyToken: '5264f6c678e24293b30030165de70eb5',
+  source:
+   { userId: 'U6d20e78bf9ed99eff83d9a8db00a3966', type: 'user' },
+  timestamp: 1563966337375,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'enter' } }
+[2019-07-24T18:05:47.813] [INFO] default - [ Activity {
+    userId: 'U6d20e78bf9ed99eff83d9a8db00a3966',
+    name: 'Jahja🎈🎈🎈',
+    type: 'in',
+    timestamp: 1563966120940,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'Jaaa',
+    url:
+     'https://profile.line-scdn.net/0hZ9WdJEAhBRZqHS-OA7V6QVZYC3sdMwNeEnodcUkVDCEXL0sVXitKc0scCC5AKkNEBXIaIkkeXiFD',
+    lat_long: '13.740472, 100.542970' } ]
+[2019-07-24T18:15:37.948] [INFO] default - { type: 'beacon',
+  replyToken: 'dcc94119636a43268ad75e3195eba532',
+  source:
+   { userId: 'U1a0f1365d955dca09aa7ee2bae642839', type: 'user' },
+  timestamp: 1563966928061,
+  beacon: { hwid: '012e4fbf6a', dm: '', type: 'leave' } }
+[2019-07-24T18:15:38.275] [INFO] default - [ Activity {
+    userId: 'U1a0f1365d955dca09aa7ee2bae642839',
+    name: '..BALL..',
+    type: 'in',
+    timestamp: 1563966103860,
+    location: 'Chidlom Site',
+    askstate: true,
+    plan: 'ทำโค๊ดหาย',
+    url:
+     'https://profile.line-scdn.net/0h0UEumszrb3p4DEBwoiYQLURJYRcPImkyAG4lGggIOE5XOXt-QT50FFRYMB0Ba3h-FGkgFA9cOE1X',
+    lat_long: '13.740472, 100.542970' } ]
