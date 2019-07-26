@@ -71,7 +71,7 @@ async function insertRandomIndex(date, month, year) {
 }
 }
 
-for (let j = 1; j < 23; j++) {
+for (let j = 1; j < 26; j++) {
     for (let i = 0; i < allUsers.length; i++) {
         insertRandomIndex(j, 7, 2019);
     }
