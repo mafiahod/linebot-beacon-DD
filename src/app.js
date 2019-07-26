@@ -73,7 +73,7 @@ function handleEvent(event) {
       client.getProfile(event.joined.members[0].userId)
         .then((profile) => {
           var saveUser = new User(event.joined.members[0].userId, profile.displayName);
-          elastic.elasticsave(saveUser);
+       //   elastic.elasticsave(saveUser);
           dal.save(saveUser);
           logger.info(saveUser);
         }).catch((err) => {
