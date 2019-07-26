@@ -1,19 +1,20 @@
-'use strict';
-import { User } from './core/model/index'
-import { LocalFile } from './core/data_access_layer/index'
-import { Beacon_service, Conversation_service, Elastic_service } from './core/service/index'
-import { Client, middleware } from '@line/bot-sdk'
-import * as config from './core/config'
-import { logger, Log_config } from '../logs/logger'
-
+(function () {'use strict';}());
+import { User, Activity } from './core/model';
+import { LocalFile } from './core/data_access_layer';
+import { ConversationService, ElasticService, BeaconService, MessageService } from './core/service';
+import { Client, middleware } from '@line/bot-sdk';
+import { logger, Log_config } from './logger';
+import config from './core/config';
 const express = require('express');
+
 const app = express();
 const logconfig = Log_config;               //const config = require('./core/config.js');
 const client = new Client(config);          // create LINE SDK client
-const dal = new LocalFile();
-const elastic = new Elastic_service();
-const Conservationservice = new Conversation_service();
-const Beaconservice = new Beacon_service();
+const dal = new LocalFile('../resource',[Activity]);
+const elastic = new ElasticService();
+const messageService = new MessageService(new Client(config));
+const conversationService = new ConversationService(dal,messageService,elastic);
+const beaconService = new BeaconService(conversationService,messageService,dal,elastic);
 
 // webhook callback
 app.post('/webhook', middleware(config), (req, res) => {
@@ -26,7 +27,6 @@ app.post('/webhook', middleware(config), (req, res) => {
   // handle events separately
   Promise.all(req.body.events.map(event => {
     logger.info(event);
-    console.log('event', event); ////
     // check verify webhook event
     if (event.replyToken === '00000000000000000000000000000000' ||
       event.replyToken === 'ffffffffffffffffffffffffffffffff') {
@@ -54,13 +54,13 @@ const replyText = (token, texts) => {
 function handleEvent(event) {
   switch (event.type) {
     case 'message':
-      return Conservationservice.handle_in_Message(event.message, event.source.userId);
+      return conversationService.handleInMessage(event.message, event.source.userId);
 
     case 'follow':
       return replyText(event.replyToken, 'Got followed event');
 
     case 'unfollow':
-      return console.log(`Unfollowed this bot: ${JSON.stringify(event)}`);
+      return logger.info(`Unfollowed this bot: ${JSON.stringify(event)}`);
 
     case 'postback':
       let data = event.postback.data;
@@ -85,23 +85,22 @@ function handleEvent(event) {
       return;
 
     case 'leave':
-      return console.log(`Left: ${JSON.stringify(event)}`);
+      return logger.info(`Left: ${JSON.stringify(event)}`);
 
     case 'beacon':
       client.getProfile(event.source.userId)
         .then((profile) => {
-          Beaconservice.handle_beacon_event(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid,profile.pictureUrl);
+          beaconService.handleBeaconEvent(event.source.userId, profile.displayName, event.timestamp, event.beacon.hwid,profile.pictureUrl);
         }).catch((err) => {
           logger.error(err);
         });
       return;
 
     default:
-      throw new Error(`Unknown event: ${JSON.stringify(event)}`);
+      logger.error(`Unknown event: ${JSON.stringify(event)}`);
   }
 }
 
-const port = config.port;
-app.listen(port, () => {
-  console.log(`listening on ${port}`);
+app.listen(config.port, () => {
+  logger.info(`listening on ${config.port}`);
 });

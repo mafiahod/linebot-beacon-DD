@@ -1,17 +1,16 @@
-'use strict';
+(function () {'use strict';}());
 
-import { LocalFile } from '../../data_access_layer'
-import { Activity, State, User } from '../../model'
-import fs from 'fs'
-import rimraf from 'rimraf'
-const current_datetime = new Date();
+import { LocalFile } from '../../data_access_layer';
+import { Activity, User} from '../../model';
+import fs from 'fs';
+import rimraf from 'rimraf';
+import { clearDir } from '../../../utility/test_tool/test_resource';
 const testpath = './src/core/test/data_access_layer_spec/test_file/';
-
 
 
 const daltest = new LocalFile(testpath,[Activity]);
 function reset(){
-    if (fs.existsSync(testpath)) rimraf.sync(testpath);
+    clearDir(testpath);
 }
 
 var testSaveUser1 = new User('59010126', 'Ball');
@@ -89,13 +88,13 @@ describe('[LocalFile] =>', () => {
     describe('update(updateObj,replace,findObj)',()=>{
         beforeEach(()=>{
             reset();
-            daltest.save(testSaveUser1);
-            daltest.save(testSaveUser2);
-            daltest.save(testSaveUser3);
-            daltest.save(testSaveUser4);
-            daltest.save(testSaveActivity1);
-            daltest.save(testSaveActivity2);
-            daltest.save(testSaveActivity3);
+            // daltest.save(testSaveUser1);
+            // daltest.save(testSaveUser2);
+            // daltest.save(testSaveUser3);
+            // daltest.save(testSaveUser4);
+            // daltest.save(testSaveActivity1);
+            // daltest.save(testSaveActivity2);
+            // daltest.save(testSaveActivity3);
         });
 
         it('should update new Answer to wanted activity', () => {

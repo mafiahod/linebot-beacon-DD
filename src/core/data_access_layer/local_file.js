@@ -1,23 +1,14 @@
-"use strict";
-import { User, Activity } from '../model/index'
-import fs from 'fs'
-import path from 'path'
-import _ from 'lodash'
-import { logger } from '../../../logs/logger';
-import isIncludeMatchedProperties from 'is-subset'
+(function () {'use strict';}());
+import { User, Activity } from '../model';
+import fs from 'fs';
+import path from 'path';
+import _ from 'lodash';
+import { logger } from '../../logger';
+import isIncludeMatchedProperties from 'is-subset';
+import { getClassName } from '../../utility/class_util';
 
 const current_datetime = new Date();
 const defDir = './resource/DB/';
-
-
-function isClass(obj){
-    return obj.constructor.name === 'Function';
-}
-
-function getClassName(obj){
-    if(isClass(obj)) return obj.name;
-    else return obj.constructor.name;
-}
 
 function extractNotNull(in_obj) { // remove null and undefined property
     let obj = _.clone(in_obj)
@@ -32,6 +23,7 @@ function extractNotNull(in_obj) { // remove null and undefined property
 class LocalFile {
     
     constructor(inputDbDir = defDir, transactionalClass=[]) {
+        if(inputDbDir === null) inputDbDir = defDir;
         this.dbDir = inputDbDir;
         let tran = [];
         for(var i =0;i< transactionalClass.length;i++){
@@ -48,13 +40,13 @@ class LocalFile {
         //append activity or user in exist file
         dataArray.push(obj);
         fs.writeFileSync(fileUrl, JSON.stringify(dataArray, null, 4),{flag:'w'});
-        logger.debug(`save success: ${obj}`);
+        logger.debug(`save success: ${JSON.stringify(obj)}`);
     }
     
       
     // updateValue เป็น object ที่ต้องการหาโดย new มาจาก Model , replace ถ้าใส่ค่า true จะทำการทับข้อมูลเก่าด้วย obj (paramiter แรก)
-    update(updateValue, replace=false, findObj) {    
-        var fileUrl = this.getSaveFilePath(findObj)
+    update(updateValue, replace, findObj) {    
+        var fileUrl = this.getSaveFilePath(findObj);
         if (!fs.existsSync(fileUrl)) return logger.info("There is no file to update");
         var dataArray = this.getObjFileContent(findObj);
         findObj = extractNotNull(findObj);
@@ -74,10 +66,10 @@ class LocalFile {
             }
         }
         fs.writeFileSync(fileUrl, JSON.stringify(dataArray, null, 4));
-        logger.debug(`update <value=${updateValue} replace=${replace}> success total: ${updateCount} records`);
+        logger.debug(`update success: ${JSON.stringify(updateValue)} replace=${replace} total: ${updateCount} records`);
     }
     
-    find(findObj, count, desc=false) { 
+    find(findObj, count=null, desc=false) { 
         // DESC is how to sort data desc is descending new data come first else is ASC which is old data come first
         //desc เป็น property ที่ใช้เรียงตาม เวลา เก่าไปใหม่ หรือ ใหม่ไปเก่า เท่านั้น
         var fileUrl = this.getSaveFilePath(findObj);
@@ -85,7 +77,7 @@ class LocalFile {
         var dataArray = this.getObjFileContent(findObj);
         if(desc)  dataArray.reverse();
         var resultArray = [];
-        findObj = extractNotNull(findObj)
+        findObj = extractNotNull(findObj);
         for (var i =0; i<dataArray.length; i++) {
             if(count != null && resultArray.length+1>count) break;
             var curData = Object.assign(new findObj.constructor(),dataArray[i]);

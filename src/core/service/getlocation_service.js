@@ -1,6 +1,7 @@
-"use strict";
-import * as fs from 'fs'
+(function () {'use strict';}());
+import * as fs from 'fs';
 var locationDir = './resource/location.json';
+import { logger } from '../../logger';
 
 function getLocation(hwid) {
     if (fs.existsSync(this.locationDir)) {

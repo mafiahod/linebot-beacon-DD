@@ -1,55 +1,26 @@
-"use strict";
-import { Activity } from '../model/index'
-import { Client, middleware } from '@line/bot-sdk'
-import { LocalFile } from '../data_access_layer/index'
-import * as config from '../config'
-import { logger } from '../../../logs/logger'
-import {Elastic_service} from './index'
-//import 'moment'
-const moment = require('moment');
-const dal = new LocalFile();
+(function () {'use strict';}());
+import moment from 'moment';
+import config from '../config';
+import { logger } from '../../logger';
 
+async function sendMessage(id, messageContent) {
+    if(typeof messageContent === 'string'){
+        messageContent = {
+                type: 'text',
+                text: messageContent
+            };
+    }
+    await this.client.pushMessage(id, messageContent);
+}
 
-function send_message(id, message_content) {
-    var promise = new Promise((resolve, reject) => {
-        //Bot push message to user
-        this.client.pushMessage(id, message_content);
-        resolve();
-        reject();
-    });
-
-    promise.then(() => {
-        console.log("Pushed Message to Target");
-    })
-    promise.catch((err) => {
-        logger.error(err);
-    });
+async function sendWalkInMessage(activity) {
+    logger.info(`send WalkInMessage with Activity: ${JSON.stringify(activity)}`);
+    let message = this.createWalkInMessage(activity);
+    await this.sendMessage(config.ReportGroupId,message);
 }
 
 
-function sendwalkin_message(userId) {
-    var query_useractivity = new Activity(userId, null, null, null, null, null, null,null);
-    var query_activity = dal.find(query_useractivity, 1, true);/////
-    logger.info(query_activity);
-
-    this.client.getProfile(userId)
-        .then((profile) => {
-            //Bot push message to specific Line Group
-            this.client.pushMessage(config.ReportGroupId, this.create_Walkinmessage(profile, query_activity))
-                .then(() => {
-                }).catch((err) => {
-                    logger.error(err);
-                });
-        }).catch((err) => {
-            logger.error(err);
-        });
-}
-
-
-function create_walkinMessage(profile, query_activity) {//format of the sent message
-   
-   
-this.elastic_Service.elasticsave(query_activity[0]);
+function createWalkInMessage( activity) {//format of the sent message
     const flexMessage = {
         "type": "flex",
         "altText": "this is a flex message",
@@ -57,7 +28,7 @@ this.elastic_Service.elasticsave(query_activity[0]);
             "type": "bubble",
             "hero": {
                 "type": "image",
-                "url": profile.pictureUrl,
+                "url": activity.url,
                 "size": "full",
                 "aspectRatio": "20:13",
                 "aspectMode": "cover"
@@ -69,7 +40,7 @@ this.elastic_Service.elasticsave(query_activity[0]);
                 "contents": [
                     {
                         "type": "text",
-                        "text": profile.displayName,
+                        "text": activity.name,
                         "wrap": true,
                         "weight": "bold",
                         "gravity": "center",
@@ -95,7 +66,7 @@ this.elastic_Service.elasticsave(query_activity[0]);
                                     },
                                     {
                                         "type": "text",
-                                        "text": moment(query_activity[0].timestamp).format('DD/MM/YYYY HH:mm'),
+                                        "text": moment(activity.timestamp).format('DD/MM/YYYY HH:mm'),
                                         "wrap": true,
                                         "size": "sm",
                                         "color": "#666666",
@@ -117,7 +88,7 @@ this.elastic_Service.elasticsave(query_activity[0]);
                                     },
                                     {
                                         "type": "text",
-                                        "text": query_activity[0].location,
+                                        "text": activity.location,
                                         "wrap": true,
                                         "color": "#666666",
                                         "size": "sm",
@@ -139,7 +110,7 @@ this.elastic_Service.elasticsave(query_activity[0]);
                                     },
                                     {
                                         "type": "text",
-                                        "text": query_activity[0].plan,
+                                        "text": activity.plan,
                                         "wrap": true,
                                         "color": "#666666",
                                         "size": "sm",
@@ -158,17 +129,16 @@ this.elastic_Service.elasticsave(query_activity[0]);
 }
 
 
-class Message_service {
-    constructor() {
-        this.client = new Client(config);
-        this.send_Message = send_message;
-        this.sendwalkin_Message = sendwalkin_message;
-        this.create_Walkinmessage = create_walkinMessage;
-        this.elastic_Service = new Elastic_service();
+class MessageService {
+    constructor(lineClient) {
+        this.client = lineClient;
+        this.sendMessage = sendMessage;
+        this.sendWalkInMessage = sendWalkInMessage;
+        this.createWalkInMessage = createWalkInMessage;
     }
 }
 
 
 export {
-    Message_service
-}
+    MessageService
+};

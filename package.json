@@ -4,9 +4,12 @@
   "description": "starter point to create new line bot project",
   "main": "app.js",
   "scripts": {
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "build": "rimraf dist/ && babel ./src --out-dir dist/src --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "test": "npm run build && jasmine ./dist/src/core/test/data_access_layer_spec/local_file_spec.js",
+    "testm": "npm run build && jasmine ./dist/src/core/test/service_spec/message_service_spec.js",
+    "testc": "npm run build && jasmine ./dist/src/core/test/service_spec/conversation_service_spec.js",
     "play": "npm run build && node dist/src/core/test/play.js",
+    "esinsert": "npm run build && node dist/src/utility/elastic_script/insert.js",
     "start": "npm run build && node dist/src/app.js"
   },
   "keywords": [
@@ -26,6 +29,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "jasmine": "^3.4.0",
+    "jshint": "^2.10.2",
     "rimraf": "^2.6.3"
   },
   "dependencies": {

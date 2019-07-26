@@ -1,9 +1,13 @@
-"use strict";
-import { Beacon_service } from './beacon_service'
-import { Conversation_service } from './conversation_service'
-import { Message_service } from './message_service'
-import { GetLocation_service } from './getlocation_service'
-import { Elastic_service } from './elastic_service'
+(function () {'use strict';}());
+import { BeaconService } from './beacon_service';
+import { ConversationService } from './conversation_service';
+import { MessageService } from './message_service';
+import { GetLocationService } from './getlocation_service';
+import { ElasticService } from './elastic_service';
 export {
-    Beacon_service, Conversation_service, Message_service, GetLocation_service, Elastic_service
-}
+    BeaconService, 
+    ConversationService, 
+    MessageService, 
+    GetLocationService, 
+    ElasticService
+};

@@ -1,56 +1,47 @@
-"use strict";
-import { User, Activity } from '../model/index'
-import * as config from '../config'
-import { Conversation_service, Message_service, GetLocation_service, Elastic_service } from './index'
-import { LocalFile } from '../data_access_layer/index'
-import { logger } from '../../../logs/logger';
+(function () {'use strict';}());
+import { User, Activity } from '../model';
+import config from '../config';
+import { logger } from '../../logger';
+import { LocalFile } from '../data_access_layer';
 
 
-
- function handle_beacon_event(userId, displayName, timestamp, hwid, url) {
-
-  var Find_userObj = new User(userId, displayName);  //Find out if the user is a member of the group or not.
-  var user = this.dal.find(Find_userObj, null, true);
-
+ function handleBeaconEvent(userId, displayName, timestamp, hwid, url) {
+  var user = this.dal.find(new User(userId), null, true); //Find out if the user is a member of the group or not.
 
   if (user.length != 0) {
-    var Find_activityObj = new Activity(userId, null, null, null, this.getLocationService.getLocation(hwid), null, null,null);  // Find user activity and state
-    var user_activity = this.dal.find(Find_activityObj, null, true);
+    let location = dal.find(new Location(hwid))[0];
+    if(location === undefined){logger.error(`Unrecognized hardware id: ${hwid}`);return;}
 
-    logger.info(user_activity);
+    var findActivity = new Activity(userId, null, null, null, location , null, null,null);  
+    var matchedActities = this.dal.find(findActivity, null, true);// Find all activity match userId and location for today
 
-    if (user_activity.length == 0) {  //handle when files(ativity.json & state.json ) are not exist
-      var Saveactivity = new Activity(userId, displayName, 'in', timestamp, this.getLocationService.getLocation(hwid), 'none', 'none', url);
-     //await this.elastic.elasticsave(Saveactivity);
-      this.dal.save(Saveactivity);
-      return this.Conversationservice.ask_today_plan(userId, this.getLocationService.getLocation(hwid)); //call ask_today_plan ()
+    if (matchedActities.length == 0) {  
+      //case first time for today of user at location
+      logger.debug(`handleBeaconEvent not found matched activity -> userid: ${userId}, location: ${location.locationName}`);
+      this.dal.save(new Activity(userId, displayName, 'in', timestamp, location, 'none', 'none', url));
+      return this.conversationService.askTodayPlan(userId, location); //call ask_today_plan ()
 
     } else {
-
+      logger.debug(`handleBeaconEvent found matched activity -> userid: ${userId}, location: ${location.locationName}`);
       for (var i in user_activity) {
         if (user_activity[i].plan != 'none'  && user_activity[i].askstate == true) { // users become active again
-          const reenter = {
-            type: 'text',
-            text: displayName + ' re-enter'
-          };
-          this.message_service.send_Message(config.ReportGroupId, reenter);
+          this.message_service.send_Message(config.ReportGroupId, displayName + ' re-enter '+location.locationName);
+          return;
         }
       }
-      return;
     }
   }
 }
 
-class Beacon_service {
-  constructor() {
-    this.Conversationservice = new Conversation_service();
-    this.handle_beacon_event = handle_beacon_event;
-    this.message_service = new Message_service();
-    this.dal = new LocalFile();
-    this.getLocationService = new GetLocation_service();
-    this.elastic = new Elastic_service();
+class BeaconService {
+  constructor(conversationService,messageService,dal,elastic) {
+    this.conversationService = conversationService;
+    this.handleBeaconEvent = handleBeaconEvent;
+    this.messageService = messageService;
+    this.dal = dal;
+    this.elastic = elastic;
   }
 }
 export {
-  Beacon_service
-}
+  BeaconService
+};

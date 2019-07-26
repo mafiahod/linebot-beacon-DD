@@ -1,37 +1,45 @@
-import * as elasticsearch from 'elasticsearch'
-import {Activity , User} from '../model/index'
-import { doesNotThrow } from 'assert';
-import { logger } from '../../../logs/logger';
+import elasticsearch from 'elasticsearch';
+import config from  '../config';
+import { Activity , User} from '../model';
+import { logger } from '../../logger';
 
 const current_datetime = new Date();
-
-var client = new elasticsearch.Client({
-    host: 'localhost:9200',
-    log: 'trace'
-});
-
-
-function elastic_save(obj) {
-    console.log("Enter function");
-    var presentIndex;
-    if (obj instanceof Activity) {
-        presentIndex = 'activity-'+current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
-    } else if (obj instanceof User) {
-        presentIndex = 'user';
+const activityMapping = {
+    "properties": {
+        "timestamp": {
+        "type": "date"
+        },
+        "location":{
+            "properties":{
+                "point":{
+                    "type":"geo_point"
+                }
+            }
+        }
     }
-    var promise = new Promise((resolve, reject) => {
-        var res = client.index({
-            index: presentIndex,
-            refresh : true,
-            type: '_doc',
-            body: obj
-        });
-        resolve(res);
-        reject();
-    });
-    return promise;
-}
+};
 
+const client = new elasticsearch.Client(config.ElasticConfig);
+
+
+async function insertActivity(activity){
+    let gp7Date = new Date(activity.timestamp);
+    let indexStr = `activity-${gp7Date.getDate()}-${gp7Date.getMonth()+1}-${gp7Date.getFullYear()}`;
+    try{
+        if(!await client.indices.exists({index: indexStr})){
+            await client.indices.create({index: indexStr,body: {mappings:activityMapping}});
+            logger.info(`create index: [${indexStr}] success`);
+        }
+        else{ logger.info(`create index: [${indexStr}] already exist`); }
+
+        await client.index({
+            index: indexStr,
+            type: '_doc',
+            refresh: true,
+            body: activity
+        });
+    }catch(err){console.log("cannot insert activity: ",err);}
+}
 
 
 function elastic_update(obj , target) {
@@ -47,7 +55,6 @@ function elastic_update(obj , target) {
         console.log(property);
         if(obj[property] != null && property != target){
             queryArray.push({match : { [property] : obj[property] }});
-            
         }
     }
     var scriptSet = {"inline": `ctx._source.${target} = '${obj[target]}'; `};
@@ -98,15 +105,15 @@ function elastic_update(obj , target) {
 
 
 
-class Elastic_service {
+class ElasticService {
     constructor() {
-        this.elasticsave = elastic_save;
-        this.elasticupdate = elastic_update;
+        this.save = insertActivity;
+        //this.update = elastic_update;
 
     }
 }
 
 
 export {
-    Elastic_service
-}
+    ElasticService
+};

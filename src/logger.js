@@ -10,6 +10,7 @@ var Log_config = log4js.configure({
         numBackups: 3
       
       },
+      console:{ type: 'console'},
       
       apps: {
         type: "logLevelFilter",
@@ -19,7 +20,7 @@ var Log_config = log4js.configure({
       }
     },
     categories: {
-     default: { "appenders": ["apps"], "level": "DEBUG" }
+     default: { "appenders": ["apps","console"], "level": "DEBUG" }
      
     }
 
