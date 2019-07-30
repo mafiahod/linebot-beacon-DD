@@ -11,9 +11,22 @@ Linebot-Beacon-DD
 5. [เครดิต](https://github.com/mafiahod/linebot-beacon-DD/blob/master/README.md#%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%84%E0%B8%B4%E0%B8%95)
 
 ## การติดตั้ง
-Clone and run
+### ติดตั้ง Git Command ด้วย
 ```
-npm install
+sudo apt-get install git
+```
+
+### Clone Shell Script สำหรับติดตั้ง Line Beacon ด้วย
+```
+git clone https://github.com/ballkittipat272/install-Line-Beacon-DD.git
+```
+
+### ใช้งาน Line Beacon ครั้งแรก ด้วยชุดคำสั่งต่อไปนี้
+```
+cd install-Line-Beacon-DD             #Folder ที่ Clone มาจาก GitHub
+chmod 775 setup.sh                    #ทำให้ไฟล์ sh สามารถ execute ได้
+sed -i -e 's/\r$//' setup.sh          #เพื่อให้คำสั่งเป็น format เดียวกับใน raspberry pi
+./setup.sh                            #เพื่อทำการ run ชุดคำสั่งติดตั้ง Line Beacon
 ```
 
 ### เปลี่ยนค่าใน config.js
