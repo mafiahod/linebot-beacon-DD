@@ -57,12 +57,12 @@ let allLocations = [
 
 let client = new ESClient({ host: 'localhost:9200', log: 'info' });
 
-function createRandomActivity(date, pickedUsers) {
+function createRandomActivity(date, pickedUser) {
 
-    let pickedUser = allUsers[Math.round(Math.random()*4)];
+    // let pickedUser = allUsers[Math.round(Math.random()*4)];
     let randomMessageIndex = Math.round(Math.random() * 4);
     let pickedMessage = allMessages[randomMessageIndex];
-    let pickedLocation = allLocations[Math.round(Math.random() * 5)];
+    let pickedLocation = allLocations[Math.round(Math.random() * 4)];
     let randomHour = Math.round(Math.random() * 60 * 60 * 1000 * 3); // random in 3 hour range
     // let currentDate = new Date().getTime();
     date.setTime(randomHour + date.getTime());
@@ -73,13 +73,18 @@ function createRandomActivity(date, pickedUsers) {
 async function insertRandomIndex(date, month, year, user) {
     let gp7Date = new Date(year, month - 1, date, 7);
     let ranAct = createRandomActivity(gp7Date, user);
-    elastic.save(ranAct);
+    await elastic.save(ranAct);
 }
 
-for (let j = 1; j < 30; j++) {
-    for (let i = 0; i < allUsers.length; i++) {
-        insertRandomIndex(j, 7, 2019, allUsers[i]).catch((err) => { console.log(err); });
+async function insertSequenced(){
+    for (let j = 1; j < 30; j++) {
+        for (let i = 0; i < allUsers.length; i++) {
+            insertRandomIndex(i, 7, 2019, allUsers[i]).catch((err) => { console.log(err); });
+        }
     }
 }
+
+insertSequenced()
+
 
 

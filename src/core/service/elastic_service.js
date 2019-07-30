@@ -25,20 +25,39 @@ const client = new elasticsearch.Client(config.ElasticConfig);
 async function insertActivity(activity){
     let gp7Date = new Date(activity.timestamp);
     let indexStr = `activity-${gp7Date.getDate()}-${gp7Date.getMonth()+1}-${gp7Date.getFullYear()}`;
+    let haveIndex = false;
     try{
         if(!await client.indices.exists({index: indexStr})){
+            logger.debug(`try create index: [${indexStr}]`);
             await client.indices.create({index: indexStr,body: {mappings:activityMapping}});
             logger.info(`create index: [${indexStr}] success`);
         }
-        else{ logger.info(`create index: [${indexStr}] already exist`); }
-
-        await client.index({
-            index: indexStr,
-            type: '_doc',
-            refresh: true,
-            body: activity
-        });
-    }catch(err){console.log("cannot insert activity: ",err);}
+        haveIndex = true;
+    }
+    catch(err){
+        if(err.body.error.type === 'resource_already_exists_exception'){
+            haveIndex = true;
+            logger.debug(`create index: [${indexStr}] already exist`);
+        }
+        else{
+            logger.info("cannot create index: ",err.body.error.type);
+        }
+    }
+    if(haveIndex){
+        try{
+            await client.index({
+                index: indexStr,
+                type: '_doc',
+                refresh: true,
+                body: activity
+            });
+            logger.debug("insert activity: "+JSON.stringify(activity)+" success");
+        }
+        catch(err){
+            logger.error("cannot insert activity: ",err.body.error.type);
+        }
+    }
+    
 }
 
 
@@ -107,6 +126,7 @@ function elastic_update(obj , target) {
 
 class ElasticService {
     constructor() {
+        this.indexTable = {};
         this.save = insertActivity;
         //this.update = elastic_update;
 
